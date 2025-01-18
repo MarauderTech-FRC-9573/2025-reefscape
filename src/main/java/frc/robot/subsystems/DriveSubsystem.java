@@ -7,8 +7,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel;;
 
 
 /* This class declares the subsystem for the robot drivetrain if controllers are connected via CAN. Make sure to go to
@@ -24,10 +27,15 @@ public class DriveSubsystem extends SubsystemBase {
     DifferentialDrive m_drivetrain;
     
     
-    private final CANSparkMax leftFront = new CANSparkMax(kLeftFrontID, CANSparkLowLevel.MotorType.kBrushed);
-    private final CANSparkMax leftRear = new CANSparkMax(kLeftRearID, CANSparkLowLevel.MotorType.kBrushed);
-    private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
-    private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
+    private final SparkMax leftFront = new SparkMax(kLeftFrontID, SparkLowLevel.MotorType.kBrushed);
+    private final SparkMax leftRear = new SparkMax(kLeftRearID, SparkLowLevel.MotorType.kBrushed);
+    private final SparkMax rightFront = new SparkMax(kRightFrontID, SparkLowLevel.MotorType.kBrushed);
+    private final SparkMax rightRear = new SparkMax(kRightRearID, SparkLowLevel.MotorType.kBrushed);
+
+    private final SparkMaxConfig leftFrontConfig = new SparkMaxConfig();
+    private final SparkMaxConfig leftRearConfig = new SparkMaxConfig();
+    private final SparkMaxConfig rightFrontConfig = new SparkMaxConfig();
+    private final SparkMaxConfig rightRearConfig = new SparkMaxConfig();
     
     // private final DifferentialDriveOdometry m_odometry;
     
@@ -42,20 +50,24 @@ public class DriveSubsystem extends SubsystemBase {
     * member variables and perform any configuration or set up necessary on hardware.
     */
     public DriveSubsystem() {
-        leftFront.setSmartCurrentLimit(kDriveCurrentLimit);
-        leftRear.setSmartCurrentLimit(kDriveCurrentLimit);
-        rightFront.setSmartCurrentLimit(kDriveCurrentLimit);
-        rightRear.setSmartCurrentLimit(kDriveCurrentLimit);
+        
+        leftFrontConfig.smartCurrentLimit(kDriveCurrentLimit);
+        leftRearConfig.smartCurrentLimit(kDriveCurrentLimit);
+        rightFrontConfig.smartCurrentLimit(kDriveCurrentLimit);
+        rightRearConfig.smartCurrentLimit(kDriveCurrentLimit);
         
         // Set the rear motors to follow the front motors.
-        leftRear.follow(leftFront);
-        rightRear.follow(rightFront);
+        leftRearConfig.follow(leftFront);
+        rightRearConfig.follow(rightFront);
         
         // Invert the left side so both side drive forward with positive motor outputs
-        leftFront.setInverted(false);
-        rightFront.setInverted(true);
+        leftFrontConfig.inverted(false);
+        rightFrontConfig.inverted(true);
 
-        
+        leftFront.configure(leftFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        leftRear.configure(leftRearConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightFront.configure(rightFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightRear.configure(rightRearConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         // Put the front motors into the differential drive object. This will control all 4 motors with
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
