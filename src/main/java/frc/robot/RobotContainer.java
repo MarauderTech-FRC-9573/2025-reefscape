@@ -9,8 +9,10 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Vision.Cameras;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -25,6 +27,17 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  //private final Cameras camera = new Cameras();
+
+  /*
+   * new Rotation3d(0, Units.degreesToRadians(0), 0),
+        new Translation3d(Units.inchesToMeters(16),
+        Units.inchesToMeters(0),
+        Units.inchesToMeters(8)),
+        VecBuilder.fill(0,0, 0), VecBuilder.fill(0, 0, 0));
+   */
+
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -34,6 +47,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    //m_driverController.y().onTrue(drivebase.aimAtTarget());
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 

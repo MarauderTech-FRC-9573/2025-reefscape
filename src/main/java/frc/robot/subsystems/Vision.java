@@ -225,16 +225,16 @@ public class Vision
     /**
     * Camera Enum to select each camera
     */
-    enum Cameras
+    public enum Cameras
     {
         /**
         * Center Camera
         */
         CAM("Marlin",
         new Rotation3d(0, Units.degreesToRadians(0), 0),
-        new Translation3d(Units.inchesToMeters(0),
+        new Translation3d(Units.inchesToMeters(16),
         Units.inchesToMeters(0),
-        Units.inchesToMeters(0)),
+        Units.inchesToMeters(8)),
         VecBuilder.fill(0,0, 0), VecBuilder.fill(0, 0, 0));
         
         /**
