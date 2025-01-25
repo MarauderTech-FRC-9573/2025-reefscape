@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("headingX", headingX.getAsDouble());
             SmartDashboard.putNumber("headingY", headingY.getAsDouble());
             //Voodoo magic to make the setpoint match the value we read from IMU(It doesn't work)
-            SmartDashboard.putNumber("setpoint", -swerveDrive.swerveController.lastAngleScalar);
+            SmartDashboard.putNumber("setpoint", swerveDrive.swerveController.lastAngleScalar);
             
             // Make the robot move
             driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(scaledInputs.getX(), scaledInputs.getY(),
