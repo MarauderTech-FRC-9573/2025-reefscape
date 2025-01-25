@@ -48,7 +48,7 @@ public class Vision
     /**
     * April Tag Field Layout of the year.
     */
-    public static final AprilTagFieldLayout fieldLayout                     = AprilTagFieldLayout.loadField(
+    public static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(
     AprilTagFields.k2025Reefscape);
     
     
@@ -113,6 +113,7 @@ public class Vision
                 swerveDrive.addVisionMeasurement(pose.estimatedPose.toPose2d(),
                 pose.timestampSeconds,
                 camera.curStdDevs);
+                System.out.println("Updated pose at: " + pose.timestampSeconds);
             }
         }
         
@@ -230,7 +231,7 @@ public class Vision
         /**
         * Center Camera
         */
-        CAM("marlin",
+        CENTER_CAM("marlin",
         new Rotation3d(0, Units.degreesToRadians(0), 0),
         new Translation3d(Units.inchesToMeters(16),
         Units.inchesToMeters(0),
@@ -295,6 +296,7 @@ public class Vision
         Matrix<N3, N1> singleTagStdDevs, Matrix<N3, N1> multiTagStdDevsMatrix)
         {
             latencyAlert = new Alert("'" + name + "' Camera is experiencing high latency.", AlertType.kWarning);
+            System.out.println("Cameras Constructer triggered, created photoncamera with name: " + name);
             camera = new PhotonCamera(name);
             
             // https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html

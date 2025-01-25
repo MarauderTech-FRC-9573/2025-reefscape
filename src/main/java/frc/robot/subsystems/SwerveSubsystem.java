@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.wpilibj.Filesystem;
@@ -54,7 +55,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
   
   //Enable vision odometry updates while driving.
-  private final boolean visionDriveTest = false;
+  private final boolean visionDriveTest = true;
   
   //PhotonVision class to keep an accurate odometry.
   private Vision vision;
@@ -65,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase {
   
   public SwerveSubsystem() {
     
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.POSE;
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.maxSpeed,
@@ -95,6 +96,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public void setupPhotonVision()
   {
     vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+    System.out.println("Photon Vision Setup");
+
   }
   
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
