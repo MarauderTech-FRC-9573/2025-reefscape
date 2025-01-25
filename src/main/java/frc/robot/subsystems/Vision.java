@@ -230,7 +230,7 @@ public class Vision
         /**
         * Center Camera
         */
-        CAM("Marlin",
+        CAM("marlin",
         new Rotation3d(0, Units.degreesToRadians(0), 0),
         new Translation3d(Units.inchesToMeters(16),
         Units.inchesToMeters(0),
@@ -308,7 +308,6 @@ public class Vision
             this.singleTagStdDevs = singleTagStdDevs;
             this.multiTagStdDevs = multiTagStdDevsMatrix;
         }
-        
         /**
         * Get the result with the least ambiguity from the best tracked target within the Cache. This may not be the most
         * recent result!

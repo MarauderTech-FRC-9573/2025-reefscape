@@ -54,7 +54,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
   
   //Enable vision odometry updates while driving.
-  private final boolean visionDriveTest = true;
+  private final boolean visionDriveTest = false;
   
   //PhotonVision class to keep an accurate odometry.
   private Vision vision;
@@ -130,8 +130,9 @@ public class SwerveSubsystem extends SubsystemBase {
     {
       swerveDrive.updateOdometry();
       vision.updatePoseEstimation(swerveDrive);
-      m_field.setRobotPose(swerveDrive.getPose());
     }
+
+    m_field.setRobotPose(swerveDrive.getPose());
   }
   
   @Override
