@@ -59,10 +59,10 @@ public class SwerveSubsystem extends SubsystemBase {
   
   //PhotonVision class to keep an accurate odometry.
   private Vision vision;
-
+  
   //To log the pose
   private final Field2d m_field = new Field2d();
-
+  
   
   public SwerveSubsystem() {
     
@@ -87,7 +87,7 @@ public class SwerveSubsystem extends SubsystemBase {
       // Stop the odometry thread if we are using vision that way we can synchronize updates better.
       swerveDrive.stopOdometryThread();
     }
-
+    
     SmartDashboard.putData("Field", m_field);
     
   }
@@ -97,7 +97,7 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     vision = new Vision(swerveDrive::getPose, swerveDrive.field);
     System.out.println("Photon Vision Setup");
-
+    
   }
   
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
@@ -134,7 +134,7 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive.updateOdometry();
       vision.updatePoseEstimation(swerveDrive);
     }
-
+    
     m_field.setRobotPose(swerveDrive.getPose());
   }
   
@@ -147,17 +147,21 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     
     return run(() -> {
-      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-      if (resultO.isPresent())
-      {
-        var result = resultO.get();
-        if (result.hasTargets())
+      try { 
+        Optional<PhotonPipelineResult> resultO = camera.getBestResult();
+        if (resultO.isPresent())
         {
-          swerveDrive.drive(getTargetSpeeds(0,
-          0,
-          Rotation2d.fromDegrees(result.getBestTarget()
-          .getYaw()))); // Not sure if this will work, more math may be required.
-        }
+          var result = resultO.get();
+          if (result.hasTargets())
+          {
+            swerveDrive.drive(getTargetSpeeds(0,
+            0,
+            Rotation2d.fromDegrees(result.getBestTarget()
+            .getYaw()))); // Not sure if this will work, more math may be required.
+          }  
+        } 
+      } catch (Exception e) {
+        System.out.println("No targets found");
       }
     });
   }
@@ -195,13 +199,13 @@ public class SwerveSubsystem extends SubsystemBase {
     getHeading().getRadians(),
     swerveDrive.getMaximumChassisVelocity());
   }
-
-    /**
-   * Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the underlying drivebase.
-   * Note, this is not the raw gyro reading, this may be corrected from calls to resetOdometry().
-   *
-   * @return The yaw angle
-   */
+  
+  /**
+  * Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the underlying drivebase.
+  * Note, this is not the raw gyro reading, this may be corrected from calls to resetOdometry().
+  *
+  * @return The yaw angle
+  */
   public Rotation2d getHeading()
   {
     return swerveDrive.getPose().getRotation();

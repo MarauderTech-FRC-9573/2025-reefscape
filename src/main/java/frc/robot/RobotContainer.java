@@ -18,6 +18,7 @@ import org.photonvision.PhotonCamera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -92,7 +93,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_driverController.y().onTrue(drivebase.aimAtTarget(Vision.Cameras.CENTER_CAM));
+    m_driverController.y().whileTrue(drivebase.aimAtTarget(Vision.Cameras.CENTER_CAM));
+    m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
   }
 
   /**
