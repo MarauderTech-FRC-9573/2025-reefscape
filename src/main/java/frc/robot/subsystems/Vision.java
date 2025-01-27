@@ -23,10 +23,6 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.Robot;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -174,22 +170,6 @@ public class Vision
     }
     
     
-    
-    /**
-    * Open up the photon vision camera streams on the localhost, assumes running photon vision on localhost.
-    */
-    private void openSimCameraViews()
-    {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            try {
-                Desktop.getDesktop().browse(new URI("https/localhost:1182/"));
-                Desktop.getDesktop().browse(new URI("https/localhost:1184/"));
-                Desktop.getDesktop().browse(new URI("https/localhost:1186/"));
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     
     /**
     * Update the {@link Field2d} to include tracked targets/

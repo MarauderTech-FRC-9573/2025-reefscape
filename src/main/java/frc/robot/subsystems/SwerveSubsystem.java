@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.wpilibj.Filesystem;
@@ -24,22 +23,11 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveDrive;
-import swervelib.SwerveInputStream;
 import swervelib.math.SwerveMath;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
-import swervelib.telemetry.SwerveDriveTelemetry;
-import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 import static edu.wpi.first.units.Units.Meter;
 
@@ -50,9 +38,6 @@ public class SwerveSubsystem extends SubsystemBase {
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
   SwerveDrive swerveDrive;
-  
-  // Vision stuff
-  private final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
   
   //Enable vision odometry updates while driving.
   private final boolean visionDriveTest = true;
@@ -154,14 +139,12 @@ public class SwerveSubsystem extends SubsystemBase {
           var result = resultO.get();
           if (result.hasTargets())
           {
-            swerveDrive.drive(getTargetSpeeds(0,
-            0,
-            Rotation2d.fromDegrees(result.getBestTarget()
-            .getYaw()))); // Not sure if this will work, more math may be required.
+            SmartDashboard.putNumber("ID Recognized", result.getBestTarget().getFiducialId());
+            swerveDrive.drive(getTargetSpeeds(0, 0, Rotation2d.fromDegrees(result.getBestTarget().getYaw()))); // Not sure if this will work, more math may be required.
           }  
         } 
       } catch (Exception e) {
-        System.out.println("No targets found");
+        SmartDashboard.putNumber("ID Recognized", -9999);
       }
     });
   }
