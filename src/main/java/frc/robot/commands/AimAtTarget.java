@@ -27,12 +27,13 @@ public class AimAtTarget extends Command {
     
     @Override
     public void initialize() {
-        
+
     }
     
     @Override
     public void execute() {
         try { 
+            System.out.println("Pipeline getting results");
             Optional<PhotonPipelineResult> resultO = photonCamera.getBestResult();
             if (resultO.isPresent())
             {
@@ -40,13 +41,14 @@ public class AimAtTarget extends Command {
                 if (result.hasTargets())
                 {
                     SmartDashboard.putNumber("ID Recognized", result.getBestTarget().getFiducialId());
-                    double turn = -1.0 * result.getBestTarget().getYaw() * 1.0 * 1.0;
-                    swerveDrive.getSwerveDrive().drive(new Translation2d(-xboxController.getLeftY()*0.7, 0), turn, isScheduled(), isFinished());
+                    double turn = -1.0 * result.getBestTarget().getYaw() * 0.021 * 0.3;
+                    SmartDashboard.putNumber("Turn Amt", turn);
+                    swerveDrive.getSwerveDrive().drive(new Translation2d(0, 0), Math.toDegrees(turn), isScheduled(), isFinished());
                 }  
             } 
         } catch (Exception e) {
             SmartDashboard.putNumber("ID Recognized", -9999);
         }
-        
+
     }
 }
