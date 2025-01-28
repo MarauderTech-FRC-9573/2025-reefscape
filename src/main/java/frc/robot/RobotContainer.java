@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AimAtTarget;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Vision;
 import swervelib.SwerveInputStream;
@@ -82,7 +83,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.y().whileTrue(drivebase.aimAtTarget(Vision.Cameras.CENTER_CAM));
+    m_driverController.y().whileTrue(new AimAtTarget(m_driverController, Vision.Cameras.CENTER_CAM, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
   }
 

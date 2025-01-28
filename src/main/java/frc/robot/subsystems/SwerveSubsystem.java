@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.math.SwerveMath;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -33,6 +34,8 @@ import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
   
+  public SwerveController swerveController;
+
   /** Creates a new ExampleSubsystem. */
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
@@ -74,6 +77,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     SmartDashboard.putData("Field", m_field);
+
+    swerveController = swerveDrive.swerveController;
     
   }
   
@@ -128,26 +133,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
   
-  public Command aimAtTarget(Cameras camera)
-  {
-    
-    return run(() -> {
-      try { 
-        Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-        if (resultO.isPresent())
-        {
-          var result = resultO.get();
-          if (result.hasTargets())
-          {
-            SmartDashboard.putNumber("ID Recognized", result.getBestTarget().getFiducialId());
-            swerveDrive.drive(getTargetSpeeds(0, 0, Rotation2d.fromDegrees(result.getBestTarget().getYaw()))); // Not sure if this will work, more math may be required.
-          }  
-        } 
-      } catch (Exception e) {
-        SmartDashboard.putNumber("ID Recognized", -9999);
-      }
-    });
-  }
+  
   
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
