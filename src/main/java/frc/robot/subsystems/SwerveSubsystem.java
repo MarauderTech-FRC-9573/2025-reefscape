@@ -39,6 +39,8 @@ public class SwerveSubsystem extends SubsystemBase {
   DoublePublisher xPub;
   DoublePublisher yPub;
   /** Creates a new ExampleSubsystem. */
+  // TODO: Delete all references to NetworkTables and DoublePublisher
+  // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -81,7 +83,7 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     //swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
     return run(() -> {
-      
+      // TODO: Change scalar value to be a variable to be changed 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
       translationY.getAsDouble()), 0.8);
 
@@ -133,6 +135,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
   }
+  
+  // TODO: create method for adjusting maximum speed.
   
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);

@@ -72,6 +72,8 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
+        // TODO: Configure two bindings, call the new method to change the maximum speed in SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and "slow" to 0.1
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
