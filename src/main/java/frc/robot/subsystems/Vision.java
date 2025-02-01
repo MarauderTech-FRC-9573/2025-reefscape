@@ -503,7 +503,7 @@ public class Vision
     /**
      * Update the latest results, cached with a maximum refresh rate of 1req/15ms. Sorts the list by timestamp.
      */
-    private void updateUnreadResults()
+    public void updateUnreadResults()
     {
       double mostRecentTimestamp = resultsList.isEmpty() ? 0.0 : resultsList.get(0).getTimestampSeconds();
       double currentTimestamp    = Microseconds.of(NetworkTablesJNI.now()).in(Seconds);
