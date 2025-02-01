@@ -86,7 +86,7 @@ public class SwerveSubsystem extends SubsystemBase {
       // TODO: Change scalar value to be a variable to be changed 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
       translationY.getAsDouble()), 0.8);
-
+      
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
       SmartDashboard.putNumber("headingY", headingY.getAsDouble());
       //Voodoo magic to make the setpoint match the value we read from IMU(It doesn't work)
@@ -101,13 +101,13 @@ public class SwerveSubsystem extends SubsystemBase {
       
       // NetworkTableInstance inst = NetworkTableInstance.getDefault();
       // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
-
+      
       // xPub = table.getDoubleTopic("x").publish();
       // yPub = table.getDoubleTopic("y").publish();
-
+      
       // xPub.set(headingX.getAsDouble());
       // yPub.set(headingY.getAsDouble());
-
+      
     });
   }
   
@@ -125,6 +125,7 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
   }
   
   @Override
@@ -135,11 +136,12 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
   }
-  
+
   // TODO: create method for adjusting maximum speed.
-  public void adjustMaxSpeed() {
-    
+  public void setMaxOutput(double maxOutput) {
+    //swerveDrive.setMaxOutput(maxOutput);
   }
+  
   
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
