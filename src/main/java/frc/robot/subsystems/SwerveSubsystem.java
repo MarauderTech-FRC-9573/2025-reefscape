@@ -137,12 +137,6 @@ public class SwerveSubsystem extends SubsystemBase {
     return swerveDrive;
   }
 
-  // TODO: create method for adjusting maximum speed.
-  public void setMaxOutput(double maxOutput) {
-    //swerveDrive.setMaxOutput(maxOutput);
-  }
-  
-  
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
   }
