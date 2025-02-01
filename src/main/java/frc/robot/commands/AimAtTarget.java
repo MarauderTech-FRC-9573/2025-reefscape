@@ -27,6 +27,11 @@ public class AimAtTarget extends Command {
     
     @Override
     public void initialize() {
+    }
+
+    
+    @Override
+    public void execute() {
         var unreadResults = photonCamera.getAllUnreadResults();
         if (!unreadResults.isEmpty()) { 
             var result = unreadResults.get(unreadResults.size() - 1);
@@ -34,13 +39,7 @@ public class AimAtTarget extends Command {
                 targetId = target.getFiducialId();
                 System.out.println(targetId);
             }
-
         }
-    }
-
-    
-    @Override
-    public void execute() {
 
     }
 }
