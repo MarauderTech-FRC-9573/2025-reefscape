@@ -137,6 +137,9 @@ public class SwerveSubsystem extends SubsystemBase {
   }
   
   // TODO: create method for adjusting maximum speed.
+  public void adjustMaxSpeed() {
+    
+  }
   
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
