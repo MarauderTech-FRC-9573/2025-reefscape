@@ -5,8 +5,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.SpeedConstants;
 
 import java.io.File;
 import java.util.function.DoubleSupplier;
@@ -36,8 +40,6 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
-  DoublePublisher xPub;
-  DoublePublisher yPub;
   /** Creates a new ExampleSubsystem. */
   // TODO: Delete all references to NetworkTables and DoublePublisher
   // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
@@ -97,18 +99,15 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity()));
-      
-      // NetworkTableInstance inst = NetworkTableInstance.getDefault();
-      // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
-      
-      // xPub = table.getDoubleTopic("x").publish();
-      // yPub = table.getDoubleTopic("y").publish();
-      
-      // xPub.set(headingX.getAsDouble());
-      // yPub.set(headingY.getAsDouble());
-      
+      swerveDrive.getMaximumChassisVelocity() * translationSpeed));
     });
+  }
+
+  public double translationSpeed = 0.8;
+
+  public double changeSpeed(double newSpeed){
+    translationSpeed = newSpeed;
+    return newSpeed;
   }
   
   
