@@ -5,15 +5,22 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.SpeedConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
+
+import java.util.function.IntToDoubleFunction;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -71,6 +78,15 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    //Configure two bindings, call the new method to change the maximum speed in SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and "slow" to 0.1
+    m_driverController.rightTrigger()
+    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(1.0)))
+    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(0.8)));
+
+    m_driverController.leftTrigger()
+    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(0.1)))    
+    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(0.8)));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

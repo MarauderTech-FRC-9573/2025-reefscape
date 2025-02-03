@@ -5,8 +5,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.SpeedConstants;
 
 import java.io.File;
 import java.util.function.DoubleSupplier;
@@ -36,9 +40,9 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
-  DoublePublisher xPub;
-  DoublePublisher yPub;
   /** Creates a new ExampleSubsystem. */
+  // TODO: Delete all references to NetworkTables and DoublePublisher
+  // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -81,10 +85,10 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     //swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
     return run(() -> {
-      
+      // TODO: Change scalar value to be a variable to be changed 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
       translationY.getAsDouble()), 0.8);
-
+      
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
       SmartDashboard.putNumber("headingY", headingY.getAsDouble());
       //Voodoo magic to make the setpoint match the value we read from IMU(It doesn't work)
@@ -95,18 +99,15 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity()));
-      
-      // NetworkTableInstance inst = NetworkTableInstance.getDefault();
-      // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
-
-      // xPub = table.getDoubleTopic("x").publish();
-      // yPub = table.getDoubleTopic("y").publish();
-
-      // xPub.set(headingX.getAsDouble());
-      // yPub.set(headingY.getAsDouble());
-
+      swerveDrive.getMaximumChassisVelocity() * translationSpeed));
     });
+  }
+
+  public double translationSpeed = 0.8;
+
+  public double changeSpeed(double newSpeed){
+    translationSpeed = newSpeed;
+    return newSpeed;
   }
   
   
@@ -123,6 +124,7 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
   }
   
   @Override
@@ -133,7 +135,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
   }
-  
+
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
   }
