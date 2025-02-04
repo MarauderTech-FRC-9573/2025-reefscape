@@ -20,6 +20,7 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
 import swervelib.math.SwerveMath;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -29,6 +30,9 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.util.sendable.Sendable;
+import frc.robot.Constants;
 
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -36,9 +40,9 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
-  DoublePublisher xPub;
-  DoublePublisher yPub;
+
   /** Creates a new ExampleSubsystem. */
+  StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("My Pose", Pose2d.struct).publish();
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -59,6 +63,7 @@ public class SwerveSubsystem extends SubsystemBase {
     {
       throw new RuntimeException(e);
     }
+
     
   }
   
@@ -108,6 +113,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     });
   }
+
+  public void getIMU() {
+  }
   
   
   /**
@@ -122,6 +130,7 @@ public class SwerveSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
+    publisher.set(swerveDrive.getPose());
     // This method will be called once per scheduler run
   }
   
