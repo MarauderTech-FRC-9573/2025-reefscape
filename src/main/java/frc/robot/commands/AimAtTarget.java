@@ -8,6 +8,8 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import com.studica.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +27,8 @@ public class AimAtTarget extends Command {
     int targetId;
     double yaw;
     double turn;
-    double initIMU;
+    AHRS IMU;
+    double imuReading;
     double targetRange;
     double drive;
     
@@ -37,6 +40,9 @@ public class AimAtTarget extends Command {
     
     @Override
     public void initialize() {
+        IMU = (AHRS) swerveDrive.getSwerveDrive().getGyro().getIMU();
+        imuReading = IMU.getRawGyroZ();
+        
     }
     
     
@@ -54,7 +60,7 @@ public class AimAtTarget extends Command {
                 targetRange = PhotonUtils.calculateDistanceToTargetMeters(Units.inchesToMeters(11.5), Units.inchesToMeters(8.5), Units.degreesToRadians(-30), Units.degreesToRadians(target.getPitch()));
                 drive = targetRange * 1;
 
-                swerveDrive.getSwerveDrive().drive(new Translation2d(0, drive), turn, isScheduled(), isFinished());
+                swerveDrive.getSwerveDrive().drive(new Translation2d(0, -drive), turn, isScheduled(), isFinished());
                 
                 SmartDashboard.putNumber("ID", targetId);
                 SmartDashboard.putNumber("Yaw", yaw);
@@ -64,5 +70,14 @@ public class AimAtTarget extends Command {
             System.out.println("No target found..." + e);
         }
         
+    }
+
+    @Override
+    public boolean isFinished() {
+        if (imuReading + IMU.getRawGyroZ() == yaw)  {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
