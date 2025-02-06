@@ -12,6 +12,13 @@ import java.io.File;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.SwerveParser;
@@ -40,7 +47,7 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
-
+  
   /** Creates a new ExampleSubsystem. */
   StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("My Pose", Pose2d.struct).publish();
   
@@ -63,8 +70,44 @@ public class SwerveSubsystem extends SubsystemBase {
     {
       throw new RuntimeException(e);
     }
-
     
+    RobotConfig config; 
+    boolean enableFeedforward = true;
+    
+    
+    try {
+      config = RobotConfig.fromGUISettings();
+
+      AutoBuilder.configure(
+      
+      this::getPose, this::resetOdometry, this::getRobotVelocity, (speedsRobotRelative, moduleFeedForwards) -> {
+        if (enableFeedforward) { 
+          swerveDrive.drive(speedsRobotRelative, swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative), moduleFeedForwards.linearForces());
+        } else {
+          swerveDrive.setChassisSpeeds(speedsRobotRelative);
+        }
+      }, new PPHolonomicDriveController(new PIDConstants(1, 0, 0), new  PIDConstants(50, 0, 0.032)), config, () -> {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        } 
+        return false;
+      }, 
+      this);  
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
+    PathfindingCommand.warmupCommand().schedule();
+    
+  }
+  
+  public void resetOdometry(Pose2d initialHolonomicPose){
+    swerveDrive.resetOdometry(initialHolonomicPose);
+  }
+  
+  public ChassisSpeeds getRobotVelocity() {
+    return swerveDrive.getRobotVelocity();
   }
   
   /**
@@ -89,7 +132,7 @@ public class SwerveSubsystem extends SubsystemBase {
       
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
       translationY.getAsDouble()), 0.8);
-
+      
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
       SmartDashboard.putNumber("headingY", headingY.getAsDouble());
       //Voodoo magic to make the setpoint match the value we read from IMU(It doesn't work)
@@ -104,16 +147,16 @@ public class SwerveSubsystem extends SubsystemBase {
       
       // NetworkTableInstance inst = NetworkTableInstance.getDefault();
       // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
-
+      
       // xPub = table.getDoubleTopic("x").publish();
       // yPub = table.getDoubleTopic("y").publish();
-
+      
       // xPub.set(headingX.getAsDouble());
       // yPub.set(headingY.getAsDouble());
-
+      
     });
   }
-
+  
   public void getIMU() {
   }
   
@@ -134,6 +177,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   
+  
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
@@ -146,6 +190,10 @@ public class SwerveSubsystem extends SubsystemBase {
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
   }
+  
+  public Pose2d getPose() {
+    return swerveDrive.getPose();
+  }  
   
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
