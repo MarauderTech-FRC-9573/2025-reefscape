@@ -72,8 +72,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     RobotConfig config; 
-    boolean enableFeedforward = true;
-    
+    boolean enableFeedforward = true;    
     
     try {
       config = RobotConfig.fromGUISettings();
@@ -86,7 +85,7 @@ public class SwerveSubsystem extends SubsystemBase {
         } else {
           swerveDrive.setChassisSpeeds(speedsRobotRelative);
         }
-      }, new PPHolonomicDriveController(new PIDConstants(1, 0, 0), new PIDConstants(0.021, 0, 0.2)), config, () -> {
+      }, new PPHolonomicDriveController(new PIDConstants(0, 0, 0), new PIDConstants(0, 0, 0)), config, () -> {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
           return alliance.get() == DriverStation.Alliance.Red;
