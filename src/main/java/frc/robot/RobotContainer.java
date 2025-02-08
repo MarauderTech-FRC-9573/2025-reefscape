@@ -19,14 +19,18 @@ import org.photonvision.PhotonCamera;
 
 import java.util.function.IntToDoubleFunction;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
@@ -40,6 +44,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
   private final PhotonCamera photonCamera = new PhotonCamera("marlin");
+  private final SendableChooser<Command> autoChooser;
+
   //private final Cameras camera = new Cameras();
 
   /*
@@ -60,6 +66,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+
+    //Build an auto chooser with Leave Auto as default path
+    autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
+  
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
@@ -94,7 +105,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
     //Configure two bindings, call the new method to change the maximum speed in SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and "slow" to 0.1
     m_driverController.rightTrigger()
@@ -105,22 +115,11 @@ public class RobotContainer {
     .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(0.1)))    
     .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(0.8)));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+    //Hold Y to aim and get in range of identified target
     m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
   }
 
-
-  // /**
-  //  * Use this to pass the autonomous command to the main {@link Robot} class.
-  //  *
-  //  * @return the command to run in autonomous
-  //  */
-  // public Command getAutonomousCommand() {
-  //   // An example command will be run in autonomous
-  //   // return Autos.exampleAuto(m_exampleSubsystem);
-  // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -128,9 +127,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return new PathPlannerAuto("Leave Auto");
-    // return Autos.exampleAuto(m_exampleSubsystem);
+    //Run selected command/default one
+    return autoChooser.getSelected();
+
   }
 
 };
