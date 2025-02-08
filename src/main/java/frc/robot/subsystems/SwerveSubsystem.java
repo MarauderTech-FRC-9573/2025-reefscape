@@ -203,7 +203,6 @@ public class SwerveSubsystem extends SubsystemBase {
       // xPub.set(headingX.getAsDouble());
       // yPub.set(headingY.getAsDouble());
       
-    });
   }
   
   public void getIMU() {
