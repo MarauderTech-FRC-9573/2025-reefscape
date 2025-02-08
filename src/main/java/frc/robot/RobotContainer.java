@@ -17,13 +17,9 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Vision;
 import swervelib.SwerveInputStream;
 
-
 import org.photonvision.PhotonCamera;
 
 import java.util.function.IntToDoubleFunction;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -113,7 +109,6 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
   }
 
-
   // /**
   //  * Use this to pass the autonomous command to the main {@link Robot} class.
   //  *
@@ -123,16 +118,4 @@ public class RobotContainer {
   //   // An example command will be run in autonomous
   //   // return Autos.exampleAuto(m_exampleSubsystem);
   // }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return new PathPlannerAuto("Leave Auto");
-    // return Autos.exampleAuto(m_exampleSubsystem);
-  }
-
 }

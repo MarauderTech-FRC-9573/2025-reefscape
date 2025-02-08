@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -22,30 +20,11 @@ public final class Constants {
     public static final double DEADBAND = 0.05;
   }
 
-
   public static class SpeedConstants {
     public static final double speedMax = 1.0;
     public static final double speedMin = 0.1;
     public static final double speedDefault = 0.8;
-
-  public static class SwerveConstants{
-    public static final double WHEELBASE_METERS = Units.inchesToMeters(70);
-    public static final double TRACKWIDTH_METERS = Units.inchesToMeters(70);
-
   }
 
 public static final double maxSpeed = Units.feetToMeters(4.5);
-
-
-public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
-  // Front left
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0), 
-  // Front right
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0), 
-  // Back left
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0), 
-  // Back right
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0)
-
-);
 }
