@@ -20,7 +20,16 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+
 import org.photonvision.targeting.PhotonPipelineResult;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
+import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -31,20 +40,37 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.math.SwerveMath;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
+
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.util.sendable.Sendable;
+import frc.robot.Constants;
+
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
   
+
   public SwerveController swerveController;
 
   /** Creates a new ExampleSubsystem. */
   // TODO: Delete all references to NetworkTables and DoublePublisher
   // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
+
+  /** Creates a new ExampleSubsystem. */
+  StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("My Pose", Pose2d.struct).publish();
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -76,6 +102,7 @@ public class SwerveSubsystem extends SubsystemBase {
       throw new RuntimeException(e);
     }
     
+
     //Enable Vision if true
     if (visionDriveTest)
     {
@@ -88,6 +115,44 @@ public class SwerveSubsystem extends SubsystemBase {
 
     swerveController = swerveDrive.swerveController;
     
+    RobotConfig config; 
+    boolean enableFeedforward = true;
+    
+    
+    try {
+      config = RobotConfig.fromGUISettings();
+
+      AutoBuilder.configure(
+      
+      this::getPose, this::resetOdometry, this::getRobotVelocity, (speedsRobotRelative, moduleFeedForwards) -> {
+        if (enableFeedforward) { 
+          swerveDrive.drive(speedsRobotRelative, swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative), moduleFeedForwards.linearForces());
+        } else {
+          swerveDrive.setChassisSpeeds(speedsRobotRelative);
+        }
+      }, new PPHolonomicDriveController(new PIDConstants(1, 0, 0), new PIDConstants(0.021, 0, 0.2)), config, () -> {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        } 
+        return false;
+      }, 
+      this);  
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
+    PathfindingCommand.warmupCommand().schedule();
+    
+  }
+  
+  public void resetOdometry(Pose2d initialHolonomicPose){
+    swerveDrive.resetOdometry(initialHolonomicPose);
+  }
+  
+  public ChassisSpeeds getRobotVelocity() {
+    return swerveDrive.getRobotVelocity();
+
   }
   
   // Setup the photon vision class.
@@ -108,6 +173,7 @@ public class SwerveSubsystem extends SubsystemBase {
       translationY.getAsDouble()), 0.8);
       
       //Constantly update the values
+
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
       SmartDashboard.putNumber("headingY", headingY.getAsDouble());
       SmartDashboard.putNumber("setpoint", swerveDrive.swerveController.lastAngleScalar);
@@ -117,8 +183,8 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity() *translationSpeed));
-      
+      swerveDrive.getMaximumChassisVelocity() * translationSpeed));
+
     });
 
   }
@@ -128,10 +194,36 @@ public class SwerveSubsystem extends SubsystemBase {
   public double changeSpeed(double newSpeed){
     translationSpeed = newSpeed;
     return newSpeed;
+
+      // NetworkTableInstance inst = NetworkTableInstance.getDefault();
+      // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
+      
+      // xPub = table.getDoubleTopic("x").publish();
+      // yPub = table.getDoubleTopic("y").publish();
+      
+      // xPub.set(headingX.getAsDouble());
+      // yPub.set(headingY.getAsDouble());
+      
+    });
+  }
+  
+  public void getIMU() {
+  }
+  
+  
+  /**
+  * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+  *
+  * @return value of some boolean subsystem state, such as a digital sensor.
+  */
+  public boolean exampleCondition() {
+    // Query some boolean state, such as a digital sensor.
+    return false;
   }
   
   @Override
   public void periodic() {
+    publisher.set(swerveDrive.getPose());
     // This method will be called once per scheduler run
     
 
@@ -144,6 +236,7 @@ public class SwerveSubsystem extends SubsystemBase {
     
     m_field.setRobotPose(swerveDrive.getPose());
   }
+  
   
   @Override
   public void simulationPeriodic() {
@@ -159,6 +252,10 @@ public class SwerveSubsystem extends SubsystemBase {
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
   }
+  
+  public Pose2d getPose() {
+    return swerveDrive.getPose();
+  }  
   
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
