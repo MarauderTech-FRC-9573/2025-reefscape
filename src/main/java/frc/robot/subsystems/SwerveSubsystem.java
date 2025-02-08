@@ -129,7 +129,7 @@ public class SwerveSubsystem extends SubsystemBase {
         } else {
           swerveDrive.setChassisSpeeds(speedsRobotRelative);
         }
-      }, new PPHolonomicDriveController(new PIDConstants(0, 0, 0), new PIDConstants(0, 0, 0)), config, () -> {
+      }, new PPHolonomicDriveController(new PIDConstants(10, 0, 0), new PIDConstants(1, 0, 0.2)), config, () -> {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
           return alliance.get() == DriverStation.Alliance.Red;
