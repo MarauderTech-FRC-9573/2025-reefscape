@@ -103,7 +103,6 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     //swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
     return run(() -> {
-      // TODO: Change scalar value to be a variable to be changed 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
       translationY.getAsDouble()), 0.8);
       
@@ -117,7 +116,7 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity() *translationSpeed));
+      swerveDrive.getMaximumChassisVelocity() * translationSpeed));
       
     });
 
