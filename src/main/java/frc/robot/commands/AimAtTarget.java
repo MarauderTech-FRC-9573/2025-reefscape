@@ -24,6 +24,8 @@ public class AimAtTarget extends Command {
     double yaw;
     double turn;
     double initIMU;
+    double yaw_min_bound = -0.1;
+    double yaw_max_bound = 0.1;
     
     public AimAtTarget(CommandXboxController xbox, PhotonCamera camera, SwerveSubsystem swerve) {
         xboxController = xbox;
@@ -46,9 +48,9 @@ public class AimAtTarget extends Command {
                 targetId = target.getFiducialId();
                 yaw = target.getYaw();
                 turn = yaw * 0.021 * 2.5;
-    
+                
                 swerveDrive.getSwerveDrive().drive(new Translation2d(0, 0), turn, isScheduled(), isFinished());
-    
+                
                 SmartDashboard.putNumber("ID", targetId);
                 SmartDashboard.putNumber("Yaw", yaw);
                 SmartDashboard.putNumber("Turn", turn);
@@ -56,6 +58,15 @@ public class AimAtTarget extends Command {
         } catch (Exception e) {
             System.out.println("No target found..." + e);
         }
-        
+    }
+    
+    @Override
+    public boolean isFinished() {
+        //Yaw to 0 is centered and range is the desired range
+        if (((yaw >= yaw_min_bound) && (yaw <= yaw_max_bound)))  {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
