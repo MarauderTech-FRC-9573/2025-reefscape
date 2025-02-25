@@ -7,19 +7,14 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.commands.AimAtTarget;
-
-import frc.robot.Constants.SpeedConstants;
-
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Elevator.ElevatorState;
 import swervelib.SwerveInputStream;
 
 import org.photonvision.PhotonCamera;
 
-import java.util.function.IntToDoubleFunction;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -35,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  private final Elevator elevator = new Elevator();
   private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
 
@@ -50,6 +46,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -105,6 +102,12 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
+
+    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.HOME)));
+    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.INITIAL_MOVEMENT)));
+    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.MIDDLE)));
+    m_operatorController.y().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.HIGH)));
+    
   }
 
   // /**
