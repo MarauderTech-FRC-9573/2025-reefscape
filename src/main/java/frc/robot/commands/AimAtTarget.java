@@ -45,7 +45,7 @@ public class AimAtTarget extends Command {
                 var target = result.getBestTarget();
                 targetId = target.getFiducialId();
                 yaw = target.getYaw();
-                turn = yaw * 0.021;
+                turn = yaw * 0.021 * 2.5;
     
                 swerveDrive.getSwerveDrive().drive(new Translation2d(0, 0), turn, isScheduled(), isFinished());
     
