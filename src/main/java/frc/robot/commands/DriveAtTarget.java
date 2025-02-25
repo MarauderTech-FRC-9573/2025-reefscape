@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Vision.Cameras;
 
-public class AimAtTarget extends Command {
+public class DriveAtTarget extends Command {
     CommandXboxController xboxController;
     PhotonCamera photonCamera;
     SwerveSubsystem swerveDrive;
@@ -38,7 +38,7 @@ public class AimAtTarget extends Command {
     double fin_dist_min = 0.5; // No closer than this many meters
     double fin_dist_max = 0.6; // No farther than this many meters
         
-        public AimAtTarget(CommandXboxController xbox, PhotonCamera camera, SwerveSubsystem swerve) {
+        public DriveAtTarget(CommandXboxController xbox, PhotonCamera camera, SwerveSubsystem swerve) {
             xboxController = xbox;
             photonCamera = camera;
             swerveDrive = swerve;
@@ -63,12 +63,23 @@ public class AimAtTarget extends Command {
     
                     // Yaw of Tag * kP Heading. This can be different from the one in controllerproperties.json
                     turn = yaw * 0.021 * 2.5;
-
-                    swerveDrive.getSwerveDrive().drive(new Translation2d(0, 0), turn, isScheduled(), isFinished());
+                    
+                    //Our distance from the target in meters
+                    targetRange = 0 - PhotonUtils.calculateDistanceToTargetMeters(Units.inchesToMeters(11.5), Units.inchesToMeters(8.5), Units.degreesToRadians(0), Units.degreesToRadians(target.getPitch()));
+                    //Drive away from target if you are too close somehow.
+                    if(targetRange <= fin_dist_min) {
+                        drive = targetRange * -0.5;
+                    }
+                    else {
+                        drive = targetRange * 0.5;
+                    }
+    
+                    //drive up to 0.25 meters up to target. Robot relative.
+                    swerveDrive.getSwerveDrive().drive(new Translation2d(   drive, 0), turn, false , true);
                     
                     SmartDashboard.putNumber("ID", targetId);
                     SmartDashboard.putNumber("Yaw", yaw);
-                
+                    SmartDashboard.putNumber("TargetRange", targetRange);
                 }    
             } catch (Exception e) {
                 System.out.println("No target found..." + e);

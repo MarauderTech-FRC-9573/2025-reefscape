@@ -5,8 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-
 import frc.robot.commands.AimAtTarget;
+import frc.robot.commands.DriveAtTarget;
 
 import frc.robot.Constants.SpeedConstants;
 
@@ -103,7 +103,8 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
+    m_driverController.y().whileTrue(new DriveAtTarget(m_driverController, photonCamera, drivebase));
+    m_driverController.x().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
   }
 
