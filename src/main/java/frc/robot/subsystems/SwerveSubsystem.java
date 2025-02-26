@@ -5,22 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.Vision.Cameras;
-
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.SpeedConstants;
-
-
 import java.io.File;
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-
-import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;

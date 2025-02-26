@@ -53,6 +53,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    elevator.setDefaultCommand(new RunCommand(() -> elevator.run()));
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
@@ -103,10 +104,10 @@ public class RobotContainer {
     m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
 
-    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.HOME)));
-    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.INITIAL_MOVEMENT)));
-    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.MIDDLE)));
-    m_operatorController.y().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.HIGH)));
+    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L1)));
+    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L2)));
+    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L3)));
+    m_operatorController.y().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L4)));
     
   }
 
