@@ -6,6 +6,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import org.ejml.interfaces.decomposition.LUDecomposition_F64;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -25,11 +28,11 @@ public class Elevator extends SubsystemBase {
     
     public enum ElevatorState { 
         // TODO: set encoder positions for each level of the reef
-        L1(10), 
-        L2(20), 
-        L3(30),
-        L4(40),
-        NET(50);
+        L1(-10), 
+        L2(-20), 
+        L3(-30),
+        L4(-40),
+        NET(-60);
         final double encoderPosition;
         
         ElevatorState(double encoderPosition) {
@@ -45,44 +48,102 @@ public class Elevator extends SubsystemBase {
         // Sparkmax configs
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
-        rightMotor.getEncoder();
         
         SparkMaxConfig leftConfig = new SparkMaxConfig();
-        leftConfig.follow(ElevatorConstants.RIGHT_CAN_ID);
         leftConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
-        leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        leftMotor.configure(leftConfig, null, null);
         
         SparkMaxConfig rightConfig = new SparkMaxConfig();
         rightConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
+        rightMotor.configure(rightConfig, null, null);
         
-        // Would help prevent brownouts if needed
-        // rightMotor.burnFlash();
-        // leftMotor.burnFlash();
+        leftMotor.getEncoder().setPosition(0);
+        rightMotor.getEncoder().setPosition(0);
         
-        // Configure FF and PID controllers, kA can be ignored for FF, PID is just PID but with a motion profile
-        pidController = new ProfiledPIDController(0, 0, 0, null);
-        pidController.setTolerance(ElevatorConstants.DISTANCE_TOLERANCE,
-        ElevatorConstants.VELOCITY_TOLERANCE);
-        pidController = new ProfiledPIDController(ElevatorConstants.ELEVATOR_PID_kP, ElevatorConstants.ELEVATOR_PID_kI, ElevatorConstants.ELEVATOR_PID_kD,
-        new TrapezoidProfile.Constraints(ElevatorConstants.ELEVATOR_MAX_VELOCITY_MPS,
-        ElevatorConstants.ELEVATOR_MAX_ACCEL_MPSSQ));
-        pidController.setIZone(ElevatorConstants.ELEVATOR_PID_iZone);
+    }
+
+    
+    @Override
+    public void periodic() {
+        System.out.println("LEFT" + leftMotor.getEncoder().getPosition());
+        System.out.println("RIGHT" + rightMotor.getEncoder().getPosition());
+        System.out.println("VELOCITY" + leftMotor.getEncoder().getVelocity());
+        
+    }
+
+
+    
+    public void runUp() {
+            // System.out.println("Running motors...");
+            rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_UP);
+            leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);    
     }
     
-    public void run() {
-        leftMotor.set(desiredTarget);
+    public void runDown() {
+        rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_DOWN);
+        leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);    
     }
     
-    public void setDesiredTarget(ElevatorState desiredState) {
-        this.desiredTarget = desiredState.getEncoderPosition();
+    public void stop() {
+        rightMotor.set(0);
+        leftMotor.set(0);
     }
     
-    public boolean isStalled() {
-        // TODO: test to see what actual current draw is when the elevator is at the bottom
-        if (leftMotor.getOutputCurrent() > 100) {
-            return true;
-        } else {
-            return false;
+    public void L1() {
+        if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
+                this.runUp();
+            }
+        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
+                this.runDown();
+            }
         }
+        this.stop();
     }
+    
+    public void L2() {
+        if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L2_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L2_ENCODER) {
+                this.runUp();
+            }
+        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L2_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L2_ENCODER) {
+                this.runDown();
+            }
+        }
+        this.stop();
+        
+    }
+    
+    public void L3() {
+        if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
+                this.runUp();            
+            }
+        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L3_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L3_ENCODER) {
+                this.runDown();
+            }
+        }
+        this.stop();
+    }
+    
+    
+    public void L4() {
+        if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L4_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L4_ENCODER) {
+                this.runDown();
+            }
+        } else if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L4_ENCODER) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L4_ENCODER) {
+                this.runUp();
+            }
+        }
+        this.stop();
+        
+    }
+    
+    
+    
 }

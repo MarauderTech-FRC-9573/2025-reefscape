@@ -43,7 +43,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final boolean visionDriveTest = true;
   
   //PhotonVision class to keep an accurate odometry.
-  private Vision vision;
+  // private Vision vision;
   
   //To log the pose
   private final Field2d m_field = new Field2d();
@@ -65,13 +65,13 @@ public class SwerveSubsystem extends SubsystemBase {
       throw new RuntimeException(e);
     }
     
-    //Enable Vision if true
-    if (visionDriveTest)
-    {
-      setupPhotonVision();
-      // Stop the odometry thread if we are using vision that way we can synchronize updates better.
-      swerveDrive.stopOdometryThread();
-    }
+    // //Enable Vision if true
+    // if (visionDriveTest)
+    // {
+    //   setupPhotonVision();
+    //   // Stop the odometry thread if we are using vision that way we can synchronize updates better.
+    //   swerveDrive.stopOdometryThread();
+    // }
     
     SmartDashboard.putData("Field", m_field);
 
@@ -79,13 +79,13 @@ public class SwerveSubsystem extends SubsystemBase {
     
   }
   
-  // Setup the photon vision class.
-  public void setupPhotonVision()
-  {
-    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
-    System.out.println("Photon Vision Setup");
+  // // Setup the photon vision class.
+  // public void setupPhotonVision()
+  // {
+  //   // vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+  //   // System.out.println("Photon Vision Setup");
     
-  }
+  // }
   
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
   DoubleSupplier headingY)
@@ -128,7 +128,7 @@ public class SwerveSubsystem extends SubsystemBase {
     if (visionDriveTest)
     {
       swerveDrive.updateOdometry();
-      vision.updatePoseEstimation(swerveDrive);
+      // vision.updatePoseEstimation(swerveDrive);
     }
     
     m_field.setRobotPose(swerveDrive.getPose());

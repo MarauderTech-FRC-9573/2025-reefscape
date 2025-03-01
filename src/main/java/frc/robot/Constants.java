@@ -18,7 +18,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final double DEADBAND = 0.05;
-    public static int kOperatorControllerPort;
+    public static int kOperatorControllerPort = 1;
   }
 
   public static class SpeedConstants {
@@ -29,29 +29,20 @@ public final class Constants {
 
   public static class ElevatorConstants {
 
-    public static final int LEFT_CAN_ID = 0;
-    public static final int RIGHT_CAN_ID = 0;
+    public static final int LEFT_CAN_ID = 14;
+    public static final int RIGHT_CAN_ID = 15;
     public static final boolean RIGHT_INVERTED = false;
     public static final String IDLE_MODE = null;
-    public static final int SMART_CURRENT_LIMIT = 0;
+    public static final int SMART_CURRENT_LIMIT = 40;
     public static final int ELEVATOR_FF_kS = 0;
-
-    public static final double DISTANCE_TOLERANCE = 0;
-    public static final double VELOCITY_TOLERANCE = 0
-    ;
-    public static final double ELEVATOR_MAX_VELOCITY_MPS = 0;
-    public static final double ELEVATOR_MAX_ACCEL_MPSSQ = 0;
-    public static final int DISTANCE_PER_ROTATION = 0
-    ;
-    public static final int LIMIT_SWITCH_DIO = 0;
-    public static final double ELEVATOR_FF_kG = 0;
-    public static final double ELEVATOR_FF_kV = 0;
-    public static final double ELEVATOR_FF_kA = 0;
-    public static final double ELEVATOR_PID_kP = 0;
-    public static final double ELEVATOR_PID_kI = 0;
-    public static final double ELEVATOR_PID_kD = 0;
-    public static final double ELEVATOR_PID_iZone = 0;
-
+    public static final double ELEVATOR_RMOTOR_SPEED_UP = -0.10;
+    public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.10;
+    public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.10;
+    public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.10;
+    public static final double L1_ENCODER = 11.5;
+    public static final double L2_ENCODER = 30;
+    public static final double L3_ENCODER = 52;
+    public static final double L4_ENCODER = 65;
   }
 
 public static final double maxSpeed = Units.feetToMeters(4.5);

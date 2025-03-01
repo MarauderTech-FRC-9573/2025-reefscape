@@ -31,7 +31,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
   private final Elevator elevator = new Elevator();
-  private final PhotonCamera photonCamera = new PhotonCamera("marlin");
+  // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
 
   /*
@@ -53,7 +53,6 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
-    elevator.setDefaultCommand(new RunCommand(() -> elevator.run()));
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
@@ -101,13 +100,18 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
+    // m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
 
-    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L1)));
-    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L2)));
-    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L3)));
-    m_operatorController.y().whileTrue(new RunCommand(() -> elevator.setDesiredTarget(ElevatorState.L4)));
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+
+    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.L1(), elevator));
+    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.L2(), elevator));
+    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.L3(), elevator));
+    m_operatorController.y().whileTrue(new RunCommand(() -> elevator.L4(), elevator));
+
+
     
   }
 
