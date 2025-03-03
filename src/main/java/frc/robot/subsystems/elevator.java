@@ -13,36 +13,20 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants; 
 
 public class Elevator extends SubsystemBase {
-    private ProfiledPIDController pidController;
+    private PIDController pidController;
     
     private SparkMax rightMotor;
     private SparkMax leftMotor;
     
     private double desiredTarget;
     
-    public enum ElevatorState { 
-        // TODO: set encoder positions for each level of the reef
-        L1(-10), 
-        L2(-20), 
-        L3(-30),
-        L4(-40),
-        NET(-60);
-        final double encoderPosition;
-        
-        ElevatorState(double encoderPosition) {
-            this.encoderPosition = encoderPosition;
-        }
-        
-        public double getEncoderPosition() {
-            return this.encoderPosition;
-        }
-    }
     
     public Elevator() {
         // Sparkmax configs
@@ -57,18 +41,19 @@ public class Elevator extends SubsystemBase {
         rightConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
         rightMotor.configure(rightConfig, null, null);
         
-        leftMotor.getEncoder().setPosition(0);
-        rightMotor.getEncoder().setPosition(0);
-        
+        pidController = new PIDController(1.0, 0.0, 0.0);
     }
 
+    public void resetEncoders() {
+        leftMotor.getEncoder().setPosition(0);
+        rightMotor.getEncoder().setPosition(0);
+    }
     
     @Override
     public void periodic() {
-        System.out.println("LEFT" + leftMotor.getEncoder().getPosition());
-        System.out.println("RIGHT" + rightMotor.getEncoder().getPosition());
-        System.out.println("VELOCITY" + leftMotor.getEncoder().getVelocity());
-        
+        System.out.println("Current" + leftMotor.getOutputCurrent());
+        System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
+
     }
 
 
@@ -82,6 +67,10 @@ public class Elevator extends SubsystemBase {
     public void runDown() {
         rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_DOWN);
         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);    
+
+        if (rightMotor.getOutputCurrent() > 30) {
+            this.resetEncoders();
+        }
     }
     
     public void stop() {

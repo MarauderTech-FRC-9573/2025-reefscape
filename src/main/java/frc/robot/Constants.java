@@ -35,10 +35,10 @@ public final class Constants {
     public static final String IDLE_MODE = null;
     public static final int SMART_CURRENT_LIMIT = 40;
     public static final int ELEVATOR_FF_kS = 0;
-    public static final double ELEVATOR_RMOTOR_SPEED_UP = -0.10;
-    public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.10;
-    public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.10;
-    public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.10;
+    public static final double ELEVATOR_RMOTOR_SPEED_UP = -0.15;
+    public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.15;
+    public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.15;
+    public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.15;
     public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 30;
     public static final double L3_ENCODER = 52;
