@@ -20,8 +20,8 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final double DEADBAND = 0.05;
+    public static int kOperatorControllerPort = 1;
   }
-
 
   public static class SpeedConstants {
     public static final double speedMax = 1.0;
@@ -29,25 +29,25 @@ public final class Constants {
     public static final double speedDefault = 0.8; 
   }
 
-  public static class SwerveConstants{
-    public static final double WHEELBASE_METERS = Units.inchesToMeters(70);
-    public static final double TRACKWIDTH_METERS = Units.inchesToMeters(70);
+  public static class ElevatorConstants {
 
+    public static final int LEFT_CAN_ID = 14;
+    public static final int RIGHT_CAN_ID = 15;
+    public static final boolean RIGHT_INVERTED = false;
+    public static final String IDLE_MODE = null;
+    public static final int SMART_CURRENT_LIMIT = 40;
+    public static final int ELEVATOR_FF_kS = 0;
+    public static final double ELEVATOR_RMOTOR_SPEED_UP = -0.15;
+    public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.15;
+    public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.15;
+    public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.15;
+    public static final double L1_ENCODER = 11.5;
+    public static final double L2_ENCODER = 30;
+    public static final double L3_ENCODER = 52;
+    public static final double L4_ENCODER = 65;
   }
 
 public static final double maxSpeed = Units.feetToMeters(4.5);
 
-
-public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
-  // Front left
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0), 
-  // Front right
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0), 
-  // Back left
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0), 
-  // Back right
-  new Translation2d(SwerveConstants.WHEELBASE_METERS / 2.0, SwerveConstants.TRACKWIDTH_METERS / 2.0)
-
-  );
 }
 

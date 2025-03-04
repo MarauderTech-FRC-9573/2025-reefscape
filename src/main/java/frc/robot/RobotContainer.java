@@ -7,13 +7,14 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.commands.AimAtTarget;
-
+import frc.robot.commands.L4;
 import frc.robot.Constants.SpeedConstants;
-
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.Vision;
 import swervelib.SwerveInputStream;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import org.photonvision.PhotonCamera;
 
@@ -43,6 +44,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  private final Elevator elevator = new Elevator();
   private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   private final SendableChooser<Command> autoChooser;
 
@@ -60,6 +62,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -118,8 +121,18 @@ public class RobotContainer {
     //Hold Y to aim and get in range of identified target
     m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
     m_driverController.a().whileTrue(new RunCommand(() -> {System.out.println("demoooo");}));
-  }
 
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+
+    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.L1(), elevator));
+    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.L2(), elevator));
+    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.L3(), elevator));
+    m_operatorController.y().whileTrue(new L4(elevator));
+
+
+    
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
