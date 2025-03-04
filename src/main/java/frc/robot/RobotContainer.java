@@ -7,14 +7,19 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.commands.AimAtTarget;
+import frc.robot.commands.L4;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.Elevator.ElevatorState;
 import swervelib.SwerveInputStream;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import org.photonvision.PhotonCamera;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -31,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
   private final Elevator elevator = new Elevator();
+  private final SendableChooser<Command> autoChooser;
   // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
 
@@ -53,6 +59,10 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+
+    autoChooser = AutoBuilder.buildAutoChooser("New Auto");
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
@@ -109,19 +119,19 @@ public class RobotContainer {
     m_operatorController.a().whileTrue(new RunCommand(() -> elevator.L1(), elevator));
     m_operatorController.b().whileTrue(new RunCommand(() -> elevator.L2(), elevator));
     m_operatorController.x().whileTrue(new RunCommand(() -> elevator.L3(), elevator));
-    m_operatorController.y().whileTrue(new RunCommand(() -> elevator.L4(), elevator));
+    m_operatorController.y().whileTrue(new L4(elevator));
 
 
     
   }
 
-  // /**
-  //  * Use this to pass the autonomous command to the main {@link Robot} class.
-  //  *
-  //  * @return the command to run in autonomous
-  //  */
-  // public Command getAutonomousCommand() {
-  //   // An example command will be run in autonomous
-  //   // return Autos.exampleAuto(m_exampleSubsystem);
-  // }
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // An example command will be run in autonomous
+    return autoChooser.getSelected();
+  }
 }
