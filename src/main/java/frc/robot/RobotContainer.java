@@ -7,6 +7,8 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.commands.AimAtTarget;
+import frc.robot.commands.ElevatorStop;
+import frc.robot.commands.L1;
 import frc.robot.commands.L4;
 import frc.robot.Constants.SpeedConstants;
 import frc.robot.subsystems.Elevator;
@@ -14,6 +16,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import org.photonvision.PhotonCamera;
@@ -70,8 +73,12 @@ public class RobotContainer {
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
+    NamedCommands.registerCommand("L4", new L4(elevator));
+    NamedCommands.registerCommand("L1", new L1(elevator));
+    NamedCommands.registerCommand("Stop", new ElevatorStop(elevator));
+
     //Build an auto chooser with Leave Auto as default path
-    autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
+    autoChooser = AutoBuilder.buildAutoChooser("New New Auto");
   
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
@@ -125,7 +132,7 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.L1(), elevator));
+    m_operatorController.a().whileTrue(new L1(elevator));
     m_operatorController.b().whileTrue(new RunCommand(() -> elevator.L2(), elevator));
     m_operatorController.x().whileTrue(new RunCommand(() -> elevator.L3(), elevator));
     m_operatorController.y().whileTrue(new L4(elevator));
@@ -135,6 +142,7 @@ public class RobotContainer {
   }
 
   /**
+   * 
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
