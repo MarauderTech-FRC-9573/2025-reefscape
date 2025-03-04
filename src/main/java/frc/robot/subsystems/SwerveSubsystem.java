@@ -5,23 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.Vision.Cameras;
-
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.SpeedConstants;
-
-
 import java.io.File;
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-
-
-import org.photonvision.targeting.PhotonPipelineResult;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
@@ -30,7 +18,6 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.wpilibj.DriverStation;
-
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,37 +27,20 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.math.SwerveMath;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
-
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructPublisher;
-import edu.wpi.first.util.sendable.Sendable;
-import frc.robot.Constants;
-
-import swervelib.telemetry.SwerveDriveTelemetry;
-import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
-
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
   
-
   public SwerveController swerveController;
 
   /** Creates a new ExampleSubsystem. */
   // TODO: Delete all references to NetworkTables and DoublePublisher
   // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
-
-  /** Creates a new ExampleSubsystem. */
-  StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("My Pose", Pose2d.struct).publish();
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -102,7 +72,6 @@ public class SwerveSubsystem extends SubsystemBase {
       throw new RuntimeException(e);
     }
     
-
     //Enable Vision if true
     if (visionDriveTest)
     {
@@ -159,8 +128,15 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     vision = new Vision(swerveDrive::getPose, swerveDrive.field);
     System.out.println("Photon Vision Setup");
-    
   }
+  
+  // // Setup the photon vision class.
+  // public void setupPhotonVision()
+  // {
+  //   // vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+  //   // System.out.println("Photon Vision Setup");
+    
+  // }
   
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
   DoubleSupplier headingY)
@@ -172,7 +148,6 @@ public class SwerveSubsystem extends SubsystemBase {
       translationY.getAsDouble()), 0.8);
       
       //Constantly update the values
-
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
       SmartDashboard.putNumber("headingY", headingY.getAsDouble());
       SmartDashboard.putNumber("setpoint", swerveDrive.swerveController.lastAngleScalar);
@@ -182,8 +157,8 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity() * translationSpeed));
-
+      swerveDrive.getMaximumChassisVelocity() *translationSpeed));
+      
     });
 
   }
@@ -221,7 +196,6 @@ public class SwerveSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    publisher.set(swerveDrive.getPose());
     // This method will be called once per scheduler run
     
 
@@ -229,12 +203,11 @@ public class SwerveSubsystem extends SubsystemBase {
     if (visionDriveTest)
     {
       swerveDrive.updateOdometry();
-      vision.updatePoseEstimation(swerveDrive);
+      // vision.updatePoseEstimation(swerveDrive);
     }
     
     m_field.setRobotPose(swerveDrive.getPose());
   }
-  
   
   @Override
   public void simulationPeriodic() {
@@ -250,10 +223,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
   }
-  
-  public Pose2d getPose() {
-    return swerveDrive.getPose();
-  }  
   
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
@@ -290,5 +259,9 @@ public class SwerveSubsystem extends SubsystemBase {
   public Rotation2d getHeading()
   {
     return swerveDrive.getPose().getRotation();
+  }
+
+  public Pose2d getPose() {
+    return swerveDrive.getPose();
   }
 }
