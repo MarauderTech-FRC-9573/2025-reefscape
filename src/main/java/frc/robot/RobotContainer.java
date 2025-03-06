@@ -36,7 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
   private final Elevator elevator = new Elevator();
-  private final SendableChooser<Command> autoChooser;
+  // private final SendableChooser<Command> autoChooser;
   // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
 
@@ -60,9 +60,9 @@ public class RobotContainer {
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
-    autoChooser = AutoBuilder.buildAutoChooser("New Auto");
+    // autoChooser = AutoBuilder.buildAutoChooser("New Auto");
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
@@ -125,13 +125,13 @@ public class RobotContainer {
     
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutomousCommand() {
-    // An example command will be run in autonomous
-    return autoChooser.getSelected();
-  }
+  // /**
+  //  * Use this to pass the autonomous command to the main {@link Robot} class.
+  //  *
+  //  * @return the command to run in autonomous
+  //  */
+  // public Command getAutomousCommand() {
+  //   // An example command will be run in autonomous
+  //   return autoChooser.getSelected();
+  // }
 }
