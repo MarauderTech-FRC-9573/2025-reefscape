@@ -4,13 +4,17 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.OperatorConstants;
-
+import frc.robot.Constants.PivotConstants;
 import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
 import frc.robot.commands.L4;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
@@ -31,6 +35,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
   private final Elevator elevator = new Elevator();
+  private final Manipulator manipulator = new Manipulator();
+  private final Pivot pivot = new Pivot();
   // private final SendableChooser<Command> autoChooser;
   // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
@@ -116,8 +122,14 @@ public class RobotContainer {
     m_operatorController.x().whileTrue(new L3(elevator));
     m_operatorController.y().whileTrue(new L4(elevator));
 
+    m_operatorController.povDown().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.CORAL_BACKWARD_SPEED), elevator));
+    m_operatorController.povUp().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED), elevator));
+    m_operatorController.povLeft().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.ALGAE_BACKWARD_SPEED), elevator));
+    m_operatorController.povRight().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.ALGAE_FORWARD_SPEED), elevator));
 
-    
+    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot));
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot));
+
   }
 
   // /**

@@ -51,7 +51,6 @@ public class Elevator extends SubsystemBase {
     public void runUp() {
         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
         leftMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_UP);
-
     }
 
     public void runDown() {
