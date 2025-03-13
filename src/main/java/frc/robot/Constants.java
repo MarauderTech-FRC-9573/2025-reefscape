@@ -30,6 +30,15 @@ public final class Constants {
 
 public static final double PIVOT_SPEED_UP = 0.2;
 public static final double PIVOT_SPEED_DOWN = -0.2;
+public static final double PIVOT_L4 = 0.0;
+public static final double PIVOT_L3 = 0.0;
+public static final double PIVOT_L2 = 0.0;
+public static final double PIVOT_L1 = 0.0;
+
+
+
+
+
     
   }
 
@@ -41,6 +50,7 @@ public static final double PIVOT_SPEED_DOWN = -0.2;
     public static final double CORAL_BACKWARD_SPEED = -0.5;
     public static final double ALGAE_FORWARD_SPEED = 0.8;
     public static final double ALGAE_BACKWARD_SPEED = -0.8;
+  
   }
 
   public static class SpeedConstants {

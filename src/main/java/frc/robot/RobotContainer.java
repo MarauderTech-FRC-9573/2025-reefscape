@@ -117,10 +117,10 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.a().whileTrue(new L1(elevator));
-    m_operatorController.b().whileTrue(new L2(elevator));
-    m_operatorController.x().whileTrue(new L3(elevator));
-    m_operatorController.y().whileTrue(new L4(elevator));
+    m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot));
+    m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
+    m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
+    m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
 
     m_operatorController.povDown().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.CORAL_BACKWARD_SPEED), elevator));
     m_operatorController.povUp().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED), elevator));

@@ -20,6 +20,18 @@ public class Pivot extends SubsystemBase {
     public void resetEncoders() {
         pivot.getEncoder().setPosition(0);
     }
+
+    public void run(double position) {
+        if (pivot.getEncoder().getPosition() > position) {
+            while (pivot.getEncoder().getPosition() != position) {
+                pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
+            }
+        } else if (pivot.getEncoder().getPosition() < position) {
+            while (pivot.getEncoder().getPosition() != position) {
+                pivot.set(PivotConstants.PIVOT_SPEED_UP);
+            }
+        }
+    }
     
     public void runUp() {
         pivot.set(PivotConstants.PIVOT_SPEED_UP);
