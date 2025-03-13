@@ -9,17 +9,22 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants; 
 
 public class Elevator extends SubsystemBase {
     private SparkMax rightMotor;
     private SparkMax leftMotor;
+    PIDController pidController = new PIDController(1, 0, 0.001);
     
     public Elevator() {
         // Sparkmax configs
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
+
+        
         
         SparkMaxConfig leftConfig = new SparkMaxConfig();
         leftConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
@@ -41,6 +46,10 @@ public class Elevator extends SubsystemBase {
         System.out.println("Current" + leftMotor.getOutputCurrent());
         System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
         
+    }
+
+    public void elevator() {
+        leftMotor.set(pidController.calculate(leftMotor.getEncoder().getPosition(), 1));
     }
     
     public void run(double setpoint) {
