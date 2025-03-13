@@ -34,6 +34,7 @@ public static final double PIVOT_L4 = 0.0;
 public static final double PIVOT_L3 = 0.0;
 public static final double PIVOT_L2 = 0.0;
 public static final double PIVOT_L1 = 0.0;
+public static final Runnable CORAL_STATION_ENCODER = null;
 
 
 
@@ -75,6 +76,7 @@ public static final double PIVOT_L1 = 0.0;
     public static final double L2_ENCODER = 30;
     public static final double L3_ENCODER = 52;
     public static final double L4_ENCODER = 65;
+    public static final Runnable CORAL_STATION_ENCODER = null;
   }
 
 public static final double maxSpeed = Units.feetToMeters(4.5);

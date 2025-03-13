@@ -8,6 +8,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PivotConstants;
+import frc.robot.commands.Intake;
 import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
@@ -122,14 +123,11 @@ public class RobotContainer {
     m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
     m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
 
-    m_operatorController.povDown().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.CORAL_BACKWARD_SPEED), elevator));
-    m_operatorController.povUp().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED), elevator));
-    m_operatorController.povLeft().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.ALGAE_BACKWARD_SPEED), elevator));
-    m_operatorController.povRight().whileTrue(new RunCommand(() -> manipulator.runForward(ManipulatorConstants.ALGAE_FORWARD_SPEED), elevator));
 
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot));
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot));
 
+    m_operatorController.leftStick().whileTrue(new Intake(elevator, manipulator, pivot));
   }
 
   // /**
