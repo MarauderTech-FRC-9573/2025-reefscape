@@ -43,6 +43,10 @@ public final class Constants {
     public static final double L2_ENCODER = 30;
     public static final double L3_ENCODER = 52;
     public static final double L4_ENCODER = 65;
+    public static final double RMOTOR_STOP_SPEED = -0.01;
+    public static final double LMOTOR_STOP_SPEED = 0.01;
+    public static final double MAX_HEIGHT = 75;
+
   }
 
 public static final double maxSpeed = Units.feetToMeters(4.5);

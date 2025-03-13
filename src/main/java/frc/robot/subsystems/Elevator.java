@@ -53,8 +53,12 @@ public class Elevator extends SubsystemBase {
     
     public void runUp() {
             // System.out.println("Running motors...");
+            if (leftMotor.getEncoder().getPosition() >= ElevatorConstants.MAX_HEIGHT) {
+                this.stop();
+            } else{
             rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_UP);
-            leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);    
+            leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP); 
+        }   
     }
     
     public void runDown() {
@@ -67,8 +71,8 @@ public class Elevator extends SubsystemBase {
     }
     
     public void stop() {
-        rightMotor.set(0);
-        leftMotor.set(0);
+        rightMotor.set(ElevatorConstants.RMOTOR_STOP_SPEED);
+        leftMotor.set(ElevatorConstants.LMOTOR_STOP_SPEED);
     }
     
     public void L1() {
