@@ -19,8 +19,12 @@ public class L4 extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         elevator.run(ElevatorConstants.L4_ENCODER);
+    }
+
+    @Override
+    public void execute() {
         pivot.run(PivotConstants.PIVOT_L4);
         manipulator.runForward(1);
     }

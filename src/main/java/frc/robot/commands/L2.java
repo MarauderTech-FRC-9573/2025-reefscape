@@ -19,8 +19,12 @@ public class L2 extends Command {
     }
 
     @Override
+    public void initialize() {
+        elevator.run(ElevatorConstants.L1_ENCODER);
+    }
+
+    @Override
     public void execute() {
-        elevator.run(ElevatorConstants.L2_ENCODER);
         pivot.run(PivotConstants.PIVOT_L3);
         manipulator.runForward(1);
 

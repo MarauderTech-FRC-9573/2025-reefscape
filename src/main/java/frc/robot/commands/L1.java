@@ -17,11 +17,14 @@ public class L1 extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         elevator.run(ElevatorConstants.L1_ENCODER);
+    }
+
+    @Override
+    public void execute() {
         pivot.run(PivotConstants.PIVOT_L1);
         manipulator.runForward(1);
-
     }
 
     
