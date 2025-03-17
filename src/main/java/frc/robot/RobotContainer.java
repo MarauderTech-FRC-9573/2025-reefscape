@@ -8,11 +8,14 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PivotConstants;
-import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeAlgae;
+import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
 import frc.robot.commands.L4;
+import frc.robot.commands.OuttakeAlgae;
+import frc.robot.commands.OuttakeCoral;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;
@@ -127,7 +130,10 @@ public class RobotContainer {
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot));
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot));
 
-    m_operatorController.leftStick().whileTrue(new Intake(elevator, manipulator, pivot));
+    m_operatorController.povUp().whileTrue(new IntakeAlgae(elevator, manipulator, pivot));
+    m_operatorController.povDown().whileTrue(new OuttakeAlgae(elevator, manipulator, pivot));
+    m_operatorController.povLeft().whileTrue(new IntakeCoral(elevator, manipulator, pivot));
+    m_operatorController.povRight().whileTrue(new OuttakeCoral(elevator, manipulator, pivot));
   }
 
   // /**

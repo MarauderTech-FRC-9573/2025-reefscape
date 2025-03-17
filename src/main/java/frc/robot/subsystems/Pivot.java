@@ -30,7 +30,7 @@ public class Pivot extends SubsystemBase {
             while (pivot.getEncoder().getPosition() != position) {
                 pivot.set(PivotConstants.PIVOT_SPEED_UP);
             }
-        }
+        } 
     }
     
     public void runUp() {
