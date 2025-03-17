@@ -15,8 +15,8 @@ import frc.robot.Constants.ElevatorConstants;
 public class Elevator extends SubsystemBase {
     private PIDController pidController;
     
-    private SparkMax rightMotor;
-    private SparkMax leftMotor;
+    public SparkMax rightMotor;
+    public SparkMax leftMotor;
     
     private double desiredTarget;
     
@@ -73,47 +73,8 @@ public class Elevator extends SubsystemBase {
     public void stop() {
         rightMotor.set(ElevatorConstants.RMOTOR_STOP_SPEED);
         leftMotor.set(ElevatorConstants.LMOTOR_STOP_SPEED);
-    }
+    }   
     
-    public void L1() {
-        if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
-                this.runUp();
-            }
-        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
-                this.runDown();
-            }
-        }
-        this.stop();
-    }
-    
-    public void L2() {
-        if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L2_ENCODER) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L2_ENCODER) {
-                this.runUp();
-            }
-        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L2_ENCODER) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L2_ENCODER) {
-                this.runDown();
-            }
-        }
-        this.stop();
-        
-    }
-    
-    public void L3() {
-        if (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
-                this.runUp();            
-            }
-        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L3_ENCODER) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) > ElevatorConstants.L3_ENCODER) {
-                this.runDown();
-            }
-        }
-        this.stop();
-    }
     
     
     public void L4() {
@@ -125,6 +86,8 @@ public class Elevator extends SubsystemBase {
             while (Math.abs(leftMotor.getEncoder().getPosition()) < ElevatorConstants.L4_ENCODER) {
                 this.runUp();
             }
+        }else if (Math.abs(leftMotor.getEncoder().getPosition()) == ElevatorConstants.L1_ENCODER) {
+            this.stop();
         }
         this.stop();
         

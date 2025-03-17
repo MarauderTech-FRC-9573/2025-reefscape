@@ -7,6 +7,9 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.commands.AimAtTarget;
+import frc.robot.commands.L1;
+import frc.robot.commands.L2;
+import frc.robot.commands.L3;
 import frc.robot.commands.L4;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -116,9 +119,9 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.a().whileTrue(new RunCommand(() -> elevator.L1(), elevator));
-    m_operatorController.b().whileTrue(new RunCommand(() -> elevator.L2(), elevator));
-    m_operatorController.x().whileTrue(new RunCommand(() -> elevator.L3(), elevator));
+    m_operatorController.a().whileTrue(new L1(elevator));
+    m_operatorController.b().whileTrue(new L2(elevator));
+    m_operatorController.x().whileTrue(new L3(elevator));
     m_operatorController.y().whileTrue(new L4(elevator));
 
 
