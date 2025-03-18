@@ -49,9 +49,6 @@ public class SwerveSubsystem extends SubsystemBase {
   //Enable vision odometry updates while driving.
   private final boolean visionDriveTest = false;
   
-  //PhotonVision class to keep an accurate odometry.
-  private Vision vision;
-  
   //To log the pose
   private final Field2d m_field = new Field2d();
   
@@ -126,7 +123,7 @@ public class SwerveSubsystem extends SubsystemBase {
   // Setup the photon vision class.
   public void setupPhotonVision()
   {
-    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+    new Vision(swerveDrive::getPose, swerveDrive.field);
     System.out.println("Photon Vision Setup");
   }
   

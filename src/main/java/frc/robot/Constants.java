@@ -35,6 +35,10 @@ public static final double PIVOT_L3 = 0.0;
 public static final double PIVOT_L2 = 0.0;
 public static final double PIVOT_L1 = 0.0;
 public static final Runnable CORAL_STATION_ENCODER = null;
+public static final Runnable L4_POSITION = null;
+public static final Runnable L3_POSITION = null;
+public static final Runnable L2_POSITION = null;
+public static final Runnable L1_POSITION = null;
 
 
 
@@ -79,6 +83,7 @@ public static final Runnable CORAL_STATION_ENCODER = null;
     public static final double RMOTOR_STOP_SPEED = -0.01;
     public static final double LMOTOR_STOP_SPEED = 0.01;
     public static final double MAX_HEIGHT = 75;
+    public static final Runnable CORAL_STATION_ENCODER = null;
 
   }
 
