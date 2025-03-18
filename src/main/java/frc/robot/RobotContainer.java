@@ -7,9 +7,8 @@ package frc.robot;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.PivotConstants;
-import frc.robot.commands.IntakeAlgae;
-import frc.robot.commands.IntakeCoral;
+
+import frc.robot.commands.AimAtTarget;
 import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
@@ -121,19 +120,13 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot));
-    m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
-    m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
-    m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
+    m_operatorController.a().whileTrue(new L1(elevator));
+    m_operatorController.b().whileTrue(new L2(elevator));
+    m_operatorController.x().whileTrue(new L3(elevator));
+    m_operatorController.y().whileTrue(new L4(elevator));
 
 
-    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot));
-    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot));
-
-    m_operatorController.povUp().whileTrue(new IntakeAlgae(elevator, manipulator, pivot));
-    m_operatorController.povDown().whileTrue(new OuttakeAlgae(elevator, manipulator, pivot));
-    m_operatorController.povLeft().whileTrue(new IntakeCoral(elevator, manipulator, pivot));
-    m_operatorController.povRight().whileTrue(new OuttakeCoral(elevator, manipulator, pivot));
+    
   }
 
   // /**

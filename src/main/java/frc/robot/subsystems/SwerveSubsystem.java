@@ -11,6 +11,13 @@ import java.io.File;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,10 +47,10 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDrive swerveDrive;
   
   //Enable vision odometry updates while driving.
-  private final boolean visionDriveTest = true;
+  private final boolean visionDriveTest = false;
   
   //PhotonVision class to keep an accurate odometry.
-  // private Vision vision;
+  private Vision vision;
   
   //To log the pose
   private final Field2d m_field = new Field2d();
@@ -65,27 +72,63 @@ public class SwerveSubsystem extends SubsystemBase {
       throw new RuntimeException(e);
     }
     
-    // //Enable Vision if true
-    // if (visionDriveTest)
-    // {
-    //   setupPhotonVision();
-    //   // Stop the odometry thread if we are using vision that way we can synchronize updates better.
-    //   swerveDrive.stopOdometryThread();
-    // }
+    //Enable Vision if true
+    if (visionDriveTest)
+    {
+      setupPhotonVision();
+      // Stop the odometry thread if we are using vision that way we can synchronize updates better.
+      swerveDrive.stopOdometryThread();
+    }
     
     SmartDashboard.putData("Field", m_field);
 
     swerveController = swerveDrive.swerveController;
     
+    RobotConfig config; 
+    boolean enableFeedforward = true;    
+    
+    try {
+      config = RobotConfig.fromGUISettings();
+
+      AutoBuilder.configure(
+      
+      this::getPose, this::resetOdometry, this::getRobotVelocity, (speedsRobotRelative, moduleFeedForwards) -> {
+        if (enableFeedforward) { 
+          swerveDrive.drive(speedsRobotRelative, swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative), moduleFeedForwards.linearForces());
+        } else {
+          swerveDrive.setChassisSpeeds(speedsRobotRelative);
+        }
+      }, new PPHolonomicDriveController(new PIDConstants(10, 0, 0), new PIDConstants(1, 0, 0.2)), config, () -> {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        } 
+        return false;
+      }, 
+      this);  
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
+    PathfindingCommand.warmupCommand().schedule();
+    
   }
   
-  // // Setup the photon vision class.
-  // public void setupPhotonVision()
-  // {
-  //   // vision = new Vision(swerveDrive::getPose, swerveDrive.field);
-  //   // System.out.println("Photon Vision Setup");
-    
-  // }
+  public void resetOdometry(Pose2d initialHolonomicPose){
+    swerveDrive.resetOdometry(initialHolonomicPose);
+  }
+  
+  public ChassisSpeeds getRobotVelocity() {
+    return swerveDrive.getRobotVelocity();
+
+  }
+  
+  // Setup the photon vision class.
+  public void setupPhotonVision()
+  {
+    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+    System.out.println("Photon Vision Setup");
+  }
   
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
   DoubleSupplier headingY)
@@ -117,6 +160,30 @@ public class SwerveSubsystem extends SubsystemBase {
   public double changeSpeed(double newSpeed){
     translationSpeed = newSpeed;
     return newSpeed;
+
+      // NetworkTableInstance inst = NetworkTableInstance.getDefault();
+      // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
+      
+      // xPub = table.getDoubleTopic("x").publish();
+      // yPub = table.getDoubleTopic("y").publish();
+      
+      // xPub.set(headingX.getAsDouble());
+      // yPub.set(headingY.getAsDouble());
+      
+  }
+  
+  public void getIMU() {
+  }
+  
+  
+  /**
+  * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+  *
+  * @return value of some boolean subsystem state, such as a digital sensor.
+  */
+  public boolean exampleCondition() {
+    // Query some boolean state, such as a digital sensor.
+    return false;
   }
   
   @Override
@@ -184,5 +251,9 @@ public class SwerveSubsystem extends SubsystemBase {
   public Rotation2d getHeading()
   {
     return swerveDrive.getPose().getRotation();
+  }
+
+  public Pose2d getPose() {
+    return swerveDrive.getPose();
   }
 }
