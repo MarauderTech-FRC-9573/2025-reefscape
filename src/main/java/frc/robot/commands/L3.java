@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
@@ -36,7 +37,7 @@ public class L3 extends Command {
     @Override
     public void execute() {
         pivot.run(PivotConstants.L3_POSITION);
-        manipulator.runForward(1);
+        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
     }
 
 }
