@@ -27,6 +27,10 @@ public class Manipulator extends SubsystemBase {
 
     public void runBack(double backwardSpeed) {
         manipulator.set(backwardSpeed);
+
+        if (manipulator.getMotorStallCurrent().getValueAsDouble() > 30) {
+            this.stop();
+        }
     }
 
     public SparkLimitSwitch getBeamBreak() { 
