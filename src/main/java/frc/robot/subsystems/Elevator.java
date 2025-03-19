@@ -4,17 +4,25 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants; 
 
 public class Elevator extends SubsystemBase {
     public SparkMax rightMotor;
     public SparkMax leftMotor;
-    
+
+    public SparkClosedLoopController m_leftController = leftMotor.getClosedLoopController();
+    public SparkClosedLoopController m_rightController = rightMotor.getClosedLoopController();
+
     public Elevator() {
         // Sparkmax configs
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
@@ -22,27 +30,22 @@ public class Elevator extends SubsystemBase {
         
         SparkMaxConfig leftConfig = new SparkMaxConfig();
         leftConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
+        leftConfig.closedLoop.p(1).i(0).d(0).outputRange(0, 75.0);
         leftMotor.configure(leftConfig, null, null);
         
         SparkMaxConfig rightConfig = new SparkMaxConfig();
         rightConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
+        rightConfig.closedLoop.p(1).i(0).d(0).outputRange(0, 75.0);
         rightMotor.configure(rightConfig, null, null);
+
     }
 
     public void resetEncoders() {
         leftMotor.getEncoder().setPosition(0);
         rightMotor.getEncoder().setPosition(0);
     }
-    
-    @Override
-    public void periodic() {
-        System.out.println("Current" + leftMotor.getOutputCurrent());
-        System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
-
-    }
 
 
-    
     public void runUp() {
             // System.out.println("Running motors...");
             if (leftMotor.getEncoder().getPosition() >= ElevatorConstants.MAX_HEIGHT) {

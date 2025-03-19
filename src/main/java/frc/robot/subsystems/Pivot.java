@@ -15,6 +15,8 @@ public class Pivot extends SubsystemBase {
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
         pivotConfig.smartCurrentLimit(PivotConstants.SMART_CURRENT_LIMIT);
         pivot.configure(pivotConfig, null, null);
+        
+        this.resetEncoders();
     }
 
     public void resetEncoders() {
@@ -38,5 +40,14 @@ public class Pivot extends SubsystemBase {
     }
     public void runDown() {
         pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
+    }
+
+    @Override
+    public void periodic() {
+        System.out.println("Encoder" + pivot.getEncoder().getPosition());
+    }
+
+    public void stop() {
+        pivot.set(0);
     }
 }
