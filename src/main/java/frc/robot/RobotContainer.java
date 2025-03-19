@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-
+import frc.robot.Constants.SpeedConstants;
 import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
@@ -101,12 +101,12 @@ public class RobotContainer {
 
     //Configure two bindings, call the new method to change the maximum speed in SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and "slow" to 0.1
     m_driverController.rightTrigger()
-    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(1.0)))
-    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(0.8)));
+    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMax)))
+    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
     m_driverController.leftTrigger()
-    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(0.1)))    
-    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(0.8)));
+    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMin)))    
+    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

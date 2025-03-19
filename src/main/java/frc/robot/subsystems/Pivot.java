@@ -72,10 +72,10 @@ public class Pivot extends SubsystemBase {
     }
 
     public void stop() {
-        if (pivot.getEncoder().getPosition() >= -9.0) { 
-            pivot.set(-0.01);
+        if (pivot.getEncoder().getPosition() >= PivotConstants.PIVOT_STOP_POSITION) { 
+            pivot.set(PivotConstants.PIVOT_STOP_BSPEED);
         } else {
-            pivot.set(0.0225);
+            pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
         }
     }
 }
