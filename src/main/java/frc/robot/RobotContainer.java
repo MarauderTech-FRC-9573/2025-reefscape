@@ -114,6 +114,7 @@ public class RobotContainer {
 
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+    // runup and rundown might be reversed
 
     m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot));
     m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));

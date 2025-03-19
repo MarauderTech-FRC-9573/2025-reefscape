@@ -27,7 +27,7 @@ public class IntakeCoral extends Command {
     @Override
     public void execute() {
         pivot.run(PivotConstants.CORAL_STATION_ENCODER);
-        while (!manipulator.getBeamBreak().get()){
+        while (!manipulator.getBeamBreak().isPressed()){
             manipulator.runBack(ManipulatorConstants.CORAL_FORWARD_SPEED);
         }
     }
