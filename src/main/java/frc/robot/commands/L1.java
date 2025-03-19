@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import com.revrobotics.spark.SparkBase.ControlType;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
@@ -23,25 +21,24 @@ public class L1 extends Command {
 
     @Override
     public void initialize() {
-        elevator.m_leftController.setReference(ElevatorConstants.L1_ENCODER, ControlType.kPosition);
-        // if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
-        //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
-        //         elevator.runUp();
-        //     }
-        // } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
-        // //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
-        // //         elevator.runDown();
-        // //     }
-        // // } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) == ElevatorConstants.L1_ENCODER) {
-        //     elevator.stop();
-        // }
-        // elevator.stop();
+        if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
+            while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
+                elevator.runUp();
+            }
+        } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
+            while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
+                elevator.runDown();
+            }
+        } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) == ElevatorConstants.L1_ENCODER) {
+            elevator.stop();
+        }
+        elevator.stop();
     } 
 
     @Override
     public void execute() {
-        // pivot.run(PivotConstants.L1_POSITION);
-        // manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        pivot.run(PivotConstants.L1_POSITION);
+        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
     }
 
 }

@@ -24,7 +24,7 @@ public final class Constants {
   public final class PivotConstants {
         // TODO: Replace with actual CAN ID of the pivot motor
 
-  public static final int PIVOT_MOTOR_ID = 16;
+  public static final int PIVOT_MOTOR_ID = 0;
   public static final int SMART_CURRENT_LIMIT = 0;
       // TODO: Test the pivot motor with these speeds and determine ideal values
 
@@ -35,10 +35,10 @@ public static final double PIVOT_L3 = 0.0;
 public static final double PIVOT_L2 = 0.0;
 public static final double PIVOT_L1 = 0.0;
 public static final Runnable CORAL_STATION_ENCODER = null;
-public static final double L4_POSITION = 30;
-public static final double L3_POSITION = 40;
-public static final double L2_POSITION = 50;
-public static final double L1_POSITION = 60;
+public static final Runnable L4_POSITION = null;
+public static final Runnable L3_POSITION = null;
+public static final Runnable L2_POSITION = null;
+public static final Runnable L1_POSITION = null;
 
 
 
@@ -49,7 +49,7 @@ public static final double L1_POSITION = 60;
 
   public static class ManipulatorConstants {
     // TODO: Replace with actual CAN ID of the manipulator motor
-    public static final int MANIPULATOR_MOTOR_ID = 17;
+    public static final int MANIPULATOR_MOTOR_ID = 0;
     // TODO: Test the end effector with these speeds and determine ideal values
     public static final double CORAL_FORWARD_SPEED = 0.5;
     public static final double CORAL_BACKWARD_SPEED = -0.5;
@@ -76,7 +76,7 @@ public static final double L1_POSITION = 60;
     public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.3;
     public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.30;
     public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.30;
-    public static final double L1_ENCODER = -8.5;
+    public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 30;
     public static final double L3_ENCODER = 52;
     public static final double L4_ENCODER = 65;
