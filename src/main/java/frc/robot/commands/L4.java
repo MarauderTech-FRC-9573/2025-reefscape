@@ -42,4 +42,8 @@ public class L4 extends Command {
         manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
     }
 
+    public void stop() {
+        pivot.stop();
+        elevator.stop();
+    }
 }

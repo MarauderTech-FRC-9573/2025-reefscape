@@ -10,6 +10,7 @@ import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
 import frc.robot.commands.L4;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;
@@ -114,14 +115,18 @@ public class RobotContainer {
 
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
-    // runup and rundown might be reversed
+
 
     m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot));
     m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
     m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
     m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
 
-
+    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot));
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot));
+  
+    m_operatorController.back().whileTrue(new RunCommand(() -> manipulator.runForward(-0.1), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
+    m_operatorController.start().whileTrue(new IntakeCoral(elevator, manipulator, pivot));
     
   }
 

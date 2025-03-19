@@ -21,15 +21,23 @@ public class IntakeCoral extends Command {
 
     @Override
     public void initialize() {
-        elevator.run(ElevatorConstants.CORAL_STATION_ENCODER);
+        pivot.run(-10.0);
+        elevator.run(0.0);
     }
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.CORAL_STATION_ENCODER);
-        while (!manipulator.getBeamBreak().isPressed()){
+        //System.out.println("hi");
+        while (!pivot.getBeamBreak().isPressed()){
             manipulator.runBack(ManipulatorConstants.CORAL_FORWARD_SPEED);
         }
+    }
+
+    @Override
+    public void end(boolean isInterrupted) {
+        elevator.stop();
+        manipulator.stop();
+        pivot.stop();
     }
     
 }

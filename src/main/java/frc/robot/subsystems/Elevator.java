@@ -9,7 +9,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants; 
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.PivotConstants; 
 
 public class Elevator extends SubsystemBase {
     public SparkMax rightMotor;
@@ -27,6 +28,8 @@ public class Elevator extends SubsystemBase {
         SparkMaxConfig rightConfig = new SparkMaxConfig();
         rightConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
         rightMotor.configure(rightConfig, null, null);
+
+        resetEncoders();
     }
 
     public void resetEncoders() {
@@ -34,14 +37,27 @@ public class Elevator extends SubsystemBase {
         rightMotor.getEncoder().setPosition(0);
     }
     
+    public void run(double position) {
+        if (leftMotor.getEncoder().getPosition() > position) {
+            while (leftMotor.getEncoder().getPosition() != position) {
+                leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);
+                rightMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);
+            }
+        } else if (leftMotor.getEncoder().getPosition() < position) {
+            while (leftMotor.getEncoder().getPosition() != position) {
+                leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
+                rightMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
+            }
+        } 
+        this.stop();
+    }
+
     @Override
     public void periodic() {
         System.out.println("Current" + leftMotor.getOutputCurrent());
         System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
 
     }
-
-
     
     public void runUp() {
             // System.out.println("Running motors...");
@@ -57,9 +73,9 @@ public class Elevator extends SubsystemBase {
         rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_DOWN);
         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);    
 
-        if (rightMotor.getOutputCurrent() > 30) {
-            this.resetEncoders();
-        }
+        // if (rightMotor.getOutputCurrent() > 30) {
+        //     this.resetEncoders();
+        // }
     }
     
     public void stop() {

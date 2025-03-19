@@ -24,12 +24,14 @@ public final class Constants {
   public final class PivotConstants {
         // TODO: Replace with actual CAN ID of the pivot motor
 
-  public static final int PIVOT_MOTOR_ID = 0;
-  public static final int SMART_CURRENT_LIMIT = 0;
+  public static final int PIVOT_MOTOR_ID = 16;
+  public static final int SMART_CURRENT_LIMIT = 40;
       // TODO: Test the pivot motor with these speeds and determine ideal values
 
-public static final double PIVOT_SPEED_UP = 0.2;
-public static final double PIVOT_SPEED_DOWN = -0.2;
+public static final double PIVOT_SPEED_UP = 0.1;
+public static final double PIVOT_SPEED_DOWN = -0.1;
+public static final double MAX_EXTENTION = -15;
+public static final double MAX_RETRACTION = -7.5;
 public static final double PIVOT_L4 = 0.0;
 public static final double PIVOT_L3 = 0.0;
 public static final double PIVOT_L2 = 0.0;
@@ -49,12 +51,12 @@ public static final Runnable L1_POSITION = null;
 
   public static class ManipulatorConstants {
     // TODO: Replace with actual CAN ID of the manipulator motor
-    public static final int MANIPULATOR_MOTOR_ID = 0;
+    public static final int MANIPULATOR_MOTOR_ID = 17;
     // TODO: Test the end effector with these speeds and determine ideal values
-    public static final double CORAL_FORWARD_SPEED = 0.5;
-    public static final double CORAL_BACKWARD_SPEED = -0.5;
-    public static final double ALGAE_FORWARD_SPEED = 0.8;
-    public static final double ALGAE_BACKWARD_SPEED = -0.8;
+    public static final double CORAL_FORWARD_SPEED = 0.1;
+    public static final double CORAL_BACKWARD_SPEED = -0.1;
+    public static final double ALGAE_FORWARD_SPEED = 0.3;
+    public static final double ALGAE_BACKWARD_SPEED = -0.3;
   
   }
 

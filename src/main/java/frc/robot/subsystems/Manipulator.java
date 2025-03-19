@@ -13,11 +13,8 @@ import frc.robot.Constants.ManipulatorConstants;
 public class Manipulator extends SubsystemBase {
     
     private TalonFX manipulator;
-    private final SparkLimitSwitch beamBreaker;
 
     public Manipulator() {
-        SparkMax pivotMotor = new SparkMax(16, MotorType.kBrushless);
-        this.beamBreaker = pivotMotor.getForwardLimitSwitch();
         manipulator = new TalonFX(ManipulatorConstants.MANIPULATOR_MOTOR_ID);
     }
 
@@ -33,9 +30,6 @@ public class Manipulator extends SubsystemBase {
         }
     }
 
-    public SparkLimitSwitch getBeamBreak() { 
-        return beamBreaker;
-    }
 
     public void stop() {
         manipulator.set(0);
