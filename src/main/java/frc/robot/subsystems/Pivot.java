@@ -31,6 +31,7 @@ public class Pivot extends SubsystemBase {
                 pivot.set(PivotConstants.PIVOT_SPEED_UP);
             }
         } 
+        this.stop();
     }
     
     public void runUp() {
@@ -38,5 +39,9 @@ public class Pivot extends SubsystemBase {
     }
     public void runDown() {
         pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
+    }
+
+    public void stop() {
+        pivot.set(0.1);
     }
 }
