@@ -21,24 +21,32 @@ public class L1 extends Command {
 
     @Override
     public void initialize() {
-        if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
-            while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
-                elevator.runUp();
-            }
-        } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
-            while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
-                elevator.runDown();
-            }
-        } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) == ElevatorConstants.L1_ENCODER) {
-            elevator.stop();
-        }
-        elevator.stop();
+        // if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
+        //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
+        //         elevator.runUp();
+        //     }
+        // } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
+        //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L1_ENCODER) {
+        //         elevator.runDown();
+        //     }
+        // } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) == ElevatorConstants.L1_ENCODER) {
+        //     elevator.stop();
+        // }
+        // elevator.stop();
     } 
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.L1_POSITION);
-        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        pivot.run(-13.0);
+        //elevator.run(11.5);
+        //manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+    }
+
+    @Override
+    public void end(boolean isInterrupted) {
+        elevator.stop();
+        manipulator.stop();
+        pivot.stop();
     }
 
 }

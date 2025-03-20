@@ -27,16 +27,18 @@ public class Pivot extends SubsystemBase {
     }
 
     public void run(double position) {
-        if (pivot.getEncoder().getPosition() > position) {
-            while (pivot.getEncoder().getPosition() != position) {
-                pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
+        if (pivot.getEncoder().getPosition() < position) {
+            while (pivot.getEncoder().getPosition() < position) {
+                runUp();
             }
-        } else if (pivot.getEncoder().getPosition() < position) {
-            while (pivot.getEncoder().getPosition() != position) {
-                pivot.set(PivotConstants.PIVOT_SPEED_UP);
+        } else if (pivot.getEncoder().getPosition() > position) {
+            while (pivot.getEncoder().getPosition() > position) {
+                runDown();
             }
-        } 
-        this.stop();
+        } else if (pivot.getEncoder().getPosition() == position) {
+            stop();
+        }
+        stop();
     }
     
     public void runUp() {
@@ -75,7 +77,7 @@ public class Pivot extends SubsystemBase {
         if (pivot.getEncoder().getPosition() >= -9.0) { 
             pivot.set(-0.01);
         } else {
-            pivot.set(0.0225);
+            pivot.set(0.008);
         }
     }
 }

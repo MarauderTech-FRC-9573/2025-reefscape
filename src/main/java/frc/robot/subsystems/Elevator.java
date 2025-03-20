@@ -38,24 +38,37 @@ public class Elevator extends SubsystemBase {
     }
     
     public void run(double position) {
-        if (leftMotor.getEncoder().getPosition() > position) {
-            while (leftMotor.getEncoder().getPosition() != position) {
-                leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);
-                rightMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);
+        // if (leftMotor.getEncoder().getPosition() > position) {
+        //     while (leftMotor.getEncoder().getPosition() != position) {
+        //         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);
+        //         rightMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);
+        //     }
+        // } else if (leftMotor.getEncoder().getPosition() < position) {
+        //     while (leftMotor.getEncoder().getPosition() != position) {
+        //         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
+        //         rightMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
+        //     }
+        // } 
+        // this.stop();
+
+        if (Math.abs(leftMotor.getEncoder().getPosition()) < position) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) < position) {
+                runUp();
             }
-        } else if (leftMotor.getEncoder().getPosition() < position) {
-            while (leftMotor.getEncoder().getPosition() != position) {
-                leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
-                rightMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
+        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
+            while (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
+                runDown();
             }
-        } 
-        this.stop();
+        } else if (Math.abs(le  ftMotor.getEncoder().getPosition()) == position) {
+            stop();
+        }
+        stop();
     }
 
     @Override
     public void periodic() {
-        System.out.println("Current" + leftMotor.getOutputCurrent());
-        System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
+        // System.out.println("Current" + leftMotor.getOutputCurrent());
+        // System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
 
     }
     
