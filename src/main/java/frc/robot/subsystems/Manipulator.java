@@ -24,10 +24,12 @@ public class Manipulator extends SubsystemBase {
 
     public void runBack(double backwardSpeed) {
         manipulator.set(-backwardSpeed);
-
-        if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
+        //Commented out during process of debugging this function; 
+        //for some reason the motor stalls and 
+        //does nothing when running this function
+        /*if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
             this.stop();
-        }
+        }*/
     }
 
 
