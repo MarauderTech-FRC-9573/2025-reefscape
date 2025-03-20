@@ -37,9 +37,9 @@ public class L1 extends Command {
 
     @Override
     public void execute() {
-        pivot.run(-13.0);
-        //elevator.run(11.5);
-        //manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        pivot.run(-10);
+        elevator.run(0);
+        manipulator.runForward(-0.1);
     }
 
     @Override

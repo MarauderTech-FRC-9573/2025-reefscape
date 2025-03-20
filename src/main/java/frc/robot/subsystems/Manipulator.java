@@ -23,7 +23,7 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void runBack(double backwardSpeed) {
-        manipulator.set(backwardSpeed);
+        manipulator.set(-backwardSpeed);
 
         if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
             this.stop();

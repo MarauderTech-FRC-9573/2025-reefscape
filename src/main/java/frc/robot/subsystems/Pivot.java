@@ -49,20 +49,15 @@ public class Pivot extends SubsystemBase {
         // if (pivot.getOutputCurrent() > 30) {
         //     this.resetEncoders();
         // }
-
-        if (pivot.getEncoder().getPosition() >= PivotConstants.MAX_RETRACTION) {
-            this.stop();
-        } else {
+        if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_RETRACTION) {
             pivot.set(PivotConstants.PIVOT_SPEED_UP);
-        }   
+        } else {
+            stop();
+        }
     }
     public void runDown() {
 
-        if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_EXTENSION) {
-                this.stop();
-            } else{
             pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
-        }   
     }
 
     public SparkLimitSwitch getBeamBreak() { 
@@ -73,7 +68,7 @@ public class Pivot extends SubsystemBase {
     public void periodic() {
         // System.out.println("Current" + pivot.getOutputCurrent());
         // System.out.println("Encoder" + pivot.getEncoder().getPosition());
-        SmartDashboard.putNumber("Encoder", pivot.getEncoder().getPosition());
+        SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
     }
     
     // If statement checks if pivot is in upright position
@@ -81,9 +76,9 @@ public class Pivot extends SubsystemBase {
     // Upright Bpos is closer to elevator, Upright Tpos is farther from elevator
     // (all Encoder values are negative)
     public void stop() {
-        if (pivot.getEncoder().getPosition() >= PivotConstants.MAX_RETRACTION && pivot.getEncoder().getPosition() <= PivotConstants.MAX_EXTENSION ) { 
-            System.out.println("Running Bspeed");
-            pivot.set(PivotConstants.PIVOT_STOP_BSPEED);
+        if (pivot.getEncoder().getPosition() >= -9.0) { 
+            // System.out.println("Running Bspeed");
+            pivot.set(PivotConstants.PIVOT_STOP_BSPEED); // Will crash into funnel we cant fix rn lol
         } else {
             pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
         

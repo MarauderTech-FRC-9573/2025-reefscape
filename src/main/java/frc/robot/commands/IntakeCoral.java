@@ -21,7 +21,7 @@ public class IntakeCoral extends Command {
 
     @Override
     public void initialize() {
-        pivot.run(-10.0);
+        // pivot.run(-10.0);
         elevator.run(0.0);
     }
 

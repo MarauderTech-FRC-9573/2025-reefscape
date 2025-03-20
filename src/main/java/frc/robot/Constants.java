@@ -36,15 +36,16 @@ public final class Constants {
     public static final double PIVOT_L3 = 0.0;
     public static final double PIVOT_L2 = 0.0;
     public static final double PIVOT_L1 = 0.0;
-    public static final Runnable CORAL_STATION_ENCODER = null;
-    public static final Runnable L4_POSITION = null;
-    public static final Runnable L3_POSITION = null;
-    public static final Runnable L2_POSITION = null;
-    public static final Runnable L1_POSITION = null;
+    public static final double CORAL_STATION_ENCODER = 0.1;
+    public static final double L4_POSITION = 0.1;
+    public static final double L3_POSITION = 0.1;
+    public static final double L2_POSITION = 0.1;
+    public static final double L1_POSITION = 0.1;
     public static final double PIVOT_UPRIGHT_BPOSITION = -8.5;
     public static final double PIVOT_UPRIGHT_TPOSITION = -9.5;
-    public static final double PIVOT_STOP_BSPEED = -0.001;
-    public static final double PIVOT_STOP_FSPEED = 0.03;
+    public static final double PIVOT_STOP_BSPEED = -0.007;
+
+    public static final double PIVOT_STOP_FSPEED = 0.0225;
     
     
     
@@ -57,10 +58,10 @@ public final class Constants {
     // TODO: Replace with actual CAN ID of the manipulator motor
     public static final int MANIPULATOR_MOTOR_ID = 17;
     // TODO: Test the end effector with these speeds and determine ideal values
-    public static final double CORAL_FORWARD_SPEED = 0.1;
-    public static final double CORAL_BACKWARD_SPEED = -0.1;
-    public static final double ALGAE_FORWARD_SPEED = 0.3;
-    public static final double ALGAE_BACKWARD_SPEED = -0.3;
+    public static final double CORAL_FORWARD_SPEED = -0.1;
+    public static final double CORAL_BACKWARD_SPEED = 0.1;
+    public static final double ALGAE_FORWARD_SPEED = -0.3;
+    public static final double ALGAE_BACKWARD_SPEED = 0.3;
     public static final double MANIPULATOR_BACKWARD_STOP = 30;
     public static final double MANIPULATOR_STOP = 0;
     

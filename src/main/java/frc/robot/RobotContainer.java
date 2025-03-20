@@ -116,17 +116,17 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
-    m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
-    m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
-    m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
+    // m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
+    // m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
+    // m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
+    // m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
 
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
   
-    m_operatorController.back().whileTrue(new RunCommand(() -> manipulator.runForward(-0.1), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator)); // Run Manipulator Back
-    m_operatorController.start().whileTrue(new IntakeCoral(elevator, manipulator, pivot)); // Run Manipulator Forward (intake)
-    
+m_operatorController.a().whileTrue(new RunCommand(() -> manipulator.runForward(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
+m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));    
+
   }
 
   // /**

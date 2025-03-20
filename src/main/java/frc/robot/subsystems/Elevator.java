@@ -8,6 +8,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants; 
 
@@ -68,6 +70,8 @@ public class Elevator extends SubsystemBase {
     public void periodic() {
         // System.out.println("Current" + leftMotor.getOutputCurrent());
         // System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Elevator Encoder", Math.abs(leftMotor.getEncoder().getPosition()));
+
 
     }
     
