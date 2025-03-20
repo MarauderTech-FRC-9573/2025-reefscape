@@ -58,7 +58,7 @@ public class Pivot extends SubsystemBase {
     }
     public void runDown() {
 
-        if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_EXTENTION) {
+        if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_EXTENSION) {
                 this.stop();
             } else{
             pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
@@ -76,12 +76,17 @@ public class Pivot extends SubsystemBase {
         SmartDashboard.putNumber("Encoder", pivot.getEncoder().getPosition());
     }
     
-    // If statement checks if pivot is in upright position or not before engaging the motors
+    // If statement checks if pivot is in upright position
+    // or not before engaging the motors
+    // Upright Bpos is closer to elevator, Upright Tpos is farther from elevator
+    // (all Encoder values are negative)
     public void stop() {
-        if (pivot.getEncoder().getPosition() >= -9.0) { 
+        if (pivot.getEncoder().getPosition() >= PivotConstants.MAX_RETRACTION && pivot.getEncoder().getPosition() <= PivotConstants.MAX_EXTENSION ) { 
+            System.out.println("Running Bspeed");
             pivot.set(PivotConstants.PIVOT_STOP_BSPEED);
         } else {
             pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
+        
         }
     }
 }
