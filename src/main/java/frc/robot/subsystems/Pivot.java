@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.PivotConstants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 public class Pivot extends SubsystemBase {
     private SparkMax pivot;
     private final SparkLimitSwitch beamBreaker;
@@ -70,9 +73,10 @@ public class Pivot extends SubsystemBase {
     public void periodic() {
         // System.out.println("Current" + pivot.getOutputCurrent());
         // System.out.println("Encoder" + pivot.getEncoder().getPosition());
-
+        SmartDashboard.putNumber("Encoder", pivot.getEncoder());
     }
-
+    
+    // If statement checks if pivot is in upright position or not before engaging the motors
     public void stop() {
         if (pivot.getEncoder().getPosition() >= -9.0) { 
             pivot.set(PivotConstants.PIVOT_STOP_BSPEED);
