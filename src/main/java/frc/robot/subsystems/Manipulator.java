@@ -27,6 +27,7 @@ public class Manipulator extends SubsystemBase {
         //Commented out during process of debugging this function; 
         //for some reason the motor stalls and 
         //does nothing when running this function
+        //It works now dont touch this 
         /*if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
             this.stop();
         }*/
