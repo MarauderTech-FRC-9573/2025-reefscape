@@ -30,7 +30,7 @@ public final class Constants {
     
     public static final double PIVOT_SPEED_UP = 0.1;
     public static final double PIVOT_SPEED_DOWN = -0.1;
-    public static final double MAX_EXTENTION = -15;
+    public static final double MAX_EXTENSION = -15;
     public static final double MAX_RETRACTION = -7.5;
     public static final double PIVOT_L4 = 0.0;
     public static final double PIVOT_L3 = 0.0;
@@ -41,9 +41,10 @@ public final class Constants {
     public static final Runnable L3_POSITION = null;
     public static final Runnable L2_POSITION = null;
     public static final Runnable L1_POSITION = null;
-    public static final double PIVOT_STOP_POSITION = -9.0;
-    public static final double PIVOT_STOP_BSPEED = -0.01;
-    public static final double PIVOT_STOP_FSPEED = 0.0225;
+    public static final double PIVOT_UPRIGHT_BPOSITION = -8.5;
+    public static final double PIVOT_UPRIGHT_TPOSITION = -9.5;
+    public static final double PIVOT_STOP_BSPEED = -0.001;
+    public static final double PIVOT_STOP_FSPEED = 0.03;
     
     
     

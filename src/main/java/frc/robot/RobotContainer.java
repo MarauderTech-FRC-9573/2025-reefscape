@@ -116,7 +116,7 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot)); 
+    m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
     m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
     m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
     m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
