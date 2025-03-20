@@ -19,7 +19,7 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void runForward(double forwardSpeed) {
-        manipulator.set(forwardSpeed);
+            manipulator.set(forwardSpeed);
     }
 
     public void runBack(double backwardSpeed) {

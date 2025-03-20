@@ -9,8 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.PivotConstants; 
+import frc.robot.Constants.ElevatorConstants; 
 
 public class Elevator extends SubsystemBase {
     public SparkMax rightMotor;
