@@ -32,9 +32,9 @@ public class Manipulator extends SubsystemBase {
         //     this.stop();
         // }
 
-        if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
-            this.stop();
-        }
+        // if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
+        //     this.stop();
+        // }
     }
 
 
