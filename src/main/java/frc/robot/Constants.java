@@ -41,7 +41,7 @@ public final class Constants {
     public static final Runnable L3_POSITION = null;
     public static final Runnable L2_POSITION = null;
     public static final Runnable L1_POSITION = null;
-    public static final double PIVOT_STOP_POSITION = -9.0;
+    public static final double PIVOT_UPRIGHT_POSITION = -9.0;
     public static final double PIVOT_STOP_BSPEED = -0.01;
     public static final double PIVOT_STOP_FSPEED = 0.0225;
     
