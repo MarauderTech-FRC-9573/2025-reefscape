@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center to Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Reef to Bottom Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeAlgae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bottom Algae to Processor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "OuttakeAlgae"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
