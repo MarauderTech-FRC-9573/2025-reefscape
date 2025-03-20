@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Pivot extends SubsystemBase {
-    private SparkMax pivot;
+    public SparkMax pivot;
     private final SparkLimitSwitch beamBreaker;
     
     public Pivot() {
@@ -56,7 +56,7 @@ public class Pivot extends SubsystemBase {
         }
     }
     public void runDown() {
-
+  
             pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
     }
 

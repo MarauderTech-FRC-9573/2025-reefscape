@@ -111,9 +111,9 @@ public class RobotContainer {
     // m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
 
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
-    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
+    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
   
 m_operatorController.a().whileTrue(new RunCommand(() -> manipulator.runForward(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));

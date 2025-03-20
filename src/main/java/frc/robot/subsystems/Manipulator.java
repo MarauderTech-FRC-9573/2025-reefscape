@@ -15,14 +15,19 @@ public class Manipulator extends SubsystemBase {
     
     // private SparkMax manipulator; // Formerly a Talon, changed to be NEO to debug manipulator :( 
     private TalonFX manipulator;
+    public Pivot pivot;
 
     public Manipulator() {
         manipulator = new TalonFX(17);
+        pivot = new Pivot();
         // manipulator = new SparkMax(17, MotorType.kBrushless);
     }
 
     public void runForward(double forwardSpeed) {
-            manipulator.set(forwardSpeed);
+            while (!pivot.getBeamBreak().isPressed()){
+                manipulator.set(forwardSpeed);
+            }
+            
     }
 
     public void runBack(double backwardSpeed) {
