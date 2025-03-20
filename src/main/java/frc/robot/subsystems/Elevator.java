@@ -9,8 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.PivotConstants; 
+import frc.robot.Constants.ElevatorConstants; 
 
 public class Elevator extends SubsystemBase {
     public SparkMax rightMotor;
@@ -92,7 +91,7 @@ public class Elevator extends SubsystemBase {
     }
     
     public void stop() {
-        rightMotor.set(0.1);
-        leftMotor.set(0.1);
+        rightMotor.set(ElevatorConstants.ELEVATOR_STOP);
+        leftMotor.set(ElevatorConstants.ELEVATOR_STOP);
     }   
 }

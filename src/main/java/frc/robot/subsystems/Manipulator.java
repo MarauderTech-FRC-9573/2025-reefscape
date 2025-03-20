@@ -19,19 +19,19 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void runForward(double forwardSpeed) {
-        manipulator.set(forwardSpeed);
+            manipulator.set(forwardSpeed);
     }
 
     public void runBack(double backwardSpeed) {
         manipulator.set(backwardSpeed);
 
-        if (manipulator.getMotorStallCurrent().getValueAsDouble() > 30) {
+        if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
             this.stop();
         }
     }
 
 
     public void stop() {
-        manipulator.set(0);
+        manipulator.set(ManipulatorConstants.MANIPULATOR_STOP);
     }
 }

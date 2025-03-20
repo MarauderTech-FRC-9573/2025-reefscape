@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.SpeedConstants;
+
 import java.io.File;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -152,7 +154,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   }
 
-  public double translationSpeed = 0.8;
+  public double translationSpeed = SpeedConstants.speedDefault;
 
   public double changeSpeed(double newSpeed){
     translationSpeed = newSpeed;
