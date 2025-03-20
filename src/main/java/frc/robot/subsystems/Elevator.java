@@ -58,7 +58,7 @@ public class Elevator extends SubsystemBase {
             while (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
                 runDown();
             }
-        } else if (Math.abs(le  ftMotor.getEncoder().getPosition()) == position) {
+        } else if (Math.abs(leftMotor.getEncoder().getPosition()) == position) {
             stop();
         }
         stop();
