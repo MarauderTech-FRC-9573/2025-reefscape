@@ -5,13 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.SpeedConstants;
-import frc.robot.commands.L1;
-import frc.robot.commands.L2;
-import frc.robot.commands.L3;
-import frc.robot.commands.L4;
-import frc.robot.commands.*;
+import frc.robot.subsystems.DriverVision;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;
@@ -22,6 +17,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
@@ -37,6 +33,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Manipulator manipulator = new Manipulator();
   private final Pivot pivot = new Pivot();
+    private final DriverVision  visionSubsystem = new DriverVision();
   // private final SendableChooser<Command> autoChooser;
   // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
@@ -115,11 +112,6 @@ public class RobotContainer {
 
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
-
-    // m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
-    // m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
-    // m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
-    // m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
 
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down

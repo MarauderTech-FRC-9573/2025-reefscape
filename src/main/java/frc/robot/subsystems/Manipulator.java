@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -12,10 +13,10 @@ import frc.robot.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
     
-    private TalonFX manipulator;
+    private SparkMax manipulator; // Formerly a Talon, changed to be NEO to debug manipulator :( 
 
     public Manipulator() {
-        manipulator = new TalonFX(ManipulatorConstants.MANIPULATOR_MOTOR_ID);
+        manipulator = new SparkMax(17, MotorType.kBrushless);
     }
 
     public void runForward(double forwardSpeed) {
@@ -25,7 +26,7 @@ public class Manipulator extends SubsystemBase {
     public void runBack(double backwardSpeed) {
         manipulator.set(-backwardSpeed);
 
-        if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
+        if (manipulator.getOutputCurrent() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
             this.stop();
         }
     }
