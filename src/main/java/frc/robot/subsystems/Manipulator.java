@@ -13,10 +13,12 @@ import frc.robot.Constants.ManipulatorConstants;
 
 public class Manipulator extends SubsystemBase {
     
-    private SparkMax manipulator; // Formerly a Talon, changed to be NEO to debug manipulator :( 
+    // private SparkMax manipulator; // Formerly a Talon, changed to be NEO to debug manipulator :( 
+    private TalonFX manipulator;
 
     public Manipulator() {
-        manipulator = new SparkMax(17, MotorType.kBrushless);
+        manipulator = new TalonFX(17);
+        // manipulator = new SparkMax(17, MotorType.kBrushless);
     }
 
     public void runForward(double forwardSpeed) {
@@ -26,7 +28,11 @@ public class Manipulator extends SubsystemBase {
     public void runBack(double backwardSpeed) {
         manipulator.set(-backwardSpeed);
 
-        if (manipulator.getOutputCurrent() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
+        // if (manipulator.getOutputCurrent() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
+        //     this.stop();
+        // }
+
+        if (manipulator.getMotorStallCurrent().getValueAsDouble() > ManipulatorConstants.MANIPULATOR_BACKWARD_STOP) {
             this.stop();
         }
     }
