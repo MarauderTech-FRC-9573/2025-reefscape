@@ -73,7 +73,7 @@ public class Pivot extends SubsystemBase {
     public void periodic() {
         // System.out.println("Current" + pivot.getOutputCurrent());
         // System.out.println("Encoder" + pivot.getEncoder().getPosition());
-        SmartDashboard.putNumber("Encoder", pivot.getEncoder());
+        SmartDashboard.putNumber("Encoder", pivot.getEncoder().getPosition());
     }
     
     // If statement checks if pivot is in upright position or not before engaging the motors
