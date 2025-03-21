@@ -59,10 +59,10 @@ public final class Constants {
     // TODO: Replace with actual CAN ID of the manipulator motor
     public static final int MANIPULATOR_MOTOR_ID = 17;
     // TODO: Test the end effector with these speeds and determine ideal values
-    public static final double CORAL_FORWARD_SPEED = -0.1;
-    public static final double CORAL_BACKWARD_SPEED = 0.1;
-    public static final double ALGAE_FORWARD_SPEED = -0.3;
-    public static final double ALGAE_BACKWARD_SPEED = 0.3;
+    public static final double CORAL_INTAKE_SPEED = -0.2;
+    public static final double CORAL_SCORE_SPEED = -0.5;
+    public static final double ALGAE_INTAKE_SPEED = 0.5;
+    public static final double ALGAE_SCORE_SPEED = -0.5;
     public static final double MANIPULATOR_BACKWARD_STOP = 30;
     public static final double MANIPULATOR_STOP = 0;
     
@@ -82,10 +82,10 @@ public final class Constants {
     public static final String IDLE_MODE = null;
     public static final int SMART_CURRENT_LIMIT = 40;
     public static final int ELEVATOR_FF_kS = 0;
-    public static final double ELEVATOR_RMOTOR_SPEED_UP = -0.30;
-    public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.3;
-    public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.30;
-    public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.30;
+    public static final double ELEVATOR_RMOTOR_SPEED_UP = -0.20;
+    public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.20;
+    public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.20;
+    public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.20;
     public static final double ELEVATOR_STOP = 0.1;    
     public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 23.3;
@@ -98,6 +98,11 @@ public final class Constants {
     public static final double LOWER_ALGAE_ENCODER = 40.6;
     public static final double UPPER_ALGAE_ENCODER = 58;
     public static final double NET_ENCODER = 75;
+
+    public static final double kP = 0.5;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
     
   }
   

@@ -39,13 +39,13 @@ public class Net extends Command {
     public void execute() {
         pivot.run(PivotConstants.NET_POSITION);
         elevator.run(ElevatorConstants.NET_ENCODER);
-        manipulator.runForward(ManipulatorConstants.ALGAE_BACKWARD_SPEED);
+        //manipulator.runForward(ManipulatorConstants.ALGAE_SCORE_SPEED);
     }
 
     @Override
     public void end(boolean isInterrupted) {
         elevator.stop();
-        manipulator.stop();
+        //manipulator.stop();
         pivot.stop();
     }
 

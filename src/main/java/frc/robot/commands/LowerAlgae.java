@@ -34,13 +34,13 @@ public class LowerAlgae extends Command {
     @Override
     public void execute() {
         elevator.run(ElevatorConstants.LOWER_ALGAE_ENCODER);
-        manipulator.runForward(ManipulatorConstants.ALGAE_FORWARD_SPEED);
+        //manipulator.runForward(ManipulatorConstants.ALGAE_INTAKE_SPEED);
     }
 
     @Override
     public void end(boolean isInterrupted) {
         elevator.stop();
-        manipulator.stop();
+        //manipulator.stop();
     }
 
 }

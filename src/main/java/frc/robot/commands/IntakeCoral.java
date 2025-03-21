@@ -30,10 +30,10 @@ public class IntakeCoral extends Command {
         elevator.run(0.0);
         if (!pivot.getBeamBreak().isPressed()){
             while (!pivot.getBeamBreak().isPressed()) {
-                System.out.println("BEAM BREAK HIHIHI");
-                manipulator.runBack(ManipulatorConstants.CORAL_BACKWARD_SPEED);
+                manipulator.runBack(ManipulatorConstants.CORAL_INTAKE_SPEED);
             }
         } else {
+            System.out.println("BEAM BREAK HIHIHI");
             manipulator.stop();
         }
     }

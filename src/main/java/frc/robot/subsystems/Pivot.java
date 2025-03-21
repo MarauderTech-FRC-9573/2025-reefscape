@@ -48,11 +48,11 @@ public class Pivot extends SubsystemBase {
         // if (pivot.getOutputCurrent() > 30) {
         //     this.resetEncoders();
         // }
-        if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_RETRACTION) {
+        //if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_RETRACTION) {
             pivot.set(PivotConstants.PIVOT_SPEED_UP);
-        } else {
-            stop();
-        }
+        //} else {
+        //    stop();
+        //}
     }
     public void runDown() {
 

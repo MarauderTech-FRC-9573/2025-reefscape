@@ -9,6 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants; 
@@ -16,8 +17,12 @@ import frc.robot.Constants.ElevatorConstants;
 public class Elevator extends SubsystemBase {
     public SparkMax rightMotor;
     public SparkMax leftMotor;
+    public PIDController pidController;
     
     public Elevator() {
+        
+        this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
+        
         // Sparkmax configs
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
@@ -27,6 +32,7 @@ public class Elevator extends SubsystemBase {
         leftMotor.configure(leftConfig, null, null);
         
         SparkMaxConfig rightConfig = new SparkMaxConfig();
+        rightConfig.follow(leftMotor, true);
         rightConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
         rightMotor.configure(rightConfig, null, null);
 
@@ -35,7 +41,6 @@ public class Elevator extends SubsystemBase {
 
     public void resetEncoders() {
         leftMotor.getEncoder().setPosition(0);
-        rightMotor.getEncoder().setPosition(0);
     }
     
     public void run(double position) {
@@ -52,18 +57,20 @@ public class Elevator extends SubsystemBase {
         // } 
         // this.stop();
 
-        if (Math.abs(leftMotor.getEncoder().getPosition()) < position) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) < position) {
-                runUp();
-            }
-        } else if (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
-            while (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
-                runDown();
-            }
-        } else if (Math.abs(leftMotor.getEncoder().getPosition()) == position) {
-            stop();
-        }
-        stop();
+        // if (Math.abs(leftMotor.getEncoder().getPosition()) < position) {
+        //     while (Math.abs(leftMotor.getEncoder().getPosition()) < position) {
+        //         runUp();
+        //     }
+        // } else if (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
+        //     while (Math.abs(leftMotor.getEncoder().getPosition()) > position) {
+        //         runDown();
+        //     }
+        // } else if (Math.abs(leftMotor.getEncoder().getPosition()) == position) {
+        //     stop();
+        // }
+        // stop();
+
+        leftMotor.set(0.2*pidController.calculate(leftMotor.getEncoder().getPosition(), position));
     }
 
     @Override
@@ -80,13 +87,11 @@ public class Elevator extends SubsystemBase {
             if (leftMotor.getEncoder().getPosition() >= ElevatorConstants.MAX_HEIGHT) {
                 this.stop();
             } else{
-            rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_UP);
-            leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP); 
+            leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_UP);
         }   
     }
     
     public void runDown() {
-        rightMotor.set(ElevatorConstants.ELEVATOR_RMOTOR_SPEED_DOWN);
         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);    
 
         // if (rightMotor.getOutputCurrent() > 30) {
@@ -95,7 +100,9 @@ public class Elevator extends SubsystemBase {
     }
     
     public void stop() {
-        rightMotor.set(ElevatorConstants.ELEVATOR_STOP);
-        leftMotor.set(ElevatorConstants.ELEVATOR_STOP);
+        
+        //leftMotor.set(ElevatorConstants.ELEVATOR_STOP);
+        leftMotor.set(0.0);
+
     }   
 }

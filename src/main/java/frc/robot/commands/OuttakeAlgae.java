@@ -27,7 +27,7 @@ public class OuttakeAlgae extends Command {
     @Override
     public void execute() {
         pivot.run(PivotConstants.CORAL_STATION_ENCODER);
-        manipulator.runBack(ManipulatorConstants.ALGAE_BACKWARD_SPEED);
+        //manipulator.runBack(ManipulatorConstants.ALGAE_SCORE_SPEED);
     }
     
 }

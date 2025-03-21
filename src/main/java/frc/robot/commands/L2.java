@@ -42,12 +42,14 @@ public class L2 extends Command {
     public void execute() {
         
         elevator.run(ElevatorConstants.L2_ENCODER);
-        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
     }
 
-    public void stop() {
-        pivot.stop();
+    @Override
+    public void end(boolean isInterrupted) {
         elevator.stop();
+        //manipulator.stop();
+        pivot.stop();
     }
 
 }

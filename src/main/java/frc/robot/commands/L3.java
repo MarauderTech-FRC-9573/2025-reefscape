@@ -38,7 +38,14 @@ public class L3 extends Command {
     @Override
     public void execute() {
         elevator.run(ElevatorConstants.L3_ENCODER);
-        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
+    }
+
+    @Override
+    public void end(boolean isInterrupted) {
+        elevator.stop();
+        //manipulator.stop();
+        pivot.stop();
     }
 
 }

@@ -39,13 +39,13 @@ public class L1 extends Command {
     @Override
     public void execute() {
         elevator.run(0);
-        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
     }
 
     @Override
     public void end(boolean isInterrupted) {
         elevator.stop();
-        manipulator.stop();
+        //manipulator.stop();
         pivot.stop();
     }
 
