@@ -21,22 +21,23 @@ public class L3 extends Command {
 
     @Override
     public void initialize() {
-        if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
-            while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
-                elevator.runUp();            
-            }
-            while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L3_ENCODER) {
-                elevator.runDown();
-            }
-        } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) == ElevatorConstants.L3_ENCODER) {
-            elevator.stop();
-        }
-        elevator.stop();
+        pivot.run(PivotConstants.L3_POSITION);
+        // if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
+        //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L3_ENCODER) {
+        //         elevator.runUp();            
+        //     }
+        //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) > ElevatorConstants.L3_ENCODER) {
+        //         elevator.runDown();
+        //     }
+        // } else if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) == ElevatorConstants.L3_ENCODER) {
+        //     elevator.stop();
+        // }
+        // elevator.stop();
     }
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.L3_POSITION);
+        elevator.run(ElevatorConstants.L3_ENCODER);
         manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
     }
 

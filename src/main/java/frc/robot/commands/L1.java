@@ -21,6 +21,7 @@ public class L1 extends Command {
 
     @Override
     public void initialize() {
+        pivot.run(PivotConstants.L1_POSITION);
         // if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
         //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L1_ENCODER) {
         //         elevator.runUp();
@@ -37,7 +38,6 @@ public class L1 extends Command {
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.L1_POSITION);
         elevator.run(0);
         manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
     }

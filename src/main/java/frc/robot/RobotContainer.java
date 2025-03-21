@@ -7,10 +7,6 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.SpeedConstants;
-import frc.robot.commands.L1;
-import frc.robot.commands.L2;
-import frc.robot.commands.L3;
-import frc.robot.commands.L4;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
@@ -19,7 +15,13 @@ import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 import frc.robot.subsystems.DriverVision;
 
+import org.photonvision.PhotonCamera;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -40,8 +42,8 @@ public class RobotContainer {
   private final Manipulator manipulator = new Manipulator();
   private final Pivot pivot = new Pivot();
     private final DriverVision  visionSubsystem = new DriverVision();
-  // private final SendableChooser<Command> autoChooser;
-  // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
+   private final SendableChooser<Command> autoChooser;
+   private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
 
   /*
@@ -64,9 +66,9 @@ public class RobotContainer {
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
-    // autoChooser = AutoBuilder.buildAutoChooser("New Auto");
+     autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
 
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
+     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
@@ -114,21 +116,24 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    // m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
+     m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
 
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
-    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
+    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-    // m_operatorController.a().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
-    // m_operatorController.b().whileTrue(new L2(elevator, manipulator, pivot));
-    // m_operatorController.x().whileTrue(new L3(elevator, manipulator, pivot));
-    // m_operatorController.y().whileTrue(new L4(elevator, manipulator, pivot));
+     m_operatorController.povUp().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
+     m_operatorController.povRight().whileTrue(new L2(elevator, manipulator, pivot));
+     m_operatorController.povDown().whileTrue(new L3(elevator, manipulator, pivot));
+     m_operatorController.povLeft().whileTrue(new L4(elevator, manipulator, pivot));
 
-    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
-    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
+    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
   
 m_operatorController.a().whileTrue(new RunCommand(() -> manipulator.runForward(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
-m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));    
+m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));  
+m_operatorController.x().whileTrue(new UpperAlgae(elevator, manipulator));
+m_operatorController.y().whileTrue(new LowerAlgae( elevator, manipulator));
+m_operatorController.back().whileTrue(new Net(elevator, manipulator, pivot));
 
   }
 
@@ -137,8 +142,8 @@ m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5)
   //  *
   //  * @return the command to run in autonomous
   //  */
-  // public Command getAutomousCommand() {
-  //   // An example command will be run in autonomous
-  //   return autoChooser.getSelected();
-  // }
+   public Command getAutomousCommand() {
+     // An example command will be run in autonomous
+     return autoChooser.getSelected();
+ }
 }
