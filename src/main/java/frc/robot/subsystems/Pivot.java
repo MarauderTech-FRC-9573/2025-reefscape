@@ -14,14 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pivot extends SubsystemBase {
     private SparkMax pivot;
-    private final SparkLimitSwitch beamBreaker;
+    private SparkLimitSwitch beamBreaker;
     
     public Pivot() {
         pivot = new SparkMax(16, MotorType.kBrushless);
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
         pivotConfig.smartCurrentLimit(PivotConstants.SMART_CURRENT_LIMIT);
         pivot.configure(pivotConfig, null, null);
-        this.beamBreaker = pivot.getForwardLimitSwitch();
         resetEncoders();
     }
 
@@ -69,6 +68,7 @@ public class Pivot extends SubsystemBase {
         // System.out.println("Current" + pivot.getOutputCurrent());
         // System.out.println("Encoder" + pivot.getEncoder().getPosition());
         SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
+        this.beamBreaker = pivot.getForwardLimitSwitch();
     }
     
     // If statement checks if pivot is in upright position

@@ -21,15 +21,20 @@ public class IntakeCoral extends Command {
 
     @Override
     public void initialize() {
-        // pivot.run(-10.0);
-        elevator.run(0.0);
+        pivot.run(-6.0);
     }
 
     @Override
     public void execute() {
         //System.out.println("hi");
-        while (!pivot.getBeamBreak().isPressed()){
-            manipulator.runBack(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        elevator.run(0.0);
+        if (!pivot.getBeamBreak().isPressed()){
+            while (!pivot.getBeamBreak().isPressed()) {
+                System.out.println("BEAM BREAK HIHIHI");
+                manipulator.runBack(ManipulatorConstants.CORAL_BACKWARD_SPEED);
+            }
+        } else {
+            manipulator.stop();
         }
     }
 

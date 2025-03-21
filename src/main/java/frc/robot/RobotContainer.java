@@ -106,17 +106,17 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
     //Configure two bindings, call the new method to change the maximum speed in SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and "slow" to 0.1
-    m_driverController.rightTrigger()
+    m_driverController.rightBumper()
     .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMax)))
     .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
-    m_driverController.leftTrigger()
+    m_driverController.leftBumper()
     .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMin)))    
     .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-     m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
+     //m_driverController.y().whileTrue(new AimAtTarget(m_driverController, photonCamera, drivebase));
 
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
@@ -134,6 +134,8 @@ m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5)
 m_operatorController.x().whileTrue(new UpperAlgae(elevator, manipulator));
 m_operatorController.y().whileTrue(new LowerAlgae( elevator, manipulator));
 m_operatorController.back().whileTrue(new Net(elevator, manipulator, pivot));
+m_operatorController.start().whileTrue(new IntakeCoral(elevator, manipulator, pivot));
+
 
   }
 
