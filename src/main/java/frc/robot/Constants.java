@@ -37,13 +37,14 @@ public final class Constants {
     public static final double PIVOT_L2 = 0.0;
     public static final double PIVOT_L1 = 0.0;
     public static final double CORAL_STATION_ENCODER = 0.1;
-    public static final double L4_POSITION = 0.1;
-    public static final double L3_POSITION = 0.1;
-    public static final double L2_POSITION = 0.1;
-    public static final double L1_POSITION = 0.1;
+    public static final double L4_POSITION = -10.738;
+    public static final double L3_POSITION = -9.0;
+    public static final double L2_POSITION = -9.0;
+    public static final double L1_POSITION = -6.3;
     public static final double PIVOT_UPRIGHT_BPOSITION = -8.5;
     public static final double PIVOT_UPRIGHT_TPOSITION = -9.5;
     public static final double PIVOT_STOP_BSPEED = -0.007;
+    public static final double NET_POSITION = -1.833;
 
     public static final double PIVOT_STOP_FSPEED = 0.0225;
     
@@ -87,13 +88,16 @@ public final class Constants {
     public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.30;
     public static final double ELEVATOR_STOP = 0.1;    
     public static final double L1_ENCODER = 11.5;
-    public static final double L2_ENCODER = 30;
-    public static final double L3_ENCODER = 52;
-    public static final double L4_ENCODER = 65;
+    public static final double L2_ENCODER = 23.3;
+    public static final double L3_ENCODER = 42;
+    public static final double L4_ENCODER = 40.6;
     public static final double RMOTOR_STOP_SPEED = -0.01;
     public static final double LMOTOR_STOP_SPEED = 0.01;
     public static final double MAX_HEIGHT = 75;
     public static final Runnable CORAL_STATION_ENCODER = null;
+    public static final double LOWER_ALGAE_ENCODER = 40.6;
+    public static final double UPPER_ALGAE_ENCODER = 58;
+    public static final double NET_ENCODER = 75;
     
   }
   

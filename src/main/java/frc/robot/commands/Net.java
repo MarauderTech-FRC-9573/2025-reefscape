@@ -8,12 +8,12 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;
 
-public class L1 extends Command {
+public class Net extends Command {
     Elevator elevator;
     Manipulator manipulator;
     Pivot pivot;
 
-    public L1(Elevator elevator, Manipulator manipulator, Pivot pivot) {
+    public Net(Elevator elevator, Manipulator manipulator, Pivot pivot) {
         this.elevator = elevator;
         this.manipulator = manipulator;
         this.pivot = pivot;
@@ -37,9 +37,9 @@ public class L1 extends Command {
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.L1_POSITION);
-        elevator.run(0);
-        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        pivot.run(PivotConstants.NET_POSITION);
+        elevator.run(ElevatorConstants.NET_ENCODER);
+        manipulator.runForward(ManipulatorConstants.ALGAE_BACKWARD_SPEED);
     }
 
     @Override

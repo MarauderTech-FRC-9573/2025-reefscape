@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center to Reef"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Reef to Middle Algae"
+            "pathName": "Bottom to bottom algae"
           }
         },
         {
@@ -31,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Algae to Processor"
+            "pathName": "Bottom Algae to Processor"
           }
         },
         {

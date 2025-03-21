@@ -3,20 +3,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
-import frc.robot.Constants.PivotConstants;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Pivot;
 
-public class L1 extends Command {
+public class LowerAlgae extends Command {
     Elevator elevator;
     Manipulator manipulator;
-    Pivot pivot;
 
-    public L1(Elevator elevator, Manipulator manipulator, Pivot pivot) {
+    public LowerAlgae(Elevator elevator, Manipulator manipulator) {
         this.elevator = elevator;
         this.manipulator = manipulator;
-        this.pivot = pivot;
     }
 
     @Override
@@ -37,16 +33,14 @@ public class L1 extends Command {
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.L1_POSITION);
-        elevator.run(0);
-        manipulator.runForward(ManipulatorConstants.CORAL_FORWARD_SPEED);
+        elevator.run(ElevatorConstants.LOWER_ALGAE_ENCODER);
+        manipulator.runForward(ManipulatorConstants.ALGAE_FORWARD_SPEED);
     }
 
     @Override
     public void end(boolean isInterrupted) {
         elevator.stop();
         manipulator.stop();
-        pivot.stop();
     }
 
 }
