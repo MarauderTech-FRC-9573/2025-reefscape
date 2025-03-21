@@ -17,21 +17,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Reef to Middle Algae"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "IntakeAlgae"
+            "name": "LowerAlgae"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Algae to Processor"
+            "pathName": "Reef to Processor"
           }
         },
         {

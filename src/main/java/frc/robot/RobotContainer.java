@@ -17,11 +17,13 @@ import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
+import frc.robot.subsystems.DriverVision;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
@@ -37,6 +39,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Manipulator manipulator = new Manipulator();
   private final Pivot pivot = new Pivot();
+    private final DriverVision  visionSubsystem = new DriverVision();
   // private final SendableChooser<Command> autoChooser;
   // private final PhotonCamera photonCamera = new PhotonCamera("marlin");
   //private final Cameras camera = new Cameras();
