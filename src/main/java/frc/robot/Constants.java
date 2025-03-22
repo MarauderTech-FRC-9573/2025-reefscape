@@ -97,10 +97,10 @@ public final class Constants {
     public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 23.3;
     public static final double L3_ENCODER = 45.25;
-    public static final double L4_ENCODER = 78;
+    public static final double L4_ENCODER = 76;
     public static final double RMOTOR_STOP_SPEED = -0.01;
     public static final double LMOTOR_STOP_SPEED = 0.01;
-    public static final double MAX_HEIGHT = 78;
+    public static final double MAX_HEIGHT = 76;
     public static final Runnable CORAL_STATION_ENCODER = null;
     public static final double LOWER_ALGAE_ENCODER = 40.6;
     public static final double UPPER_ALGAE_ENCODER = 58;
