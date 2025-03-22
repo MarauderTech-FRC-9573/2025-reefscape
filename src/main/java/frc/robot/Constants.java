@@ -76,9 +76,9 @@ public final class Constants {
   }
   
   public static class SpeedConstants {
-    public static final double speedMax = 1.0;
-    public static final double speedMin = 0.1;
-    public static final double speedDefault = 0.8;
+    public static final double speedMax = 4;
+    public static final double speedMin = 1;
+    public static final double speedDefault = 3;
   }
   
   public static class ElevatorConstants {

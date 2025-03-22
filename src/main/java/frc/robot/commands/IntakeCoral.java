@@ -27,7 +27,7 @@ public class IntakeCoral extends Command {
     @Override
     public void execute() {
         //System.out.println("hi");
-        elevator.run(0.0);
+        //elevator.run(0.0);
         if (!pivot.getBeamBreak().isPressed()){
                 manipulator.runBack(ManipulatorConstants.CORAL_INTAKE_SPEED);
         } else {

@@ -72,7 +72,7 @@ public class Elevator extends SubsystemBase {
         // }
         // stop();
 
-        leftMotor.set(0.2*pidController.calculate(leftMotor.getEncoder().getPosition(), position));
+        leftMotor.set(0.1*pidController.calculate(leftMotor.getEncoder().getPosition(), position));
     }
 
     @Override

@@ -41,8 +41,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveController swerveController;
 
   /** Creates a new ExampleSubsystem. */
-  // TODO: Delete all references to NetworkTables and DoublePublisher
-  // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -136,7 +134,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return run(() -> {
       // TODO: Change scalar value to be a variable to be changed 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
-      translationY.getAsDouble()), 0.8);
+      translationY.getAsDouble()), translationSpeed);
       
       //Constantly update the values
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
@@ -148,7 +146,7 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity() *translationSpeed));
+      swerveDrive.getMaximumChassisVelocity()));
       
     });
 
@@ -188,7 +186,7 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    SmartDashboard.putNumber("Speed", translationSpeed);
 
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
