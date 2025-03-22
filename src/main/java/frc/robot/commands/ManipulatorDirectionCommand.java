@@ -24,12 +24,12 @@ public class ManipulatorDirectionCommand extends Command {
     @Override
     public void execute() {
         //pivot.run(PivotConstants.L2_POSITION);
-        manipulator.runForward(targetDir);
+        //manipulator.runForward(targetDir);
         //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
 
         if (!pivot.getBeamBreak().isPressed()){
             while (!pivot.getBeamBreak().isPressed()) {
-                manipulator.runBack(ManipulatorConstants.CORAL_INTAKE_SPEED);
+                manipulator.runForward(targetDir);
             }
         } else {
             System.out.println("BEAM BREAK HIHIHI");
@@ -41,6 +41,11 @@ public class ManipulatorDirectionCommand extends Command {
     public void end(boolean isInterrupted) {
         //elevator.stop();
         manipulator.stop();
-        //pivot.stop();
+        pivot.stop();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pivot.getBeamBreak().isPressed();
     }
 }

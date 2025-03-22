@@ -178,8 +178,8 @@ public class RobotContainer {
         )
       );
 
-    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
-    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
+    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
   
 m_operatorController.a().whileTrue(new RunCommand(() -> manipulator.runForward(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
 m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));  
@@ -211,20 +211,22 @@ m_operatorController.start().whileTrue(
 );
   
   
-m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
-//   m_operatorController.x().whileTrue(new SequentialCommandGroup(
-//     new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION),
-//     new ParallelCommandGroup(
-//       new ElevatorPositionCommand(
-//         elevator, 
-//         0.0
-//       ),
-//       new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION, false
-//       ), 
-//       new ManipulatorDirectionCommand(manipulator, pivot, -0.1)
-//     )
-//   )
-// ); 
+//m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
+  m_operatorController.x().whileTrue(new SequentialCommandGroup(
+    new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION),
+    new ParallelCommandGroup(
+      new ElevatorPositionCommand(
+        elevator, 
+        0.0
+      ),
+      new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION, false
+      ), 
+      new ManipulatorDirectionCommand(manipulator, pivot, -0.1)
+    )
+  )
+); 
+
+
 
   }
 

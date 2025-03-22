@@ -9,9 +9,13 @@ public class ElevatorPositionCommand extends Command {
 
     private double targetPos;
 
+    private boolean shouldFinish;
+
+
     public ElevatorPositionCommand(Elevator elevator, double targetPos) {
         this.elevator = elevator;
         this.targetPos = targetPos;
+        this.shouldFinish = shouldFinish;
 
         addRequirements(elevator);
     }
@@ -28,5 +32,10 @@ public class ElevatorPositionCommand extends Command {
         elevator.stop();
         //manipulator.stop();
         //pivot.stop();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return shouldFinish && elevator.atSetpoint();
     }
 }

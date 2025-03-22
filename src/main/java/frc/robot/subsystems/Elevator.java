@@ -37,7 +37,7 @@ public class Elevator extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        this.pidController.setTolerance(0.25);
+        this.pidController.setTolerance(0.1);
 
     }
 
@@ -80,6 +80,8 @@ public class Elevator extends SubsystemBase {
         // System.out.println("Current" + leftMotor.getOutputCurrent());
         // System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
         SmartDashboard.putNumber("Elevator Encoder", Math.abs(leftMotor.getEncoder().getPosition()));
+        SmartDashboard.putNumber("Elevator Error: ", pidController.getError());    
+        SmartDashboard.putNumber("Elevator Setpoint: ", pidController.getSetpoint());
 
 
     }
@@ -107,4 +109,8 @@ public class Elevator extends SubsystemBase {
         leftMotor.set(0.0);
 
     }   
+
+    public boolean atSetpoint() {
+        return pidController.atSetpoint();
+    }
 }

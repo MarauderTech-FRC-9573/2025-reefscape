@@ -54,7 +54,7 @@ public class Pivot extends SubsystemBase {
         // }
         // stop();
 
-        pivot.set(0.2*pidController.calculate(pivot.getEncoder().getPosition(), position));
+        pivot.set(0.1*pidController.calculate(pivot.getEncoder().getPosition(), position));
         
     }
     
@@ -80,6 +80,8 @@ public class Pivot extends SubsystemBase {
         // System.out.println("Encoder" + pivot.getEncoder().getPosition());
         SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
         SmartDashboard.putBoolean("Pivot Beambreak", beamBreaker.isPressed());
+        SmartDashboard.putNumber("Pivot Error: ", pidController.getError());    
+        SmartDashboard.putNumber("Pivot Setpoint: ", pidController.getSetpoint());
 
     }
     
