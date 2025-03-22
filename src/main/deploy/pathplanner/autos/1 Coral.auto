@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Center to Reef"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
