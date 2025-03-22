@@ -19,7 +19,7 @@ public class ElevatorPositionCommand extends Command {
     @Override
     public void execute() {
         //pivot.run(PivotConstants.L2_POSITION);
-        elevator.run(ElevatorConstants.L2_ENCODER);
+        elevator.run(targetPos);
         //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
     }
 

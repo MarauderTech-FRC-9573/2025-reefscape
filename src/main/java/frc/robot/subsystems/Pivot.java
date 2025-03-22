@@ -88,13 +88,15 @@ public class Pivot extends SubsystemBase {
     // Upright Bpos is closer to elevator, Upright Tpos is farther from elevator
     // (all Encoder values are negative)
     public void stop() {
-        if (pivot.getEncoder().getPosition() >= -9.0) { 
-            // System.out.println("Running Bspeed");
-            pivot.set(PivotConstants.PIVOT_STOP_BSPEED); // Will crash into funnel we cant fix rn lol
-        } else {
-            pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
+        // if (pivot.getEncoder().getPosition() >= -9.0) { 
+        //     // System.out.println("Running Bspeed");
+        //     pivot.set(PivotConstants.PIVOT_STOP_BSPEED); // Will crash into funnel we cant fix rn lol
+        // } else {
+        //     pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
         
-        }
+        // }
+
+        pivot.set(0);
     }
 
     public boolean atSetpoint() {

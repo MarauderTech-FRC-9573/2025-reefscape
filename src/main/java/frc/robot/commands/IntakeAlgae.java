@@ -26,7 +26,7 @@ public class IntakeAlgae extends Command {
 
     @Override
     public void execute() {
-        pivot.run(PivotConstants.CORAL_STATION_ENCODER);
+        //pivot.run(PivotConstants.CORAL_STATION_ENCODER);
         manipulator.runBack(ManipulatorConstants.ALGAE_INTAKE_SPEED);
     }
     

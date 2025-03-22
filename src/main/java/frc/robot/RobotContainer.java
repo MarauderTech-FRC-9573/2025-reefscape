@@ -199,20 +199,32 @@ m_operatorController.back().whileTrue(
       );
 m_operatorController.start().whileTrue(
   new SequentialCommandGroup(
-    new PivotPositionCommand(pivot, PivotConstants.L2_POSITION), // change pivot position to the one that doesnt clip the elevator
+    new PivotPositionCommand(pivot, PivotConstants.PIVOT_NOCLIP), // change pivot position to the one that doesnt clip the elevator
     new ParallelCommandGroup(
       new ElevatorPositionCommand(
         elevator, 
         ElevatorConstants.UPPER_ALGAE_ENCODER
       ),
-      new PivotPositionCommand(pivot, PivotConstants.L2_POSITION, false) // change pivot position to the one that doesnt clip the elevator
+      new PivotPositionCommand(pivot, PivotConstants.PIVOT_NOCLIP, false) // change pivot position to the one that doesnt clip the elevator
     )
   )
 );
   
   
-m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
-   
+//m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
+  m_operatorController.x().whileTrue(new SequentialCommandGroup(
+    new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION),
+    new ParallelCommandGroup(
+      new ElevatorPositionCommand(
+        elevator, 
+        0.0
+      ),
+      new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION, false
+      ), 
+      new ManipulatorDirectionCommand(manipulator, pivot, -0.1)
+    )
+  )
+); 
 
   }
 
