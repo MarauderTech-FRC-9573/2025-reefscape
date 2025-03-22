@@ -8,20 +8,17 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;
 
-public class L2 extends Command {
+public class L2Pivot extends Command {
     Elevator elevator;
     Manipulator manipulator;
     Pivot pivot;
 
-    public L2(Elevator elevator, Manipulator manipulator, Pivot pivot) {
-        this.elevator = elevator;
-        this.manipulator = manipulator;
+    public L2Pivot(Pivot pivot) {
         this.pivot = pivot;
     }
 
     @Override
     public void initialize() {
-        //pivot.run(PivotConstants.L2_POSITION);
         // if (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L2_ENCODER) {
         //     while (Math.abs(elevator.leftMotor.getEncoder().getPosition()) < ElevatorConstants.L2_ENCODER) {
         //         elevator.runUp();
@@ -40,16 +37,20 @@ public class L2 extends Command {
 
     @Override
     public void execute() {
-        //pivot.run(PivotConstants.L2_POSITION);
-        elevator.run(ElevatorConstants.L2_ENCODER);
-        //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
+        pivot.run(PivotConstants.L2_POSITION);
+        
     }
 
     @Override
     public void end(boolean isInterrupted) {
-        elevator.stop();
+        //elevator.stop();
         //manipulator.stop();
         pivot.stop();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pivot.atSetpoint();
     }
 
 }

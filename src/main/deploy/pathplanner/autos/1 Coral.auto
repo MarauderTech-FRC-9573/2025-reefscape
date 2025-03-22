@@ -11,9 +11,16 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "L1"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PivotPositionCommand"
+                }
+              }
+            ]
           }
         }
       ]

@@ -8,13 +8,16 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.PivotConstants;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Pivot extends SubsystemBase {
     private SparkMax pivot;
     private SparkLimitSwitch beamBreaker;
+    private PIDController pidController;
+    public double targetPos;
+
     
     public Pivot() {
         pivot = new SparkMax(16, MotorType.kBrushless);
@@ -22,25 +25,37 @@ public class Pivot extends SubsystemBase {
         pivotConfig.smartCurrentLimit(PivotConstants.SMART_CURRENT_LIMIT);
         pivot.configure(pivotConfig, null, null);
         resetEncoders();
+
+        this.beamBreaker = pivot.getForwardLimitSwitch();
+
+        this.pidController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
+        this.pidController.setTolerance(0.25);
     }
 
     public void resetEncoders() {
         pivot.getEncoder().setPosition(0);
     }
 
+    public SparkLimitSwitch getBeamBreak() { 
+        return this.beamBreaker;
+    }
+
     public void run(double position) {
-        if (pivot.getEncoder().getPosition() < position) {
-            while (pivot.getEncoder().getPosition() < position) {
-                runUp();
-            }
-        } else if (pivot.getEncoder().getPosition() > position) {
-            while (pivot.getEncoder().getPosition() > position) {
-                runDown();
-            }
-        } else if (pivot.getEncoder().getPosition() == position) {
-            stop();
-        }
-        stop();
+        // if (pivot.getEncoder().getPosition() < position) {
+        //     while (pivot.getEncoder().getPosition() < position) {
+        //         runUp();
+        //     }
+        // } else if (pivot.getEncoder().getPosition() > position) {
+        //     while (pivot.getEncoder().getPosition() > position) {
+        //         runDown();
+        //     }
+        // } else if (pivot.getEncoder().getPosition() == position) {
+        //     stop();
+        // }
+        // stop();
+
+        pivot.set(0.2*pidController.calculate(pivot.getEncoder().getPosition(), position));
+        
     }
     
     public void runUp() {
@@ -59,16 +74,13 @@ public class Pivot extends SubsystemBase {
             pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
     }
 
-    public SparkLimitSwitch getBeamBreak() { 
-        return beamBreaker;
-    }
-
     @Override
     public void periodic() {
         // System.out.println("Current" + pivot.getOutputCurrent());
         // System.out.println("Encoder" + pivot.getEncoder().getPosition());
         SmartDashboard.putNumber("Pivot Encoder", pivot.getEncoder().getPosition());
-        this.beamBreaker = pivot.getForwardLimitSwitch();
+        SmartDashboard.putBoolean("Pivot Beambreak", beamBreaker.isPressed());
+
     }
     
     // If statement checks if pivot is in upright position
@@ -83,5 +95,9 @@ public class Pivot extends SubsystemBase {
             pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
         
         }
+    }
+
+    public boolean atSetpoint() {
+        return pidController.atSetpoint();
     }
 }

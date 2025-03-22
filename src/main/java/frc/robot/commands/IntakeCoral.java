@@ -29,9 +29,7 @@ public class IntakeCoral extends Command {
         //System.out.println("hi");
         elevator.run(0.0);
         if (!pivot.getBeamBreak().isPressed()){
-            while (!pivot.getBeamBreak().isPressed()) {
                 manipulator.runBack(ManipulatorConstants.CORAL_INTAKE_SPEED);
-            }
         } else {
             System.out.println("BEAM BREAK HIHIHI");
             manipulator.stop();
@@ -41,8 +39,13 @@ public class IntakeCoral extends Command {
     @Override
     public void end(boolean isInterrupted) {
         elevator.stop();
-        manipulator.stop();
+        //manipulator.stop();
         pivot.stop();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pivot.getBeamBreak().isPressed();
     }
     
 }

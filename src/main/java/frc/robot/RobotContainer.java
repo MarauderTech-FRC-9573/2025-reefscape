@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.SpeedConstants;
@@ -23,16 +24,21 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -41,55 +47,57 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Manipulator manipulator = new Manipulator();
   private final Pivot pivot = new Pivot();
-    private final DriverVision  visionSubsystem = new DriverVision();
-   private final SendableChooser<Command> autoChooser;
-   private final PhotonCamera photonCamera = new PhotonCamera("marlin");
-  //private final Cameras camera = new Cameras();
+  private final DriverVision visionSubsystem = new DriverVision();
+  private final SendableChooser<Command> autoChooser;
+  private final PhotonCamera photonCamera = new PhotonCamera("marlin");
+  // private final Cameras camera = new Cameras();
 
   /*
    * new Rotation3d(0, Units.degreesToRadians(0), 0),
-        new Translation3d(Units.inchesToMeters(16),
-        Units.inchesToMeters(0),
-        Units.inchesToMeters(8)),
-        VecBuilder.fill(0,0, 0), VecBuilder.fill(0, 0, 0));
+   * new Translation3d(Units.inchesToMeters(16),
+   * Units.inchesToMeters(0),
+   * Units.inchesToMeters(8)),
+   * VecBuilder.fill(0,0, 0), VecBuilder.fill(0, 0, 0));
    */
 
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(
+      OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(
+      OperatorConstants.kOperatorControllerPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    //pivot.setDefaultCommand(new PivotPositionCommand(pivot, pivot.targetPos));
 
-     autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
+    autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
 
-     SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
-  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
-  () -> m_driverController.getLeftY() * -1, 
-  () -> m_driverController.getLeftX() * -1)
-  .withControllerRotationAxis(m_driverController::getRightX)
-  .deadband(OperatorConstants.DEADBAND)
-  .scaleTranslation(0.8)
-  .allianceRelativeControl(true);
+  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+      () -> m_driverController.getLeftY() * -1,
+      () -> m_driverController.getLeftX() * -1)
+      .withControllerRotationAxis(m_driverController::getRightX)
+      .deadband(OperatorConstants.DEADBAND)
+      .scaleTranslation(0.8)
+      .allianceRelativeControl(true);
 
-  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
-   m_driverController::getRightY)
-   .headingWhile(true);
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
+      .withControllerHeadingAxis(m_driverController::getRightX,
+          m_driverController::getRightY)
+      .headingWhile(true);
 
-    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
-        () -> MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1),
-        () -> -MathUtil.applyDeadband(m_driverController.getRightY(), 0.0),
-        () -> -MathUtil.applyDeadband(m_driverController.getRightX(), 0.0));
-
-  
+  Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+      () -> MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
+      () -> MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1),
+      () -> -MathUtil.applyDeadband(m_driverController.getRightY(), 0.0),
+      () -> -MathUtil.applyDeadband(m_driverController.getRightX(), 0.0));
 
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
@@ -121,31 +129,42 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> elevator.runUp(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> elevator.runDown(), elevator)).whileFalse(new RunCommand(() -> elevator.stop(), elevator));
 
-     m_operatorController.povUp().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
-     m_operatorController.povRight().whileTrue(new L2(elevator, manipulator, pivot));
-     m_operatorController.povDown().whileTrue(new L3(elevator, manipulator, pivot));
-     m_operatorController.povLeft().whileTrue(new L4(elevator, manipulator, pivot));
+     //m_operatorController.povUp().whileTrue(new L1(elevator, manipulator, pivot)); // No command can be run after L1-L4
+     m_operatorController.povRight().whileTrue(
+        new SequentialCommandGroup(
+          new PivotPositionCommand(pivot, PivotConstants.L2_POSITION),
+          new ParallelCommandGroup(
+            new ElevatorPositionCommand(
+              elevator, 
+              ElevatorConstants.L2_ENCODER
+            ),
+            new PivotPositionCommand(pivot, PivotConstants.L2_POSITION, false)
+          )
+        )
+      );
+     //m_operatorController.povDown().whileTrue(new L3(elevator, manipulator, pivot));
+     //m_operatorController.povLeft().whileTrue(new L4(elevator, manipulator, pivot));
 
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> pivot.runUp(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Up
     m_operatorController.rightBumper().whileTrue(new RunCommand(() -> pivot.runDown(), pivot)).whileFalse(new RunCommand(() -> pivot.stop(), pivot)); // Run Pivot Down
   
 m_operatorController.a().whileTrue(new RunCommand(() -> manipulator.runForward(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
 m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));  
-m_operatorController.x().whileTrue(new UpperAlgae(elevator, manipulator));
-m_operatorController.y().whileTrue(new LowerAlgae( elevator, manipulator));
-m_operatorController.back().whileTrue(new Net(elevator, manipulator, pivot));
-m_operatorController.start().whileTrue(new IntakeCoral(elevator, manipulator, pivot));
-
+ //True(new UpperAlgae(elevator, manipulator));
+//m_operatorController.y().whileTrue(new LowerAlgae( elevator, manipulator));
+//m_operatorController.back().whileTrue(new Net(elevator, manipulator, pivot));
+m_operatorController.start().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
+   
 
   }
 
   // /**
-  //  * Use this to pass the autonomous command to the main {@link Robot} class.
-  //  *
-  //  * @return the command to run in autonomous
-  //  */
-   public Command getAutomousCommand() {
-     // An example command will be run in autonomous
-     return autoChooser.getSelected();
- }
+  // * Use this to pass the autonomous command to the main {@link Robot} class.
+  // *
+  // * @return the command to run in autonomous
+  // */
+  public Command getAutomousCommand() {
+    // An example command will be run in autonomous
+    return autoChooser.getSelected();
+  }
 }

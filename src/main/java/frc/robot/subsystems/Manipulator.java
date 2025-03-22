@@ -14,6 +14,7 @@ public class Manipulator extends SubsystemBase {
     
     private TalonFX manipulator;
 
+
     public Manipulator() {
         manipulator = new TalonFX(ManipulatorConstants.MANIPULATOR_MOTOR_ID);
     }
