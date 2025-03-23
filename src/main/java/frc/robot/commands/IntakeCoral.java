@@ -34,6 +34,8 @@ public class IntakeCoral extends Command {
             System.out.println("BEAM BREAK HIHIHI");
             manipulator.stop();
         }
+        
+        pivot.run(PivotConstants.CORAL_STATION_POSITION);
     }
 
     @Override

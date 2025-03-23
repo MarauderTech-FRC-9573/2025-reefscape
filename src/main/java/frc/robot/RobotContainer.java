@@ -72,7 +72,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+    drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
     //pivot.setDefaultCommand(new PivotPositionCommand(pivot, pivot.targetPos));
 
     autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
@@ -94,10 +94,10 @@ public class RobotContainer {
       .headingWhile(true);
 
   Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-      () -> MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
-      () -> MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1),
-      () -> -MathUtil.applyDeadband(m_driverController.getRightY(), 0.0),
-      () -> -MathUtil.applyDeadband(m_driverController.getRightX(), 0.0));
+      () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
+      () -> -MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1),
+      () -> MathUtil.applyDeadband(m_driverController.getRightY(), 0.0),
+      () -> MathUtil.applyDeadband(m_driverController.getRightX(), 0.0));
 
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
@@ -211,21 +211,21 @@ m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5)
 // );
   
   
-//m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
-  m_operatorController.x().whileTrue(
-    new SequentialCommandGroup(
-    new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION),
-    new ParallelCommandGroup(
-      new ElevatorPositionCommand(
-        elevator, 
-        0.0
-      ),
-      new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION, false
-      ), 
-      new ManipulatorDirectionCommand(manipulator, pivot.getBeamBreak(), -0.2)
-    )
-  )
-); 
+m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot));//.whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
+//   m_operatorController.x().whileTrue(
+//     new SequentialCommandGroup(
+//     new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION),
+//     new ParallelCommandGroup(
+//       new ElevatorPositionCommand(
+//         elevator, 
+//         0.0
+//       ),
+//       new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION, false
+//       ), 
+//       new ManipulatorDirectionCommand(manipulator, pivot.getBeamBreak(), -0.2)
+//     )
+//   )
+// ); 
 
 
 

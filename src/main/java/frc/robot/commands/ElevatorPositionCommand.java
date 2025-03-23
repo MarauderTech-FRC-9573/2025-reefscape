@@ -12,7 +12,7 @@ public class ElevatorPositionCommand extends Command {
     private boolean shouldFinish;
 
 
-    public ElevatorPositionCommand(Elevator elevator, double targetPos) {
+    public ElevatorPositionCommand(Elevator elevator, double targetPos, boolean shouldFinish) {
         this.elevator = elevator;
         this.targetPos = targetPos;
         this.shouldFinish = shouldFinish;
@@ -20,9 +20,14 @@ public class ElevatorPositionCommand extends Command {
         addRequirements(elevator);
     }
 
+    public ElevatorPositionCommand(Elevator elevator, double targetPos) {
+        this(elevator, targetPos, false);
+    }
+
     @Override
     public void execute() {
         //pivot.run(PivotConstants.L2_POSITION);
+        System.out.println("ElevatorPositionCommand.execute()");
         elevator.run(targetPos);
         //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
     }

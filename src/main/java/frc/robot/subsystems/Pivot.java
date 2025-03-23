@@ -29,7 +29,7 @@ public class Pivot extends SubsystemBase {
         this.beamBreaker = pivot.getForwardLimitSwitch();
 
         this.pidController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
-        this.pidController.setTolerance(0.05);
+        this.pidController.setTolerance(0.5);
     }
 
     public void resetEncoders() {

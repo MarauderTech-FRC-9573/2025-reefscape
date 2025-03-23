@@ -37,7 +37,7 @@ public class Elevator extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        this.pidController.setTolerance(0.1);
+        this.pidController.setTolerance(0.05);
 
     }
 

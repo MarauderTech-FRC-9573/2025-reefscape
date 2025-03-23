@@ -37,8 +37,8 @@ public class PivotPositionCommand extends Command {
         //pivot.stop();
     }
 
-    // @Override
-    // public boolean isFinished() {
-    //     return shouldFinish && pivot.atSetpoint();
-    // }
+    @Override
+    public boolean isFinished() {
+        return shouldFinish && pivot.atSetpoint();
+    }
 }
