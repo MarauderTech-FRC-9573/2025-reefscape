@@ -79,6 +79,8 @@ public class Elevator extends SubsystemBase {
     public void periodic() {
         // System.out.println("Current" + leftMotor.getOutputCurrent());
         // System.out.println("Encoder" + leftMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Elevator Current", Math.abs(leftMotor.getOutputCurrent()));
+
         SmartDashboard.putNumber("Elevator Encoder", Math.abs(leftMotor.getEncoder().getPosition()));
         SmartDashboard.putNumber("Elevator Error: ", pidController.getError());    
         SmartDashboard.putNumber("Elevator Setpoint: ", pidController.getSetpoint());
@@ -98,9 +100,9 @@ public class Elevator extends SubsystemBase {
     public void runDown() {
         leftMotor.set(ElevatorConstants.ELEVATOR_LMOTOR_SPEED_DOWN);    
 
-        // if (rightMotor.getOutputCurrent() > 30) {
-        //     this.resetEncoders();
-        // }
+        if (leftMotor.getOutputCurrent() > 39) {
+            this.resetEncoders();
+        }
     }
     
     public void stop() {
