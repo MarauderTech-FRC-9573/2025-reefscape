@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.revrobotics.spark.SparkLimitSwitch;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.PivotConstants;
@@ -10,12 +12,12 @@ import frc.robot.subsystems.Pivot;
 
 public class ManipulatorDirectionCommand extends Command {
     private Manipulator manipulator;
-    private Pivot pivot;
+    private SparkLimitSwitch beamBreaker;
     private double targetDir;
 
-    public ManipulatorDirectionCommand(Manipulator manipulator, Pivot pivot, double targetDir) {
+    public ManipulatorDirectionCommand(Manipulator manipulator, SparkLimitSwitch beamBreaker, double targetDir) {
         this.manipulator = manipulator;
-        this.pivot = pivot;
+        this.beamBreaker = beamBreaker;
         this.targetDir = targetDir;
 
         addRequirements(manipulator);
@@ -23,12 +25,14 @@ public class ManipulatorDirectionCommand extends Command {
 
     @Override
     public void execute() {
+        System.out.println("manioualtor");
+        
         //pivot.run(PivotConstants.L2_POSITION);
         //manipulator.runForward(targetDir);
         //manipulator.runForward(ManipulatorConstants.CORAL_SCORE_SPEED);
 
-        if (!pivot.getBeamBreak().isPressed()){
-            while (!pivot.getBeamBreak().isPressed()) {
+        if (!beamBreaker.isPressed()){
+            while (!beamBreaker.isPressed()) {
                 manipulator.runForward(targetDir);
             }
         } else {
@@ -41,11 +45,10 @@ public class ManipulatorDirectionCommand extends Command {
     public void end(boolean isInterrupted) {
         //elevator.stop();
         manipulator.stop();
-        pivot.stop();
     }
 
     @Override
     public boolean isFinished() {
-        return pivot.getBeamBreak().isPressed();
+        return beamBreaker.isPressed();
     }
 }

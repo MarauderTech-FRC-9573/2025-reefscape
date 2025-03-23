@@ -72,7 +72,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
     //pivot.setDefaultCommand(new PivotPositionCommand(pivot, pivot.targetPos));
 
     autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
@@ -185,34 +185,35 @@ m_operatorController.a().whileTrue(new RunCommand(() -> manipulator.runForward(0
 m_operatorController.b().whileTrue(new RunCommand(() -> manipulator.runBack(0.5), manipulator)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));  
 //m_operatorController.x().whileTrue(
 //True(new UpperAlgae(elevator, manipulator));
-m_operatorController.back().whileTrue(
-  new SequentialCommandGroup(
-          new PivotPositionCommand(pivot, PivotConstants.L2_POSITION), // change pivot position to the one that doesnt clip the elevator
-          new ParallelCommandGroup(
-            new ElevatorPositionCommand(
-              elevator, 
-              ElevatorConstants.LOWER_ALGAE_ENCODER
-            ),
-            new PivotPositionCommand(pivot, PivotConstants.L2_POSITION, false) // change pivot position to the one that doesnt clip the elevator
-          )
-        )
-      );
-m_operatorController.start().whileTrue(
-  new SequentialCommandGroup(
-    new PivotPositionCommand(pivot, PivotConstants.PIVOT_NOCLIP), // change pivot position to the one that doesnt clip the elevator
-    new ParallelCommandGroup(
-      new ElevatorPositionCommand(
-        elevator, 
-        ElevatorConstants.UPPER_ALGAE_ENCODER
-      ),
-      new PivotPositionCommand(pivot, PivotConstants.PIVOT_NOCLIP, false) // change pivot position to the one that doesnt clip the elevator
-    )
-  )
-);
+// m_operatorController.back().whileTrue(
+//   new SequentialCommandGroup(
+//           new PivotPositionCommand(pivot, PivotConstants.L2_POSITION), // change pivot position to the one that doesnt clip the elevator
+//           new ParallelCommandGroup(
+//             new ElevatorPositionCommand(
+//               elevator, 
+//               ElevatorConstants.LOWER_ALGAE_ENCODER
+//             ),
+//             new PivotPositionCommand(pivot, PivotConstants.L2_POSITION, false) // change pivot position to the one that doesnt clip the elevator
+//           )
+//         )
+//       );
+// m_operatorController.start().whileTrue(
+//   new SequentialCommandGroup(
+//     new PivotPositionCommand(pivot, PivotConstants.PIVOT_NOCLIP), // change pivot position to the one that doesnt clip the elevator
+//     new ParallelCommandGroup(
+//       new ElevatorPositionCommand(
+//         elevator, 
+//         ElevatorConstants.UPPER_ALGAE_ENCODER
+//       ),
+//       new PivotPositionCommand(pivot, PivotConstants.PIVOT_NOCLIP, false) // change pivot position to the one that doesnt clip the elevator
+//     )
+//   )
+// );
   
   
 //m_operatorController.x().whileTrue(new IntakeCoral(elevator, manipulator, pivot)).whileFalse(new RunCommand(() -> manipulator.stop(), manipulator));
-  m_operatorController.x().whileTrue(new SequentialCommandGroup(
+  m_operatorController.x().whileTrue(
+    new SequentialCommandGroup(
     new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION),
     new ParallelCommandGroup(
       new ElevatorPositionCommand(
@@ -221,7 +222,7 @@ m_operatorController.start().whileTrue(
       ),
       new PivotPositionCommand(pivot, PivotConstants.CORAL_STATION_POSITION, false
       ), 
-      new ManipulatorDirectionCommand(manipulator, pivot, -0.1)
+      new ManipulatorDirectionCommand(manipulator, pivot.getBeamBreak(), -0.2)
     )
   )
 ); 

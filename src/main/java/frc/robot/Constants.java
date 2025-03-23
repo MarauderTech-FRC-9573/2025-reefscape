@@ -36,7 +36,7 @@ public final class Constants {
     public static final double PIVOT_L3 = 0.0;
     public static final double PIVOT_L2 = 0.0;
     public static final double PIVOT_L1 = 0.0;
-    public static final double CORAL_STATION_POSITION = -6.2;
+    public static final double CORAL_STATION_POSITION = -6.4;
     public static final double L4_POSITION = -10.738;
     public static final double L3_POSITION = -9.0;
     public static final double L2_POSITION = -9.0;
@@ -51,7 +51,7 @@ public final class Constants {
 
 
 
-    public static final double kP = 0.6;
+    public static final double kP = 0.7;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     

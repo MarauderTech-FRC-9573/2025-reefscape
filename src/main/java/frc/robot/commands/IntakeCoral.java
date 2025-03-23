@@ -21,7 +21,7 @@ public class IntakeCoral extends Command {
 
     @Override
     public void initialize() {
-        pivot.run(-6.1);
+        pivot.run(PivotConstants.CORAL_STATION_POSITION);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class IntakeCoral extends Command {
     @Override
     public void end(boolean isInterrupted) {
         elevator.stop();
-        //manipulator.stop();
+        manipulator.stop();
         pivot.stop();
     }
 
