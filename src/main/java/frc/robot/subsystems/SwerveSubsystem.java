@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.SpeedConstants;
+
 import java.io.File;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -39,8 +41,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveController swerveController;
 
   /** Creates a new ExampleSubsystem. */
-  // TODO: Delete all references to NetworkTables and DoublePublisher
-  // TODO: Create a variable to hold the robot's maximum speed. Default should be 0.8
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
   
@@ -48,9 +48,6 @@ public class SwerveSubsystem extends SubsystemBase {
   
   //Enable vision odometry updates while driving.
   private final boolean visionDriveTest = false;
-  
-  //PhotonVision class to keep an accurate odometry.
-  private Vision vision;
   
   //To log the pose
   private final Field2d m_field = new Field2d();
@@ -61,10 +58,18 @@ public class SwerveSubsystem extends SubsystemBase {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.POSE;
     try
     {
-      swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.maxSpeed,
-      new Pose2d(new Translation2d(Meter.of(1),
-      Meter.of(4)),
-      Rotation2d.fromDegrees(0)));
+      boolean blueAlliance = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
+    Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
+                                                                      Meter.of(4)),
+                                                    Rotation2d.fromDegrees(0))
+                                       : new Pose2d(new Translation2d(Meter.of(16),
+                                                                      Meter.of(4)),
+                                                    Rotation2d.fromDegrees(180));
+
+      swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.maxSpeed,startingPose);
+      // new Pose2d(new Translation2d(Meter.of(1),
+      // Meter.of(1)),
+      // Rotation2d.fromDegrees(0)));
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
@@ -98,7 +103,7 @@ public class SwerveSubsystem extends SubsystemBase {
         } else {
           swerveDrive.setChassisSpeeds(speedsRobotRelative);
         }
-      }, new PPHolonomicDriveController(new PIDConstants(10, 0, 0), new PIDConstants(1, 0, 0.2)), config, () -> {
+      }, new PPHolonomicDriveController(new PIDConstants(10, 0, 0), new PIDConstants(0.5, 0, 0.2)), config, () -> {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
           return alliance.get() == DriverStation.Alliance.Red;
@@ -126,7 +131,7 @@ public class SwerveSubsystem extends SubsystemBase {
   // Setup the photon vision class.
   public void setupPhotonVision()
   {
-    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+    new Vision(swerveDrive::getPose, swerveDrive.field);
     System.out.println("Photon Vision Setup");
   }
   
@@ -137,7 +142,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return run(() -> {
       // TODO: Change scalar value to be a variable to be changed 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
-      translationY.getAsDouble()), 0.8);
+      translationY.getAsDouble()), translationSpeed);
       
       //Constantly update the values
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
@@ -149,13 +154,13 @@ public class SwerveSubsystem extends SubsystemBase {
       headingX.getAsDouble(),
       headingY.getAsDouble(),
       swerveDrive.getOdometryHeading().getRadians(),
-      swerveDrive.getMaximumChassisVelocity() *translationSpeed));
+      swerveDrive.getMaximumChassisVelocity()));
       
     });
 
   }
 
-  public double translationSpeed = 0.8;
+  public double translationSpeed = SpeedConstants.speedDefault;
 
   public double changeSpeed(double newSpeed){
     translationSpeed = newSpeed;
@@ -189,7 +194,8 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    SmartDashboard.putNumber("Speed", translationSpeed);
+    SmartDashboard.putNumber("Yaw", swerveDrive.getYaw().getDegrees());
 
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
