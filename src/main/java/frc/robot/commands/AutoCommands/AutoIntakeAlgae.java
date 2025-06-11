@@ -1,12 +1,12 @@
 package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Pivot;;
 
 public class AutoIntakeAlgae extends Command {
-    Elevator elevator;
+    ElevatorSubsystem elevator;
     Manipulator manipulator; 
     Pivot pivot;
 

@@ -2,14 +2,14 @@ package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorL4 extends Command {
-    private Elevator elevator;
+    private ElevatorSubsystem elevator;
 
 
 
-    public ElevatorL4(Elevator elevator) {
+    public ElevatorL4(ElevatorSubsystem elevator) {
         this.elevator = elevator;
 
 
