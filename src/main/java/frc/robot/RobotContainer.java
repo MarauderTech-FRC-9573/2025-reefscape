@@ -27,13 +27,13 @@ public class RobotContainer {
         new ElevatorSetpointCommand(elevator, ElevatorConstants.UPPER_ALGAE_ENCODER));
   }
 
-  // /**
-  // * Use this to pass the autonomous command to the main {@link Robot} class.
-  // *
-  // * @return the command to run in autonomous
-  // */
-  public Command getAutomousCommand() {
-    // An example command will be run in autonomous
-    return autoChooser.getSelected();
-  }
+  // // /**
+  // // * Use this to pass the autonomous command to the main {@link Robot} class.
+  // // *
+  // // * @return the command to run in autonomous
+  // // */
+  // public Command getAutomousCommand() {
+  //   // An example command will be run in autonomous
+  //   return autoChooser.getSelected();
+  // }
 }
