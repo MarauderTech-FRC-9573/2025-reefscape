@@ -18,6 +18,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final SparkMax leftMotor;
     private final PIDController pidController;
 
+    private static final double GRAVITY_FEEDFORWARD = 0.05; // Adjust this value based on testing
     public ElevatorSubsystem() {
         this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 
@@ -54,6 +55,16 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public boolean atSetpoint() {
         return pidController.atSetpoint();
+    }
+
+    public void holdPosition() {
+        double currentPosition = leftMotor.getEncoder().getPosition();
+        double pidOutput = pidController.calculate(currentPosition, currentPosition);
+        leftMotor.set(pidOutput + GRAVITY_FEEDFORWARD);
+    }
+    
+    public void stopHolding() {
+        leftMotor.set(0);
     }
 
     @Override
