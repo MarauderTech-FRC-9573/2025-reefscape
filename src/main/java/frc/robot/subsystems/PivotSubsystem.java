@@ -12,14 +12,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class Pivot extends SubsystemBase {
+public class PivotSubsystem extends SubsystemBase {
     private SparkMax pivot;
     private SparkLimitSwitch beamBreaker;
     private PIDController pidController;
     public double targetPos;
 
     
-    public Pivot() {
+    public PivotSubsystem() {
         pivot = new SparkMax(16, MotorType.kBrushless);
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
         pivotConfig.smartCurrentLimit(PivotConstants.SMART_CURRENT_LIMIT);
@@ -103,5 +103,14 @@ public class Pivot extends SubsystemBase {
 
     public boolean atSetpoint() {
         return pidController.atSetpoint();
+    }
+
+    public void manualControl(double speed) { 
+        pivot.set(speed);
+    }
+
+    public void moveToSetpoint(double setpoint)  {
+        double output = pidController.calculate(pivot.getEncoder().getPosition(), setpoint);
+        pivot.set(output);
     }
 }
