@@ -1,16 +1,16 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.ElevatorCommands.ElevatorManualControl;
 import frc.robot.commands.ElevatorCommands.ElevatorSetpointCommand;
+import frc.robot.commands.PivotCommands.PivotManualControl;
 
 public class RobotContainer {
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+  private final PivotSubsystem pivot = new PivotSubsystem();
   private final CommandXboxController m_operatorController = new CommandXboxController(0);
 
   public RobotContainer() {
@@ -25,6 +25,11 @@ public class RobotContainer {
     // Example: Move to a specific setpoint
     m_operatorController.a().onTrue(
         new ElevatorSetpointCommand(elevator, ElevatorConstants.UPPER_ALGAE_ENCODER));
+
+    m_operatorController.b().onTrue(new PivotManualControl(pivot, m_operatorController::getLeftX));
+
+    // m_operatorController.x() 
+    // TODO: PivotSetpointControl
   }
 
   // // /**
