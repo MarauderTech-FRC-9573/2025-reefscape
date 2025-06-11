@@ -93,6 +93,7 @@ public final class Constants {
     public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.20;
     public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.20;
     public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.20;
+    public static final double ELEVATOR_MOTORS_MAX_SPEED = 0.1;
     public static final double ELEVATOR_STOP = 0.1;    
     public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 23.3;

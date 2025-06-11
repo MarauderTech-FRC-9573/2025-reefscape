@@ -21,6 +21,6 @@ public class ElevatorManualControl extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        elevator.manualControl(0); // Stop the elevator when the command ends
+        elevator.endManualControl(); // Stop the elevator when the command ends
     }
 }

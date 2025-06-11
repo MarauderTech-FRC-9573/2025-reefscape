@@ -9,6 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -17,16 +18,18 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final SparkMax rightMotor;
     private final SparkMax leftMotor;
     private final PIDController pidController;
+    private static final double GRAVITY_FEEDFORWARD = 0.05; // Tune as needed
 
-    private static final double GRAVITY_FEEDFORWARD = 0.05; // Adjust this value based on testing
+    private double targetPosition = 0.0;
+    private boolean manualOverride = false;
+    private double manualSpeed = 0.0;
+
     public ElevatorSubsystem() {
         this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 
-        // Initialize motors
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
 
-        // Configure motors
         SparkMaxConfig leftConfig = new SparkMaxConfig();
         leftConfig.smartCurrentLimit(ElevatorConstants.SMART_CURRENT_LIMIT);
         leftMotor.configure(leftConfig, null, null);
@@ -37,40 +40,62 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        pidController.setTolerance(0.05);
+        pidController.setTolerance(3);
+        targetPosition = getCurrentPosition();
     }
 
     public void resetEncoders() {
         leftMotor.getEncoder().setPosition(0);
+        targetPosition = 0.0;
     }
 
+    public double getCurrentPosition() {
+        return leftMotor.getEncoder().getPosition();
+    }
+
+    // Set the target position for the elevator to hold or move to
+    public void setTargetPosition(double position) {
+        targetPosition = position;
+        manualOverride = false;
+    }
+
+    // Used by manual control command
     public void manualControl(double speed) {
-        leftMotor.set(speed);
+        manualOverride = true;
+        manualSpeed = MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
+        // Optionally, update targetPosition to current so it holds here after manual
+        targetPosition = getCurrentPosition();
     }
 
-    public void moveToSetpoint(double setpoint) {
-        double output = pidController.calculate(leftMotor.getEncoder().getPosition(), setpoint);
-        leftMotor.set(output);
+    // Called every loop to move to the target position (unless in manual override)
+    private void moveToSetpoint(double setpoint) {
+        double output = pidController.calculate(getCurrentPosition(), setpoint);
+        output = MathUtil.clamp(output, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
+        leftMotor.set(output + GRAVITY_FEEDFORWARD);
     }
 
     public boolean atSetpoint() {
         return pidController.atSetpoint();
     }
 
-    public void holdPosition() {
-        double currentPosition = leftMotor.getEncoder().getPosition();
-        double pidOutput = pidController.calculate(currentPosition, currentPosition);
-        leftMotor.set(pidOutput + GRAVITY_FEEDFORWARD);
-    }
-    
-    public void stopHolding() {
-        leftMotor.set(0);
-    }
-
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Elevator Position", leftMotor.getEncoder().getPosition());
-        SmartDashboard.putNumber("Elevator Setpoint", pidController.getSetpoint());
+        SmartDashboard.putNumber("Elevator Position", getCurrentPosition());
+        SmartDashboard.putNumber("Elevator Setpoint", targetPosition);
         SmartDashboard.putBoolean("At Setpoint", atSetpoint());
+
+        if (manualOverride) {
+            leftMotor.set(manualSpeed);
+            // Optionally, update targetPosition to current so it holds here after manual
+            targetPosition = getCurrentPosition();
+        } else {
+            moveToSetpoint(targetPosition);
+        }
+    }
+
+    // Call this when manual control ends
+    public void endManualControl() {
+        manualOverride = false;
+        // targetPosition is already set to current position in manualControl
     }
 }

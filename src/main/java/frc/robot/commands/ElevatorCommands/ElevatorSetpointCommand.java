@@ -1,11 +1,11 @@
 package frc.robot.commands.ElevatorCommands;
 
-import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorSetpointCommand extends Command {
     private final ElevatorSubsystem elevator;
-    private final Double setpoint;
+    private final double setpoint;
 
     public ElevatorSetpointCommand(ElevatorSubsystem elevator, double setpoint) {
         this.elevator = elevator;
@@ -15,7 +15,7 @@ public class ElevatorSetpointCommand extends Command {
 
     @Override
     public void initialize() {
-        elevator.moveToSetpoint(setpoint);
+        elevator.setTargetPosition(setpoint);
     }
 
     @Override
@@ -25,6 +25,6 @@ public class ElevatorSetpointCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        elevator.manualControl(0); // Stop the elevator when the command ends
+        // No action needed; subsystem will continue to hold at targetPosition
     }
 }
