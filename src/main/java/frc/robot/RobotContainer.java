@@ -17,7 +17,7 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Example: Manual control using joystick input
-        m_operatorController.y().whileTrue(
+        m_operatorController.leftY().whileTrue(
             new ElevatorManualControl(elevator, m_operatorController::getLeftY)
         );
 
