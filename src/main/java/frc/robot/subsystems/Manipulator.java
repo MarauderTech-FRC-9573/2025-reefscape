@@ -38,4 +38,9 @@ public class Manipulator extends SubsystemBase {
     public void stop() {
         manipulator.set(ManipulatorConstants.MANIPULATOR_STOP);
     }
+
+    public void manualControl(double asDouble) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'manualControl'");
+    }
 }

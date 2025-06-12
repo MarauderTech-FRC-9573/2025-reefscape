@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.ElevatorCommands.ElevatorManualControl;
@@ -15,6 +16,7 @@ public class RobotContainer {
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final PivotSubsystem pivot = new PivotSubsystem();
   private final CommandXboxController m_operatorController = new CommandXboxController(0);
+  private final Manipulator manipulator = new Manipulator();
 
 
   public RobotContainer() {
