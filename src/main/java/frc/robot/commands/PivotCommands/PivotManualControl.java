@@ -22,7 +22,7 @@ public class PivotManualControl extends Command {
     
     @Override
     public void end(boolean interrupted) { 
-        pivot.manualControl(0); 
+        pivot.endManualControl(); 
     }
 
     
