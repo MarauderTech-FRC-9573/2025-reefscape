@@ -40,7 +40,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        pidController.setTolerance(3);
+        pidController.setTolerance(0.05);
         targetPosition = getCurrentPosition();
     }
 
@@ -62,7 +62,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Used by manual control command
     public void manualControl(double speed) {
         manualOverride = true;
-        manualSpeed = MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
+        // Default Speed of 0.1
+        manualSpeed = speed == 0.0 ? 0.1 : MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
         // Optionally, update targetPosition to current so it holds here after manual
         targetPosition = getCurrentPosition();
     }
@@ -84,11 +85,17 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Elevator Setpoint", targetPosition);
         SmartDashboard.putBoolean("At Setpoint", atSetpoint());
         SmartDashboard.putNumber("Speed: ", manualSpeed);
+        SmartDashboard.putNumber("Elevator Current: ", Math.abs(leftMotor.getOutputCurrent()));
 
         if (manualOverride) {
             leftMotor.set(manualSpeed);
             // Optionally, update targetPosition to current so it holds here after manual
             targetPosition = getCurrentPosition();
+            // Resets encoders if it detects we've hit the bottom
+            // Value based on current draw when forcing elevator to bottom
+            if (leftMotor.getOutputCurrent() > 35) {
+                this.resetEncoders();
+            }
         } else {
             moveToSetpoint(targetPosition);
         }
