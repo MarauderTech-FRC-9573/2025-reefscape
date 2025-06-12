@@ -17,7 +17,7 @@ public class PivotSubsystem extends SubsystemBase {
     private SparkLimitSwitch beamBreaker;
     private PIDController pidController;
     public double targetPos;
-
+    
     
     public PivotSubsystem() {
         pivot = new SparkMax(16, MotorType.kBrushless);
@@ -25,21 +25,21 @@ public class PivotSubsystem extends SubsystemBase {
         pivotConfig.smartCurrentLimit(PivotConstants.SMART_CURRENT_LIMIT);
         pivot.configure(pivotConfig, null, null);
         resetEncoders();
-
+        
         this.beamBreaker = pivot.getForwardLimitSwitch();
-
+        
         this.pidController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
         this.pidController.setTolerance(0.5);
     }
-
+    
     public void resetEncoders() {
         pivot.getEncoder().setPosition(0);
     }
-
+    
     public SparkLimitSwitch getBeamBreak() { 
         return this.beamBreaker;
     }
-
+    
     public void run(double position) {
         // if (pivot.getEncoder().getPosition() < position) {
         //     while (pivot.getEncoder().getPosition() < position) {
@@ -53,27 +53,27 @@ public class PivotSubsystem extends SubsystemBase {
         //     stop();
         // }
         // stop();
-
+        
         pivot.set(0.1*pidController.calculate(pivot.getEncoder().getPosition(), position));
         
     }
     
     public void runUp() {
-
+        
         // if (pivot.getOutputCurrent() > 30) {
         //     this.resetEncoders();
         // }
         //if (pivot.getEncoder().getPosition() <= PivotConstants.MAX_RETRACTION) {
-            pivot.set(PivotConstants.PIVOT_SPEED_UP);
+        pivot.set(PivotConstants.PIVOT_SPEED_UP);
         //} else {
         //    stop();
         //}
     }
     public void runDown() {
-
-            pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
+        
+        pivot.set(PivotConstants.PIVOT_SPEED_DOWN);
     }
-
+    
     @Override
     public void periodic() {
         // System.out.println("Current" + pivot.getOutputCurrent());
@@ -82,7 +82,7 @@ public class PivotSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Pivot Beambreak", beamBreaker.isPressed());
         SmartDashboard.putNumber("Pivot Error: ", pidController.getError());    
         SmartDashboard.putNumber("Pivot Setpoint: ", pidController.getSetpoint());
-
+        
     }
     
     // If statement checks if pivot is in upright position
@@ -97,20 +97,36 @@ public class PivotSubsystem extends SubsystemBase {
         //     pivot.set(PivotConstants.PIVOT_STOP_FSPEED);
         
         // }
-
+        
         pivot.set(0);
     }
-
+    
     public boolean atSetpoint() {
         return pidController.atSetpoint();
     }
-
+    
     public void manualControl(double speed) { 
         pivot.set(speed);
     }
-
+    
     public void moveToSetpoint(double setpoint)  {
         double output = pidController.calculate(pivot.getEncoder().getPosition(), setpoint);
         pivot.set(output);
     }
+    
+    private double targetPosition = 0.0;
+    private boolean manualOverride = false;
+    private double manualSpeed = 0.0;
+    
+    // Set the target position for the elevator to hold or move to
+    public void setTargetPosition(double position) {
+        targetPosition = position;
+        manualOverride = false;
+    }
+    
+    // Call this when manual control ends
+    public void endManualControl() {
+        manualOverride = false;
+        // targetPosition is already set to current position in manualControl
+    } 
 }
