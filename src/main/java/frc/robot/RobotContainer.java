@@ -1,38 +1,68 @@
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import swervelib.SwerveInputStream;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ManipulatorConstants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ElevatorCommands.ElevatorManualControl;
 import frc.robot.commands.ElevatorCommands.ElevatorSetpointCommand;
+import frc.robot.commands.ManipulatorCommands.ManipulatorCommand;
 import frc.robot.commands.PivotCommands.PivotManualControl;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class RobotContainer {
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final PivotSubsystem pivot = new PivotSubsystem();
-  private final CommandXboxController m_operatorController = new CommandXboxController(0);
+  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
   private final Manipulator manipulator = new Manipulator();
-
+  private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  
 
   public RobotContainer() {
     configureBindings();
   }
 
+  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+      () -> m_driverController.getLeftY() * -1,
+      () -> m_driverController.getLeftX() * -1)
+      .withControllerRotationAxis(m_driverController::getRightX)
+      .deadband(OperatorConstants.DEADBAND)
+      .scaleTranslation(0.8)
+      .allianceRelativeControl(true);
+
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
+      .withControllerHeadingAxis(m_driverController::getRightX,
+          m_driverController::getRightY)
+      .headingWhile(true);
+
+  Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+      () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
+      () -> -MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1),
+      () -> MathUtil.applyDeadband(m_driverController.getRightY(), 0.0),
+      () -> MathUtil.applyDeadband(m_driverController.getRightX(), 0.0));
+
+  Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+
   private void configureBindings() {
     // Example: Manual control using joystick input
-    m_operatorController.y().whileTrue(new ParallelCommandGroup(
-        new ElevatorManualControl(elevator, m_operatorController::getLeftY),
-        new RunCommand(() -> SmartDashboard.putNumber("Left y: ", m_operatorController.getLeftY()))));
+    m_operatorController.y().whileTrue(
+        new ElevatorManualControl(elevator, m_operatorController::getLeftY));
+
     // Example: Move to a specific setpoint
     m_operatorController.a().onTrue(
         new ElevatorSetpointCommand(elevator, ElevatorConstants.UPPER_ALGAE_ENCODER));
 
     m_operatorController.b().onTrue(new PivotManualControl(pivot, m_operatorController::getLeftX));
+
+    //Manipulator
+    m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
 
     // m_operatorController.x() 
     // TODO: PivotSetpointControl
