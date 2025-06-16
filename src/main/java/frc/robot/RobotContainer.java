@@ -72,7 +72,14 @@ public class RobotContainer {
     m_operatorController.rightTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_UP));
 
     //Manipulator
-    m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
+    m_operatorController.y().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
+
+    m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
+
+    m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
+
+    m_operatorController.b().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
+
 
     // m_operatorController.x() 
     // TODO: PivotSetpointControl
