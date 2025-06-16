@@ -1,8 +1,11 @@
 package frc.robot;
 
+import java.rmi.dgc.VMID;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.DriverVision;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.PivotSubsystem;
@@ -23,6 +26,7 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
   private final Manipulator manipulator = new Manipulator();
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  private final DriverVision vision = new DriverVision(); 
   
 
   public RobotContainer() {
@@ -61,7 +65,7 @@ public class RobotContainer {
     m_operatorController.a().onTrue(
         new ElevatorSetpointCommand(elevator, 20));
 
-    m_operatorController.b().onTrue(new PivotManualControl(pivot, m_operatorController::getLeftX));
+    // m_operatorController.b().onTrue(new PivotManualControl(pivot, m_operatorController::getLeftX));
 
     //Manipulator
     m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
