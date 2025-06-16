@@ -7,9 +7,9 @@ import frc.robot.subsystems.PivotSubsystem;
 
 public class PivotManualControl extends Command {
     private final PivotSubsystem pivot;
-    private final DoubleSupplier speedSupplier;
+    private final double speedSupplier;
 
-    public PivotManualControl(PivotSubsystem pivotSubsystem, DoubleSupplier speedSupplier) {
+    public PivotManualControl(PivotSubsystem pivotSubsystem, double speedSupplier) {
         this.pivot = pivotSubsystem;
         this.speedSupplier = speedSupplier;
         addRequirements(pivotSubsystem);
@@ -17,7 +17,7 @@ public class PivotManualControl extends Command {
 
     @Override
     public void execute() {
-        pivot.manualControl(speedSupplier.getAsDouble());
+        pivot.manualControl(speedSupplier);
     }
     
     @Override

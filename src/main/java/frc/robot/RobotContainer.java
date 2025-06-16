@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.rmi.dgc.VMID;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -14,10 +12,12 @@ import swervelib.SwerveInputStream;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PivotConstants;
 import frc.robot.commands.ElevatorCommands.ElevatorManualControl;
 import frc.robot.commands.ElevatorCommands.ElevatorSetpointCommand;
 import frc.robot.commands.ManipulatorCommands.ManipulatorCommand;
 import frc.robot.commands.PivotCommands.PivotManualControl;
+import frc.robot.commands.PivotCommands.PivotSetpointCommand;
 
 public class RobotContainer {
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
@@ -67,11 +67,27 @@ public class RobotContainer {
 
     // m_operatorController.b().onTrue(new PivotManualControl(pivot, m_operatorController::getLeftX));
 
+    m_operatorController.leftTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_DOWN));
+
+    m_operatorController.rightTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_UP));
+
     //Manipulator
     m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
 
     // m_operatorController.x() 
     // TODO: PivotSetpointControl
+
+    // L1
+    m_operatorController.povUp().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L1_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+
+    // L4
+    m_operatorController.povLeft().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L4_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+
+    // L3
+    m_operatorController.povDown().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+
+    // L2
+    m_operatorController.povRight().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L4_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
   }
 
   // // /**
