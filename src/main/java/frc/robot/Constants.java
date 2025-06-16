@@ -54,6 +54,8 @@ public final class Constants {
     public static final double kP = 0.7;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
+    public static final double GRAVITY_FEEDFORWARD = 0.005;
+    public static final int PIVOT_MOTOR_MAX_SPEED = 0.1;
     
     
     

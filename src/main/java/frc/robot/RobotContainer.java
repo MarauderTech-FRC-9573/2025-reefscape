@@ -51,13 +51,15 @@ public class RobotContainer {
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
   private void configureBindings() {
-    // Example: Manual control using joystick input
-    m_operatorController.y().whileTrue(
-        new ElevatorManualControl(elevator, m_operatorController::getLeftY));
-
+    // Example: Manual control; back runs up.
+    m_operatorController.back().whileTrue(new ElevatorManualControl(elevator, () -> 0.1));
+    
+    // Example: Manual control; runs down
+    m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -0.1));
+    
     // Example: Move to a specific setpoint
     m_operatorController.a().onTrue(
-        new ElevatorSetpointCommand(elevator, ElevatorConstants.UPPER_ALGAE_ENCODER));
+        new ElevatorSetpointCommand(elevator, 20));
 
     m_operatorController.b().onTrue(new PivotManualControl(pivot, m_operatorController::getLeftX));
 
