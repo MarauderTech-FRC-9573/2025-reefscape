@@ -88,4 +88,9 @@ public class PivotSubsystem extends SubsystemBase {
         }
     }
 
+    public void endManualControl() {
+        pivotMotor.set(0);
+    }
+
+
 }
