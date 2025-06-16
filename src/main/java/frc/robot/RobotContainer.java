@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriverVision;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -13,6 +14,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ManipulatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PivotConstants;
+import frc.robot.Constants.SpeedConstants;
 import frc.robot.commands.ElevatorCommands.ElevatorManualControl;
 import frc.robot.commands.ElevatorCommands.ElevatorSetpointCommand;
 import frc.robot.commands.ManipulatorCommands.ManipulatorCommand;
@@ -30,6 +32,7 @@ public class RobotContainer {
   
 
   public RobotContainer() {
+    drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
     configureBindings();
   }
 
@@ -55,6 +58,15 @@ public class RobotContainer {
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
   private void configureBindings() {
+        //Configure two bindings, call the new method to change the maximum speed in SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and "slow" to 0.1
+    m_driverController.rightBumper()
+    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMax)))
+    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
+
+    m_driverController.leftBumper()
+    .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMin)))    
+    .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
+
     // Example: Manual control; back runs up.
     m_operatorController.back().whileTrue(new ElevatorManualControl(elevator, () -> 0.1));
     
