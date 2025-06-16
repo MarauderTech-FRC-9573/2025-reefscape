@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ManipulatorConstants;
 
@@ -21,7 +22,7 @@ public class Manipulator extends SubsystemBase {
 
     public void runForward(double forwardSpeed) {
             manipulator.set(forwardSpeed);
-    }
+}
 
     public void runBack(double backwardSpeed) {
         manipulator.set(-backwardSpeed);
@@ -40,7 +41,11 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void manualControl(double asDouble) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'manualControl'");
+        manipulator.set(asDouble);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Current Draw", manipulator.getSupplyCurrent().getValueAsDouble());
     }
 }

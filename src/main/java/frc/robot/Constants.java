@@ -55,7 +55,7 @@ public final class Constants {
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double GRAVITY_FEEDFORWARD = 0.005;
-    public static final int PIVOT_MOTOR_MAX_SPEED = 0.1;
+    public static final double PIVOT_MOTOR_MAX_SPEED = 0.1;
     
     
     
@@ -68,7 +68,7 @@ public final class Constants {
     // TODO: Replace with actual CAN ID of the manipulator motor
     public static final int MANIPULATOR_MOTOR_ID = 17;
     // TODO: Test the end effector with these speeds and determine ideal values
-    public static final double CORAL_INTAKE_SPEED = 0.1;
+    public static final double CORAL_INTAKE_SPEED = -0.1;
     public static final double CORAL_SCORE_SPEED = -0.5;
     public static final double ALGAE_INTAKE_SPEED = 0.5;
     public static final double ALGAE_SCORE_SPEED = -0.5;
