@@ -61,7 +61,7 @@ public class PivotSubsystem extends SubsystemBase {
         manualSpeed = speed == 0.0 ? 0.1
                 : MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED,
                         ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
-        pivotMotor.set(speed);
+        targetPosition = getCurrentPosition();
     }
     
     public boolean atSetpoint() {
@@ -89,7 +89,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public void endManualControl() {
-        pivotMotor.set(0);
+        manualOverride = false;
     }
 
 
