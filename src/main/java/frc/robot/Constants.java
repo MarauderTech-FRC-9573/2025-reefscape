@@ -17,7 +17,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double DEADBAND = 0.05;
+    public static final double DEADBAND = 0.15;
     public static int kOperatorControllerPort = 1;
   }
   
@@ -99,8 +99,8 @@ public final class Constants {
     public static final double ELEVATOR_STOP = 0.1;    
     public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 23.3;
-    public static final double L3_ENCODER = 45.25;
-    public static final double L4_ENCODER = 76;
+    public static final double L3_ENCODER = 30;
+    public static final double L4_ENCODER = 35;
     public static final double RMOTOR_STOP_SPEED = -0.01;
     public static final double LMOTOR_STOP_SPEED = 0.01;
     public static final double MAX_HEIGHT = 76;

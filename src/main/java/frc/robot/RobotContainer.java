@@ -100,7 +100,7 @@ public class RobotContainer {
     m_operatorController.povUp().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L1_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
     // L4
-    m_operatorController.povLeft().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L4_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+    m_operatorController.povLeft().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
     // L3
     m_operatorController.povDown().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER).andThen(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION).andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
