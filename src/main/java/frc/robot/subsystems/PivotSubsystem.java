@@ -53,7 +53,9 @@ public class PivotSubsystem extends SubsystemBase {
 
     // Set the target position for the pivot to hold or move to
     public void setTargetPosition(double position) {
-        targetPosition = position;
+        if(targetPosition > PivotConstants.MAX_EXTENSION) {
+            targetPosition = position;
+        } else {targetPosition = 10;}
         manualOverride = false;
     }
 

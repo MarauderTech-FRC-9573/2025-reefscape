@@ -79,10 +79,12 @@ public class RobotContainer {
                 .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
         // Example: Manual control; back runs up.
-        m_operatorController.back().whileTrue(new ElevatorManualControl(elevator, () -> 0.1));
+        // Back button moves elevator up
+        m_operatorController.back().whileTrue(new ElevatorManualControl(elevator, () -> 0.2));
 
         // Example: Manual control; runs down
-        m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -0.1));
+        // Start buton moves elevator down
+        m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -0.2));
 
         // Example: Move to a specific setpoint
         m_operatorController.a().onTrue(
@@ -91,18 +93,25 @@ public class RobotContainer {
         // m_operatorController.b().onTrue(new PivotManualControl(pivot,
         // m_operatorController::getLeftX));
 
+        // Left trigger moves pivot away from robot
         m_operatorController.leftTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_DOWN));
 
+        // Right trigger moves pivot inside of robot
         m_operatorController.rightTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_UP));
 
         // Manipulator
+        // Y button intakes coral
         m_operatorController.y()
                 .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
 
+
+        // X button intakes algae(hold the button to keep the algae in)
         m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
 
+        //A button outtakes coral
         m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
 
+        // B button outtakes algae
         m_operatorController.b()
                 .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_SCORE_SPEED));
 
@@ -111,25 +120,24 @@ public class RobotContainer {
 
         // Need new tunings
 
-        // L1
+        // Up arrow for L1
         m_operatorController.povUp()
                 .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L1_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
-
-        // L2
+        // Right arrow for L2
         m_operatorController.povRight()
                 .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
-        // L3
+        // Down arrow for L3
         m_operatorController.povDown()
                 .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
-        // L4
+        // Left arrow for L4
         m_operatorController.povLeft()
                 .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L4_ENCODER)
