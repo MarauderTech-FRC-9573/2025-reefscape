@@ -59,7 +59,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     public void manualControl(double speed) {
         manualOverride = true;
-        manualSpeed = speed == 0.0 ? 0.1
+        manualSpeed = speed == 0.0 ? 0.2
                 : MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED,
                         ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
         targetPosition = getCurrentPosition();
@@ -80,6 +80,7 @@ public class PivotSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pivot Position", getCurrentPosition());
         SmartDashboard.putBoolean("Beam Breaker", beamBreaker.isPressed());
         SmartDashboard.putNumber("Pivot Setpoint", targetPosition);
+        SmartDashboard.putBoolean("Pivot At Setpoint", atSetpoint());
 
         if (manualOverride) {
             pivotMotor.set(manualSpeed);

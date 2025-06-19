@@ -83,8 +83,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Elevator Position", getCurrentPosition());
         SmartDashboard.putNumber("Elevator Setpoint", targetPosition);
-        SmartDashboard.putBoolean("At Setpoint", atSetpoint());
-        SmartDashboard.putNumber("Speed: ", manualSpeed);
+        SmartDashboard.putBoolean("Elevator At Setpoint", atSetpoint());
+        SmartDashboard.putNumber("Elevator Speed: ", manualSpeed);
         SmartDashboard.putNumber("Elevator Current: ", Math.abs(leftMotor.getOutputCurrent()));
 
         if (manualOverride) {

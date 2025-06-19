@@ -109,28 +109,30 @@ public class RobotContainer {
         // m_operatorController.x()
         // TODO: PivotSetpointControl
 
+        // Need new tunings
+
         // L1
         m_operatorController.povUp()
-                .whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER)
-                        .andThen(new PivotSetpointCommand(pivot, PivotConstants.L1_POSITION)
+                .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L1_POSITION)
+                        .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
         // L2
         m_operatorController.povRight()
-                .whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER)
-                        .andThen(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
+                .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
+                        .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
         // L3
         m_operatorController.povDown()
-                .whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
-                        .andThen(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
+                .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
+                        .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
         // L4
         m_operatorController.povLeft()
-                .whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L4_ENCODER)
-                        .andThen(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION)
+                .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L4_POSITION)
+                        .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L4_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
     }
 
