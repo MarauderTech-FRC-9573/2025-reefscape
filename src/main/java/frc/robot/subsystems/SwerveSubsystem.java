@@ -55,7 +55,7 @@ public class SwerveSubsystem extends SubsystemBase {
   
   public SwerveSubsystem() {
     
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.POSE;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try
     {
       boolean blueAlliance = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
