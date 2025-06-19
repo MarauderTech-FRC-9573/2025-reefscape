@@ -28,6 +28,7 @@ public class PivotSubsystem extends SubsystemBase {
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
         pivotConfig.smartCurrentLimit(PivotConstants.SMART_CURRENT_LIMIT);
+        pivotConfig.inverted(true);
         pivotMotor.configure(pivotConfig, null, null);
         resetEncoders();
 

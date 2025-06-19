@@ -28,23 +28,23 @@ public final class Constants {
     public static final int SMART_CURRENT_LIMIT = 40;
     // TODO: Test the pivot motor with these speeds and determine ideal values
     
-    public static final double PIVOT_SPEED_UP = 0.15;
-    public static final double PIVOT_SPEED_DOWN = -0.15;
-    public static final double MAX_EXTENSION = -15;
-    public static final double MAX_RETRACTION = -7.5;
+    public static final double PIVOT_SPEED_UP = -0.15;
+    public static final double PIVOT_SPEED_DOWN = 0.15;
+    public static final double MAX_EXTENSION = 15;
+    public static final double MAX_RETRACTION = 7.5;
     public static final double PIVOT_L4 = 0.0;
     public static final double PIVOT_L3 = 0.0;
     public static final double PIVOT_L2 = 0.0;
     public static final double PIVOT_L1 = 0.0;
-    public static final double CORAL_STATION_POSITION = -6.4;
-    public static final double L4_POSITION = -10.738;
-    public static final double L3_POSITION = -9.0;
-    public static final double L2_POSITION = -9.0;
-    public static final double L1_POSITION = -6.3;
-    public static final double PIVOT_UPRIGHT_BPOSITION = -8.5;
-    public static final double PIVOT_UPRIGHT_TPOSITION = -9.5;
+    public static final double CORAL_STATION_POSITION = 6.4;
+    public static final double L4_POSITION = 10.738;
+    public static final double L3_POSITION = 9.0;
+    public static final double L2_POSITION = 9.0;
+    public static final double L1_POSITION = 6.3;
+    public static final double PIVOT_UPRIGHT_BPOSITION = 8.5;
+    public static final double PIVOT_UPRIGHT_TPOSITION = 9.5;
     public static final double PIVOT_STOP_BSPEED = -0.007;
-    public static final double NET_POSITION = -1.833;
+    public static final double NET_POSITION = 1.833;
     public static final double PIVOT_STOP_FSPEED = 0.0225;
 
     public static final double PIVOT_NOCLIP = -8;
@@ -111,7 +111,7 @@ public final class Constants {
 
     public static final double kP = 0.5;
     public static final double kI = 0.0;
-    public static final double kD = 0.0;
+    public static final double kD = 0.05;
 
     
   }
