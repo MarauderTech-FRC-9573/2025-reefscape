@@ -99,12 +99,12 @@ public class RobotContainer {
         m_operatorController.y()
                 .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
 
-        m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
+        m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
 
         m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
 
         m_operatorController.b()
-                .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
+                .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_SCORE_SPEED));
 
         // m_operatorController.x()
         // TODO: PivotSetpointControl
