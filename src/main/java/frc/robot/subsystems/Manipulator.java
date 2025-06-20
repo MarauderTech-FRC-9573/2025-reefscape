@@ -46,6 +46,6 @@ public class Manipulator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Current Draw", manipulator.getSupplyCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Manipulator Current Draw", manipulator.getSupplyCurrent().getValueAsDouble());
     }
 }

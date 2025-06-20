@@ -51,7 +51,7 @@ public final class Constants {
 
 
 
-    public static final double kP = 0.7;
+    public static final double kP = 0.3;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double GRAVITY_FEEDFORWARD = 0.005;
@@ -80,7 +80,7 @@ public final class Constants {
   public static class SpeedConstants {
     public static final double speedMax = 2;
     public static final double speedMin = 0.5;
-    public static final double speedDefault = 0.7;
+    public static final double speedDefault = 1;
   }
   // Constants are outdated
   public static class ElevatorConstants {
@@ -96,7 +96,8 @@ public final class Constants {
     public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.20;
     public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.20;
     public static final double ELEVATOR_MOTORS_MAX_SPEED = 0.2;
-    public static final double ELEVATOR_STOP = 0.1;    
+    //Stopping speed for elevator motors aka gravity constant
+    public static final double ELEVATOR_STOP = 0.07;    
     public static final double L1_ENCODER = 11.5;
     public static final double L2_ENCODER = 23.3;
     public static final double L3_ENCODER = 30;
@@ -109,12 +110,12 @@ public final class Constants {
     public static final double UPPER_ALGAE_ENCODER = 58;
     public static final double NET_ENCODER = 75;
 
-    public static final double kP = 0.5;
+    public static final double kP = 0.1;
     public static final double kI = 0.0;
-    public static final double kD = 0.05;
+    public static final double kD = 0.0;
 
     
   }
   
-  public static final double maxSpeed = Units.feetToMeters(4.5);
+  public static final double maxSpeed = Units.feetToMeters(16.5);
 }

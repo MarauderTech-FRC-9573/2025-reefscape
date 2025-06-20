@@ -95,6 +95,7 @@ public class SwerveSubsystem extends SubsystemBase {
     try {
       config = RobotConfig.fromGUISettings();
 
+     
       AutoBuilder.configure(
       
       this::getPose, this::resetOdometry, this::getRobotVelocity, (speedsRobotRelative, moduleFeedForwards) -> {
@@ -194,8 +195,8 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Speed", translationSpeed);
-    SmartDashboard.putNumber("Yaw", swerveDrive.getYaw().getDegrees());
+    SmartDashboard.putNumber("Drivetrain Speed", translationSpeed);
+    SmartDashboard.putNumber("Drivetrain Yaw", swerveDrive.getYaw().getDegrees());
 
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
@@ -227,6 +228,8 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive.driveFieldOriented(velocity.get());
     });
   }
+
+
   
   /**
   * Get the chassis speeds based on controller input of 1 joystick and one angle. Control the robot at an offset of
@@ -262,4 +265,4 @@ public class SwerveSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     return swerveDrive.getPose();
   }
-}
+} 

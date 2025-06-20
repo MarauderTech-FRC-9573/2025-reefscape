@@ -18,6 +18,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final SparkMax rightMotor;
     private final SparkMax leftMotor;
     private final PIDController pidController;
+    private PIDController glassEditPIDController;
     private static final double GRAVITY_FEEDFORWARD = 0.05; // Tune as needed
 
     private double targetPosition = 0.0;
@@ -25,7 +26,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     private double manualSpeed = 0.0;
 
     public ElevatorSubsystem() {
-        this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
+        this.pidController = new PIDController(0,0,0);
+        SmartDashboard.putNumber("P", 0);
+        SmartDashboard.putNumber("I", 0);
+        SmartDashboard.putNumber("D", 0);
+
+        this.glassEditPIDController = new PIDController(0,0 ,0 );
 
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
@@ -72,6 +78,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     private void moveToSetpoint(double setpoint) {
         double output = pidController.calculate(getCurrentPosition(), setpoint);
         output = MathUtil.clamp(output, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
+
+        if (atSetpoint()) {
+            leftMotor.set(ElevatorConstants.ELEVATOR_STOP); // Stop motors if at setpoint
+        }
         leftMotor.set(output + GRAVITY_FEEDFORWARD);
     }
 
@@ -86,6 +96,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Elevator At Setpoint", atSetpoint());
         SmartDashboard.putNumber("Elevator Speed: ", manualSpeed);
         SmartDashboard.putNumber("Elevator Current: ", Math.abs(leftMotor.getOutputCurrent()));
+        SmartDashboard.putBoolean("Manual Override Status: ", manualOverride);
+        glassEditPIDController = new PIDController(SmartDashboard.getNumber("P", 0 ), SmartDashboard.getNumber("I", 0),SmartDashboard.getNumber("I", 0));
 
         if (manualOverride) {
             leftMotor.set(manualSpeed);
