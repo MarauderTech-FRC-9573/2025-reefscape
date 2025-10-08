@@ -106,7 +106,7 @@ public class RobotContainer {
 
 
         // X button intakes algae(hold the button to keep the algae in)
-        m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
+        //m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
 
         //A button outtakes coral
         m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
@@ -126,10 +126,10 @@ public class RobotContainer {
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
         // Right arrow for L2
-        m_operatorController.povRight()
-                .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
+        m_operatorController.x().onTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION));
+               /*  .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER)
-                                .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+                                .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED)))); */
 
         // Down arrow for L3
         m_operatorController.povDown()

@@ -38,8 +38,8 @@ public final class Constants {
     public static final double PIVOT_L1 = 0.0;
     public static final double CORAL_STATION_POSITION = 6.4;
     public static final double L4_POSITION = 10.738;
-    public static final double L3_POSITION = 9.0;
-    public static final double L2_POSITION = 9.0;
+    public static final double L3_POSITION = 11.5;
+    public static final double L2_POSITION = 11.5;
     public static final double L1_POSITION = 6.3;
     public static final double PIVOT_UPRIGHT_BPOSITION = 8.5;
     public static final double PIVOT_UPRIGHT_TPOSITION = 9.5;
@@ -95,12 +95,12 @@ public final class Constants {
     public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.20;
     public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.20;
     public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.20;
-    public static final double ELEVATOR_MOTORS_MAX_SPEED = 0.2;
+    public static final double ELEVATOR_MOTORS_MAX_SPEED = 0.5;
     //Stopping speed for elevator motors aka gravity constant
     public static final double ELEVATOR_STOP = 0.07;    
     public static final double L1_ENCODER = 11.5;
-    public static final double L2_ENCODER = 23.3;
-    public static final double L3_ENCODER = 30;
+    public static final double L2_ENCODER = 3.23;
+    public static final double L3_ENCODER = 41;
     public static final double L4_ENCODER = 35;
     public static final double RMOTOR_STOP_SPEED = -0.01;
     public static final double LMOTOR_STOP_SPEED = 0.01;
