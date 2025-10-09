@@ -46,7 +46,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        pidController.setTolerance(0.1);
+        this.pidController.setTolerance(0.1);
         targetPosition = getCurrentPosition();
     }
 
@@ -79,11 +79,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Called every loop to move to the target position (unless in manual override)
     public void moveToSetpoint(double setpoint) {
         double output = pidController.calculate(getCurrentPosition(), setpoint);
+        System.out.println("Elevator Output 1:" + output);
         output = MathUtil.clamp(output, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
 
-        if (atSetpoint()) {
+         if (atSetpoint()) {
             leftMotor.set(ElevatorConstants.ELEVATOR_STOP); // Stop motors if at setpoint
         }
+        System.out.println("Elevator Output 2: " + output);
         leftMotor.set(output + GRAVITY_FEEDFORWARD);
     }
 
@@ -105,7 +107,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             targetPosition = getCurrentPosition();
             // Resets encoders if it detects we've hit the bottom
             // Value based on current draw when forcing elevator to bottom
-            if (leftMotor.getOutputCurrent() > 30 && leftMotor.getEncoder().getPosition() > 5) {
+            if (leftMotor.getOutputCurrent() > 30 && getCurrentPosition() < 5) {
                 this.resetEncoders();
             }
         } else {

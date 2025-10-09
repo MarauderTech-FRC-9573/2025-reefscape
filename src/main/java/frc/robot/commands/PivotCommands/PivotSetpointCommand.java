@@ -1,7 +1,6 @@
 package frc.robot.commands.PivotCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 
 public class PivotSetpointCommand extends Command {

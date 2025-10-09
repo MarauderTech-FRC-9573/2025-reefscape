@@ -39,7 +39,7 @@ public final class Constants {
     public static final double CORAL_STATION_POSITION = 6.4;
     public static final double L4_POSITION = 10.738;
     public static final double L3_POSITION = 11.5;
-    public static final double L2_POSITION = -2;
+    public static final double L2_POSITION = 11.5;
     public static final double L1_POSITION = 6.3;
     public static final double PIVOT_UPRIGHT_BPOSITION = 8.5;
     public static final double PIVOT_UPRIGHT_TPOSITION = 9.5;

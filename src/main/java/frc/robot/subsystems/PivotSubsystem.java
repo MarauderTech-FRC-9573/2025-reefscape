@@ -75,6 +75,7 @@ public class PivotSubsystem extends SubsystemBase {
         double output = pidController.calculate(getCurrentPosition(), setpoint);
         output = MathUtil.clamp(output, -PivotConstants.PIVOT_MOTOR_MAX_SPEED, PivotConstants.PIVOT_MOTOR_MAX_SPEED);
         pivotMotor.set(output + PivotConstants.GRAVITY_FEEDFORWARD);
+        System.out.println("Pivot: " + output);
     }
 
     @Override
