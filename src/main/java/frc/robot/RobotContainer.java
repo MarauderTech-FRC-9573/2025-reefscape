@@ -126,16 +126,16 @@ public class RobotContainer {
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
         // Right arrow for L2
-        m_operatorController.x().onTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION));
+        m_operatorController.x().whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION));
                /*  .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED)))); */
 
         // Down arrow for L3
-        m_operatorController.povDown()
-                .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
-                        .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
-                                .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+        m_operatorController.povDown().whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION));
+               // .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
+                       // .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
+                                //.andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
         // Left arrow for L4
         m_operatorController.povLeft()
