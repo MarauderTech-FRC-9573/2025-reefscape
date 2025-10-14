@@ -69,7 +69,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void manualControl(double speed) {
         manualOverride = true;
         // Default Speed of 0.1
-        manualSpeed = speed == 0.0 ? 0.2 : MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
+        manualSpeed = speed == 0.0 ? ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED : MathUtil.clamp(speed, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
         // Optionally, update targetPosition to current so it holds here after manual
         targetPosition = getCurrentPosition();
     }
@@ -79,13 +79,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Called every loop to move to the target position (unless in manual override)
     public void moveToSetpoint(double setpoint) {
         double output = pidController.calculate(getCurrentPosition(), setpoint);
-        System.out.println("Elevator Output 1:" + output);
+        System.out.println("Elevator Output 1:" + output); //Didn't get to test this one
         output = MathUtil.clamp(output, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
 
          if (atSetpoint()) {
             leftMotor.set(ElevatorConstants.ELEVATOR_STOP); // Stop motors if at setpoint
         }
-        System.out.println("Elevator Output 2: " + output);
+        System.out.println("Elevator Output 2: " + output); //This prints 0.0
         leftMotor.set(output + GRAVITY_FEEDFORWARD);
     }
 

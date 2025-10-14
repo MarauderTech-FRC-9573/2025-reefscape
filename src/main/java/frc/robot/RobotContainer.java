@@ -80,11 +80,11 @@ public class RobotContainer {
 
         // Example: Manual control; back runs up.
         // Back button moves elevator up
-        m_operatorController.back().whileTrue(new ElevatorManualControl(elevator, () -> 0.2));
+        m_operatorController.back().whileTrue(new ElevatorManualControl(elevator, () -> ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED));
 
         // Example: Manual control; runs down
         // Start buton moves elevator down
-        m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -0.2));
+        m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED));
 
         // Example: Move to a specific setpoint
         m_operatorController.a().onTrue(
