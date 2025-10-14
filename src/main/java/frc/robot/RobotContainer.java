@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -43,8 +44,8 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
-    }
-
+        NamedCommands.registerCommand("Outtake Coral", new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
+}
     SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
             () -> m_driverController.getLeftY() * -1,
             () -> m_driverController.getLeftX() * -1)

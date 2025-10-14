@@ -9,6 +9,12 @@
           "data": {
             "pathName": "Center to Reef"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Outtake Coral"
+          }
         }
       ]
     }
