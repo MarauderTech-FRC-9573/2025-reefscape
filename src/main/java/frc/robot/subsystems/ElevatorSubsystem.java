@@ -31,7 +31,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("I", 0);
         SmartDashboard.putNumber("D", 0);
 
-        this.glassEditPIDController = new PIDController(0,0 ,0 );
+        this.glassEditPIDController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
@@ -79,13 +79,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Called every loop to move to the target position (unless in manual override)
     public void moveToSetpoint(double setpoint) {
         double output = pidController.calculate(getCurrentPosition(), setpoint);
-        System.out.println("Elevator Output 1:" + output); //Didn't get to test this one
         output = MathUtil.clamp(output, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
 
          if (atSetpoint()) {
             leftMotor.set(ElevatorConstants.ELEVATOR_STOP); // Stop motors if at setpoint
         }
-        System.out.println("Elevator Output 2: " + output); //This prints 0.0
         leftMotor.set(output + GRAVITY_FEEDFORWARD);
     }
 

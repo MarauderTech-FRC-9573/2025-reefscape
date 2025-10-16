@@ -26,6 +26,6 @@ public class ElevatorSetpointCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         // No action needed; subsystem will continue to hold at targetPosition
-        System.out.println("Elevator was interrupted");
+        
     }
 }
