@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Center to Reef"
+            "name": "Pivot L2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator L2"
           }
         },
         {
