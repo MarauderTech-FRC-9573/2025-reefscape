@@ -95,11 +95,11 @@ public final class Constants {
     public static final double ELEVATOR_LMOTOR_SPEED_UP = 0.20;
     public static final double ELEVATOR_RMOTOR_SPEED_DOWN = 0.20;
     public static final double ELEVATOR_LMOTOR_SPEED_DOWN = -0.20;
-    public static final double ELEVATOR_MOTORS_MAX_SPEED = 0.5;
+    public static final double ELEVATOR_MOTORS_MAX_SPEED = 0.35;
     //Stopping speed for elevator motors aka gravity constant
     public static final double ELEVATOR_STOP = 0.07;    
     public static final double L1_ENCODER = 11.5;
-    public static final double L2_ENCODER = 3.23;
+    public static final double L2_ENCODER = 15.5;
     public static final double L3_ENCODER = 41;
     public static final double L4_ENCODER = 35;
     public static final double RMOTOR_STOP_SPEED = -0.01;

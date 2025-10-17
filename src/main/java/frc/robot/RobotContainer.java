@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriverVision;
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.PivotSubsystem;
@@ -35,13 +36,15 @@ public class RobotContainer {
             OperatorConstants.kOperatorControllerPort);
     private final Manipulator manipulator = new Manipulator();
     private final SwerveSubsystem drivebase = new SwerveSubsystem();
-    private final DriverVision vision = new DriverVision();
+    //private final DriverVision vision = new DriverVision();
+    
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
         drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
         configureBindings();
         autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
+        CameraServer.startAutomaticCapture();
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
         NamedCommands.registerCommand("Outtake Coral", new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
@@ -88,7 +91,7 @@ public class RobotContainer {
         m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED));
 
         // Example: Move to a specific setpoint
-        m_operatorController.a().onTrue(
+        m_operatorController.b().onTrue(
                 new ElevatorSetpointCommand(elevator, 20));
 
         // m_operatorController.b().onTrue(new PivotManualControl(pivot,
@@ -113,8 +116,8 @@ public class RobotContainer {
         m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
 
         // B button outtakes algae
-        m_operatorController.b()
-                .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_SCORE_SPEED));
+        //m_operatorController.b()
+               // .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_SCORE_SPEED));
 
         // m_operatorController.x()
         // TODO: PivotSetpointControl
@@ -127,15 +130,14 @@ public class RobotContainer {
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
         // Right arrow for L2
-        m_operatorController.x().whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
+        m_operatorController.povRight().whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION)
                         .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER)
                                 .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED)))); 
 
         // Down arrow for L3
-        m_operatorController.povDown().whileTrue(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER));
-               // .whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
-                       // .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
-                                //.andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
+        m_operatorController.povDown().whileTrue(new PivotSetpointCommand(pivot, PivotConstants.L3_POSITION)
+                        .andThen(new ElevatorSetpointCommand(elevator, ElevatorConstants.L3_ENCODER)
+                                .andThen(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED))));
 
         // Left arrow for L4
         m_operatorController.povLeft()

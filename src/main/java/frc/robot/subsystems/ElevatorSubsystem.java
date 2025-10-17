@@ -26,7 +26,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private double manualSpeed = 0.0;
 
     public ElevatorSubsystem() {
-        this.pidController = new PIDController(0,0,0);
+        this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
         SmartDashboard.putNumber("P", 0);
         SmartDashboard.putNumber("I", 0);
         SmartDashboard.putNumber("D", 0);
@@ -80,11 +80,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveToSetpoint(double setpoint) {
         double output = pidController.calculate(getCurrentPosition(), setpoint);
         output = MathUtil.clamp(output, -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED, ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED);
-
          if (atSetpoint()) {
             leftMotor.set(ElevatorConstants.ELEVATOR_STOP); // Stop motors if at setpoint
         }
-        leftMotor.set(output + GRAVITY_FEEDFORWARD);
+        leftMotor.set(output);
     }
 
     
@@ -105,7 +104,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             targetPosition = getCurrentPosition();
             // Resets encoders if it detects we've hit the bottom
             // Value based on current draw when forcing elevator to bottom
-            if (leftMotor.getOutputCurrent() > 30 && getCurrentPosition() < 5) {
+            if (leftMotor.getOutputCurrent() > 40 && getCurrentPosition() < 5) {
                 this.resetEncoders();
             }
         } else {
