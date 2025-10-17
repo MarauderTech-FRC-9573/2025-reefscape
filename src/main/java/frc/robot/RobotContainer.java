@@ -43,13 +43,15 @@ public class RobotContainer {
     public RobotContainer() {
         drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
         configureBindings();
-        autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
         CameraServer.startAutomaticCapture();
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
         NamedCommands.registerCommand("Outtake Coral", new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
         NamedCommands.registerCommand("Elevator L2", new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER));
         NamedCommands.registerCommand("Pivot L2", new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION));
+        autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+
+
 }
     SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
             () -> m_driverController.getLeftY() * -1,
