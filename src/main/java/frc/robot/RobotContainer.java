@@ -26,6 +26,7 @@ import frc.robot.commands.ElevatorCommands.ElevatorSetpointCommand;
 import frc.robot.commands.ManipulatorCommands.ManipulatorCommand;
 import frc.robot.commands.PivotCommands.PivotManualControl;
 import frc.robot.commands.PivotCommands.PivotSetpointCommand;
+import frc.robot.commands.ManipulatorCommands.ManipulatorAutoCommand;
 
 public class RobotContainer {
     private final ElevatorSubsystem elevator = new ElevatorSubsystem();
@@ -45,7 +46,7 @@ public class RobotContainer {
         configureBindings();
         CameraServer.startAutomaticCapture();
 
-        NamedCommands.registerCommand("Outtake Coral", new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
+        NamedCommands.registerCommand("Outtake Coral", new ManipulatorAutoCommand(manipulator));
         NamedCommands.registerCommand("Elevator L2", new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER));
         NamedCommands.registerCommand("Pivot L2", new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION));
         autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
