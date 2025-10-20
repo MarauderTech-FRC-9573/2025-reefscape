@@ -17,8 +17,7 @@ import frc.robot.Constants.ElevatorConstants;
 public class ElevatorSubsystem extends SubsystemBase {
     private final SparkMax rightMotor;
     private final SparkMax leftMotor;
-    private final PIDController pidController;
-    private PIDController glassEditPIDController;
+    private PIDController pidController;
     private static final double GRAVITY_FEEDFORWARD = 0.05; // Tune as needed
 
     private double targetPosition = 0.0;
@@ -27,12 +26,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
         this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
-        SmartDashboard.putNumber("P", 0);
-        SmartDashboard.putNumber("I", 0);
-        SmartDashboard.putNumber("D", 0);
-
-        this.glassEditPIDController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
-
+        SmartDashboard.putNumber("P", pidController.getP());
+        SmartDashboard.putNumber("I", pidController.getI());
+        SmartDashboard.putNumber("D", pidController.getD());
+        
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
 
@@ -46,7 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        this.pidController.setTolerance(0.1);
+        this.pidController.setTolerance(0.5);
         targetPosition = getCurrentPosition();
     }
 
@@ -96,7 +93,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Elevator Speed: ", manualSpeed);
         SmartDashboard.putNumber("Elevator Current: ", Math.abs(leftMotor.getOutputCurrent()));
         SmartDashboard.putBoolean("Manual Override Status: ", manualOverride);
-        glassEditPIDController = new PIDController(SmartDashboard.getNumber("P", 0 ), SmartDashboard.getNumber("I", 0),SmartDashboard.getNumber("I", 0));
+        pidController = new PIDController(SmartDashboard.getNumber("P", pidController.getP() ), SmartDashboard.getNumber("I", pidController.getI()),SmartDashboard.getNumber("I",pidController.getD()));
 
         if (manualOverride) {
             leftMotor.set(manualSpeed);
