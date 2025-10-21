@@ -33,13 +33,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 
 import static edu.wpi.first.units.Units.Meter;
 
 public class SwerveSubsystem extends SubsystemBase {
   
   public SwerveController swerveController;
-
+  
   /** Creates a new ExampleSubsystem. */
   
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
@@ -59,19 +60,20 @@ public class SwerveSubsystem extends SubsystemBase {
     try
     {
       boolean blueAlliance = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;
-    Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
-                                                                      Meter.of(4)),
-                                                    Rotation2d.fromDegrees(0))
-                                       : new Pose2d(new Translation2d(Meter.of(16),
-                                                                      Meter.of(4)),
-                                                    Rotation2d.fromDegrees(180));
-
+      Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
+      Meter.of(4)),
+      Rotation2d.fromDegrees(0))
+      : new Pose2d(new Translation2d(Meter.of(16),
+      Meter.of(4)),
+      Rotation2d.fromDegrees(180));
+      
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.maxSpeed,startingPose);
       // new Pose2d(new Translation2d(Meter.of(1),
       // Meter.of(1)),
       // Rotation2d.fromDegrees(0)));
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
+      swerveDrive.setMaximumAllowableSpeeds(Units.feetToMeters(13), Units.degreesToRadians(688));
     } catch (Exception e)
     {
       throw new RuntimeException(e);
@@ -86,7 +88,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     SmartDashboard.putData("Field", m_field);
-
+    
     swerveController = swerveDrive.swerveController;
     
     RobotConfig config; 
@@ -94,8 +96,8 @@ public class SwerveSubsystem extends SubsystemBase {
     
     try {
       config = RobotConfig.fromGUISettings();
-
-     
+      
+      
       AutoBuilder.configure(
       
       this::getPose, this::resetOdometry, this::getRobotVelocity, (speedsRobotRelative, moduleFeedForwards) -> {
@@ -115,7 +117,7 @@ public class SwerveSubsystem extends SubsystemBase {
     } catch (Exception e) {
       System.out.println(e);
     }
-
+    
     PathfindingCommand.warmupCommand().schedule();
     
   }
@@ -126,7 +128,7 @@ public class SwerveSubsystem extends SubsystemBase {
   
   public ChassisSpeeds getRobotVelocity() {
     return swerveDrive.getRobotVelocity();
-
+    
   }
   
   // Setup the photon vision class.
@@ -158,24 +160,24 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive.getMaximumChassisVelocity()));
       
     });
-
+    
   }
-
+  
   public double translationSpeed = SpeedConstants.speedDefault;
-
+  
   public double changeSpeed(double newSpeed){
     translationSpeed = newSpeed;
     return newSpeed;
-
-      // NetworkTableInstance inst = NetworkTableInstance.getDefault();
-      // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
-      
-      // xPub = table.getDoubleTopic("x").publish();
-      // yPub = table.getDoubleTopic("y").publish();
-      
-      // xPub.set(headingX.getAsDouble());
-      // yPub.set(headingY.getAsDouble());
-      
+    
+    // NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    // NetworkTable table = inst.getTable("/SmartDashboard/RobotData");
+    
+    // xPub = table.getDoubleTopic("x").publish();
+    // yPub = table.getDoubleTopic("y").publish();
+    
+    // xPub.set(headingX.getAsDouble());
+    // yPub.set(headingY.getAsDouble());
+    
   }
   
   public void getIMU() {
@@ -197,7 +199,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Drivetrain Speed", translationSpeed);
     SmartDashboard.putNumber("Drivetrain Yaw", swerveDrive.getYaw().getDegrees());
-
+    
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
     {
@@ -218,7 +220,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
   }
-
+  
   public void driveFieldOriented(ChassisSpeeds velocity) {
     swerveDrive.driveFieldOriented(velocity);
   }
@@ -228,8 +230,8 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive.driveFieldOriented(velocity.get());
     });
   }
-
-
+  
+  
   
   /**
   * Get the chassis speeds based on controller input of 1 joystick and one angle. Control the robot at an offset of
@@ -261,7 +263,7 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     return swerveDrive.getPose().getRotation();
   }
-
+  
   public Pose2d getPose() {
     return swerveDrive.getPose();
   }
