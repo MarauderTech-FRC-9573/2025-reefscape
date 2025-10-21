@@ -62,10 +62,10 @@ public class RobotContainer {
             .scaleTranslation(0.8)
             .allianceRelativeControl(true);
 
-//     SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
-//             .withControllerHeadingAxis(m_driverController::getRightX,
-//                     m_driverController::getRightY)
-//             .headingWhile(true);
+     SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
+             .withControllerHeadingAxis(m_driverController::getRightX,
+                     m_driverController::getRightY)
+             .headingWhile(true);
 
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
             () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
@@ -79,11 +79,11 @@ public class RobotContainer {
         // Configure two bindings, call the new method to change the maximum speed in
         // SwerveSubsystem in both. For the "turbo" one set the maximum speed to 1.0 and
         // "slow" to 0.1
-        m_driverController.leftBumper()
+        m_driverController.leftTrigger()
                 .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMax)))
                 .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
-        m_driverController.rightBumper()
+        m_driverController.rightTrigger()
                 .whileTrue(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedMin)))
                 .whileFalse(new InstantCommand(() -> drivebase.changeSpeed(SpeedConstants.speedDefault)));
 
@@ -95,13 +95,6 @@ public class RobotContainer {
         // Start buton moves elevator down
         m_operatorController.start().whileTrue(new ElevatorManualControl(elevator, () -> -ElevatorConstants.ELEVATOR_MOTORS_MAX_SPEED));
 
-        // Example: Move to a specific setpoint
-        m_operatorController.b().onTrue(
-                new ElevatorSetpointCommand(elevator, 20));
-
-        // m_operatorController.b().onTrue(new PivotManualControl(pivot,
-        // m_operatorController::getLeftX));
-
         // Left trigger moves pivot away from robot
         m_operatorController.leftTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_DOWN));
 
@@ -109,20 +102,16 @@ public class RobotContainer {
         m_operatorController.rightTrigger().whileTrue(new PivotManualControl(pivot, PivotConstants.PIVOT_SPEED_UP));
 
         // Manipulator
-        // Y button intakes coral
+        // Y button brings elevator down
         m_operatorController.y()
-                .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_INTAKE_SPEED));
-
-
-        // X button intakes algae(hold the button to keep the algae in)
-        //m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
+                .whileTrue(new ElevatorSetpointCommand(elevator, 0));
 
         //A button outtakes coral
         m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
 
-        // B button outtakes algae
-        //m_operatorController.b()
-               // .whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_SCORE_SPEED));
+        // B button intakes algae
+         m_operatorController.b().onTrue(
+                new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
 
         // m_operatorController.x()
         // TODO: PivotSetpointControl
