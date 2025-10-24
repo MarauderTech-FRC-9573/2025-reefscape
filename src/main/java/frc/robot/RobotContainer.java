@@ -107,10 +107,10 @@ public class RobotContainer {
                 .whileTrue(new ElevatorSetpointCommand(elevator, 0));
 
         //A button outtakes coral
-        m_operatorController.a().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED).withTimeout(0.3));
+        m_operatorController.a().onTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED).withTimeout(0.1));
 
         // B button intakes algae
-         m_operatorController.b().onTrue(
+         m_operatorController.b().whileTrue(
                 new ManipulatorCommand(manipulator, ManipulatorConstants.ALGAE_INTAKE_SPEED));
 
         // m_operatorController.x()

@@ -26,10 +26,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
         this.pidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
-        SmartDashboard.putNumber("P", pidController.getP());
-        SmartDashboard.putNumber("I", pidController.getI());
-        SmartDashboard.putNumber("D", pidController.getD());
-        
+        SmartDashboard.putNumber("P", ElevatorConstants.kP);
+        SmartDashboard.putNumber("I", ElevatorConstants.kI);
+        SmartDashboard.putNumber("D", ElevatorConstants.kD);
+
         leftMotor = new SparkMax(ElevatorConstants.LEFT_CAN_ID, MotorType.kBrushless);
         rightMotor = new SparkMax(ElevatorConstants.RIGHT_CAN_ID, MotorType.kBrushless);
 
@@ -43,7 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        this.pidController.setTolerance(0.5);
+        this.pidController.setTolerance(0.7);
         targetPosition = getCurrentPosition();
     }
 
