@@ -12,12 +12,12 @@ public class ManipulatorAutoCommand extends Command{
     private final Manipulator manipulator;
     public static double seconds = 0.5;
     private final Double speed;
-
+  
     private final Timer timer = new Timer();
 
     public ManipulatorAutoCommand(Manipulator manipulator) {
         this.manipulator = manipulator;
-        this.speed = 1.0;
+        this.speed = -1.0;
         addRequirements(manipulator);
         }
 

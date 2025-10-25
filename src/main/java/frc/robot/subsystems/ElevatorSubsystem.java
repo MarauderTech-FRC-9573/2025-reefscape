@@ -43,7 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         rightMotor.configure(rightConfig, null, null);
 
         resetEncoders();
-        this.pidController.setTolerance(0.7);
+        this.pidController.setTolerance(3);
         targetPosition = getCurrentPosition();
     }
 

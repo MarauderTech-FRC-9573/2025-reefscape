@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
-    {
+    {   
       throw new RuntimeException(e);
     }
     
@@ -145,7 +145,7 @@ public class SwerveSubsystem extends SubsystemBase {
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
       translationY.getAsDouble()), translationSpeed);
       
-      //Constantly update the values
+      //Constantly update the values                                                                                                                   
       SmartDashboard.putNumber("headingX", headingX.getAsDouble());
       SmartDashboard.putNumber("headingY", headingY.getAsDouble());
       SmartDashboard.putNumber("setpoint", swerveDrive.swerveController.lastAngleScalar);

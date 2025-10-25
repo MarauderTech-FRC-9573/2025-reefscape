@@ -47,7 +47,7 @@ public class RobotContainer {
         CameraServer.startAutomaticCapture();
 
         NamedCommands.registerCommand("Outtake Coral", new ManipulatorAutoCommand(manipulator));
-        NamedCommands.registerCommand("Elevator L2", new ElevatorSetpointCommand(elevator, ElevatorConstants.L2_ENCODER));
+        NamedCommands.registerCommand("Elevator L2", new ElevatorSetpointCommand(elevator, ElevatorConstants.L1_ENCODER));
         NamedCommands.registerCommand("Pivot L2", new PivotSetpointCommand(pivot, PivotConstants.L2_POSITION));
         autoChooser = AutoBuilder.buildAutoChooser("Leave Auto");
         SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -106,7 +106,10 @@ public class RobotContainer {
         m_operatorController.y()
                 .whileTrue(new ElevatorSetpointCommand(elevator, 0));
 
-        //A button outtakes coral
+        //X button outtakes coral
+        m_operatorController.x().whileTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED));
+      
+        //A button intakes coral
         m_operatorController.a().onTrue(new ManipulatorCommand(manipulator, ManipulatorConstants.CORAL_SCORE_SPEED).withTimeout(0.1));
 
         // B button intakes algae
