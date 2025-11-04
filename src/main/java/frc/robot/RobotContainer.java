@@ -67,6 +67,11 @@ public class RobotContainer {
                      m_driverController::getRightY)
              .headingWhile(true);
 
+        //Robot Relative needs testing
+        SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
+             .allianceRelativeControl(false);
+ 
+
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
             () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), 0.1),
             () -> -MathUtil.applyDeadband(m_driverController.getLeftX(), 0.1),
@@ -74,6 +79,8 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(m_driverController.getRightX(), 0.0));
 
     Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+
+    Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
 
     private void configureBindings() {
         // Configure two bindings, call the new method to change the maximum speed in
