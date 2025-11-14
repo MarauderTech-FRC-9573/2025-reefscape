@@ -42,7 +42,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+        drivebase.setDefaultCommand(driveRobotOrientedAngularVelocity);
         configureBindings();
         CameraServer.startAutomaticCapture();
 
